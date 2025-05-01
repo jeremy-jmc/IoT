@@ -1,0 +1,135 @@
+\documentclass{article}
+\usepackage{amssymb} % Required for math symbols
+\usepackage{graphicx} % Required for inserting images
+\usepackage[hidelinks]{hyperref}
+\usepackage{float}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage[a4paper, total={6in, 10in}]{geometry}
+
+\title{Laboratorio 1 - Arduino}
+\author{jeremy.matos@utec.edu.pe, luis.gutierrez@utec.edu.pe}
+\date{Abril 2025}
+
+\begin{document}
+
+\maketitle
+
+\newpage
+\tableofcontents
+\newpage
+
+\section{Introducción}
+
+\subsection{Objetivo General}
+
+\subsection{Objetivos Específicos}
+
+\newpage
+
+\section{Marco teórico}
+
+\section{Estado del Arte}
+
+\section{Metodología}
+
+En esta sección se describirá el desarrollo de cada una de las experiencias del laboratorio.
+
+\subsection{Checkpoint 1: Creación de un circuito básico}
+
+Este ejercicio introductorio propone la implementación de un circuito básico utilizando un diodo LED y una resistencia (Figura \ref{fig:circuito_basico}). 
+% El objetivo es observar el funcionamiento del diodo LED y medir la caída de tensión en sus terminales.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{./img/ckpt_1_0.png}
+    \caption{Circuito básico con un diodo LED y una resistencia.}
+    \label{fig:circuito_basico}
+\end{figure}
+
+\begin{enumerate}
+    \item \textbf{Descripción del circuito:} \\
+    El circuito está compuesto por una batería tipo moneda de 3V, un diodo LED conectado en serie y una resistencia de 100~$\Omega$ para limitar el paso de corriente. Luego, se conectará un voltímetro en paralelo con el LED para medir la caída de tensión y un amperímetro después de la resistencia para medir la corriente que atraviesa el circuito.
+
+    \item \textbf{¿Cuál es el valor de la caída de tensión en los terminales del diodo LED?} \\
+    De acuerdo a la Figura \ref{fig:caida_tension}, la caída de tensión en los terminales del diodo LED es de \textbf{1.98 V}.
+
+    \item \textbf{¿Cuál es el valor de corriente obtenido en el circuito?} \\
+    El valor de corriente medido con el amperímetro fue de \textbf{9.30 mA} (miliamperios).
+
+    \item \textbf{¿Cuál es la potencia consumida por el diodo LED?} \\
+    Usando la fórmula $P = V \times I$, donde $V = 1.98$ V y $I = 9.3$ mA, se obtiene una potencia de aproximadamente \textbf{18.414 mW}.
+\end{enumerate}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{./img/ckpt_1_1.png}
+    \caption{Medida de caída de tensión.}
+    \label{fig:caida_tension}
+\end{figure}
+
+\subsection{Checkpoint 2: Conexión de resistencias en serie y paralelo}
+
+Similar al ejercicio anterior, se propone la implementación de 2 circuitos con resistencias en serie y paralelo.
+
+\subsubsection{Circuito 1}
+
+\subsubsection{Circuito 2}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{./img/ckpt_2_3_0.png}
+    \caption{Esquema de conexión}
+    \label{fig:circuito_2}
+\end{figure}
+
+Se solicita simular (Figuras \ref{fig:simulacion_implementacion}, \ref{fig:simulacion_esquema}) en Tinkercad el esquema presentado en la Figura \ref{fig:circuito_2} y responder las siguientes preguntas:
+
+\begin{enumerate}
+    \item \textbf{Descripción del circuito:} \\
+    El circuito consiste en tres ramas conectadas en paralelo a una fuente de 9V. Cada rama contiene un LED en serie con una resistencia limitadora de corriente. Esto permite que cada LED tenga su propia caída de tensión y que la corriente se divida según la resistencia y características del LED en cada línea.
+
+    \item \textbf{¿Qué sucede con el diodo LED en la Línea 1?} \\
+    El LED en la Línea 1 enciende correctamente. La resistencia R1 limita la corriente, permitiendo que el LED funcione dentro de su rango seguro.
+
+    \item \textbf{¿Qué sucede con el diodo LED en la Línea 2?} \\
+    El LED en la Línea 2 no enciende. Esto se debe a que la polaridad del diodo está invertida, lo que impide el paso de corriente. En este caso, la resistencia R2 no limita la corriente, ya que el LED no permite que fluya.
+
+    \item \textbf{¿Qué sucede con el diodo LED en la Línea 3? ¿Por qué?} \\
+    Ninguno de los LEDs en la Línea 3 enciende. Como ambos están conectados en serie, la caída de tensión total requerida (~4.4V) puede superar la tensión disponible después de la resistencia R3. Además, dado que uno de los LEDs está mal conectado (polaridad invertida), este interrumpe todo el paso de corriente en esa rama, impidiendo que cualquiera de los dos encienda.
+\end{enumerate}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{./img/ckpt_2_3_1.png}
+    \caption{Simulación Tinkercad del circuito.}
+    \label{fig:simulacion_implementacion}
+\end{figure}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{./img/ckpt_2_3_2.png}
+    \caption{Esquema de conexión Tinkercad}
+    \label{fig:simulacion_esquema}
+\end{figure}
+
+\subsection{Checkpoint 3: Simulación en FALSTAD}
+
+\subsection{Checkpoint 4: LED con resistencia y potenciómetro}
+
+\subsection{Checkpoint 5: Uso de un botón}
+
+\subsection{Checkpoint 6: LEDs}
+
+\subsection{Checkpoint 7: Semáforo}
+
+\section{Conclusiones}
+
+\bibliographystyle{plain}
+\bibliography{bibliografia}
+
+\end{document}
+
+% https://tug.ctan.org/info/undergradmath/undergradmath.pdf
