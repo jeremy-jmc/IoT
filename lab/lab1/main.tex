@@ -7,6 +7,31 @@
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
 \usepackage[a4paper, total={6in, 10in}]{geometry}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{cppstyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegray}\ttfamily,
+    keywordstyle=\color{blue}\bfseries,
+    numberstyle=\tiny\color{gray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2,
+    language=C++
+}
 
 \title{Laboratorio 1 - Arduino}
 \author{jeremy.matos@utec.edu.pe, luis.gutierrez@utec.edu.pe}
@@ -29,6 +54,8 @@
 \newpage
 
 \section{Marco teórico}
+
+% TODO: preguntar a que se refiere con la descripcion de los pines
 
 \section{Estado del Arte}
 
@@ -74,6 +101,25 @@ Este ejercicio introductorio propone la implementación de un circuito básico u
 Similar al ejercicio anterior, se propone la implementación de 2 circuitos con resistencias en serie y paralelo.
 
 \subsubsection{Circuito 1}
+
+El primer circuito consiste en conectar un diodo LED simple a una resistencia como se ve en Figura \ref{fig:resistencia_serie}. Mientras que el segundo propone conectar 2 resistencias en paralelo, como se ve en la Figura \ref{fig:resistencia_paralelo}. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{./img/ckpt_2_1.png}
+    \caption{Resistencia en serie}
+    \label{fig:resistencia_serie}
+\end{figure}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{./img/ckpt_2_2.png}
+    \caption{2 Resistencia en paralelo}
+    \label{fig:resistencia_paralelo}
+\end{figure}
+
+Ambos diodos LED se encienden, ya que las resistencias no limitan suficientemente la corriente que fluye a través de ellos. No obstante, el LED mostrado en la Figura \ref{fig:resistencia_serie} brilla con mayor intensidad en comparación con el de la Figura \ref{fig:resistencia_paralelo}, especialmente si se incrementa el valor de las resistencias.
 
 \subsubsection{Circuito 2}
 
@@ -122,6 +168,58 @@ Se solicita simular (Figuras \ref{fig:simulacion_implementacion}, \ref{fig:simul
 \subsection{Checkpoint 5: Uso de un botón}
 
 \subsection{Checkpoint 6: LEDs}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{./img/ckpt_6_0.png}
+    \caption{Simulación Tinkercad LEDs secuenciales}
+    \label{fig:leds_secuenciales}
+\end{figure}
+
+\begin{lstlisting}[style=cppstyle, caption={Código en C++ para el control de LEDs secuenciales.}, label={code:leds_secuenciales}]
+// C++ code
+int actual = 0;
+bool flag = 1;
+int color = 0;
+
+void setup()
+{
+    pinMode(LED_BUILTIN, OUTPUT);
+    pinMode(0, OUTPUT);
+    pinMode(6, INPUT);
+    pinMode(5, OUTPUT);
+    pinMode(2, OUTPUT);
+    pinMode(3, OUTPUT);
+    pinMode(4, OUTPUT);
+    Serial.begin(9600);
+}
+
+void loop()
+{ 
+    int buttonState = digitalRead(6);
+    Serial.println(digitalRead(6));
+    if (buttonState == LOW) flag = !flag;
+    color += 1;
+    if (flag)
+    {
+        if (color % 4 == 1) actual = 2;
+        if (color % 4 == 2) actual = 3;
+        if (color % 4 == 3) actual = 4;
+        if (color % 4 == 0) actual = 5;
+    } 
+    else 
+    {
+        if (color % 4 == 1) actual = 5;
+        if (color % 4 == 2) actual = 4;
+        if (color % 4 == 3) actual = 3;
+        if (color % 4 == 0) actual = 2;
+    }
+    digitalWrite(actual, HIGH);
+    delay(1000);
+    digitalWrite(actual, LOW);
+}
+\end{lstlisting}
+
 
 \subsection{Checkpoint 7: Semáforo}
 
