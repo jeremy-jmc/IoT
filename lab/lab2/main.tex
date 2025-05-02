@@ -1,0 +1,167 @@
+\documentclass{article}
+\usepackage{amssymb} % Required for math symbols
+\usepackage{graphicx} % Required for inserting images
+\usepackage[hidelinks]{hyperref}
+\usepackage{float}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage[a4paper, total={6in, 10in}]{geometry}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{cppstyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegray}\ttfamily,
+    keywordstyle=\color{blue}\bfseries,
+    numberstyle=\tiny\color{gray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2,
+    language=C++
+}
+
+\title{Laboratorio 1 - Arduino}
+\author{jeremy.matos@utec.edu.pe, luis.gutierrez@utec.edu.pe}
+\date{Abril 2025}
+
+\begin{document}
+
+\maketitle
+
+\newpage
+\tableofcontents
+\newpage
+
+\section{Introducción}
+
+\subsection{Objetivo General}
+
+\subsection{Objetivos Específicos}
+
+\newpage
+
+\section{Marco teórico}
+
+\section{Estado del Arte}
+
+% file:///home/tenken/Downloads/30_ShodhKosh_RS_5111.pdf
+
+% https://www.etasr.com/index.php/ETASR/article/view/6410
+
+% https://users.cecs.anu.edu.au/~sid.chau/papers/TOSN-smlight.pdf
+
+% https://www.semanticscholar.org/paper/Innovative-IoT-Smart-Lock-System:-Enhancing-with-Zainuddin-Rahman/563edb5ed5795c9bb35eefc69aa010c9f7c60157
+
+\section{Metodología}
+
+\subsection{Sensor de luz ambiental}
+
+En esta experiencia de laboratorio, se desarrollará un sistema de medición ambiental utilizando los siguientes componentes: 
+\begin{itemize}
+    \item 1 LDR (sensor de luz)
+    \item Diodos LED
+    \item Buzzer (alarma)
+    \item Botón o switch
+\end{itemize}
+
+El objetivo es implementar un sistema que permita medir la cantidad de luz en un ambiente determinado, el cual complementará un sistema de cámaras de seguridad y un control inteligente de luminarias. El sistema debe cumplir con las siguientes funciones:
+\begin{enumerate}
+    \item Si el nivel de iluminación es bajo, las luminarias de la habitación deben encenderse, representado por el encendido de un LED rojo.
+    \item Si el nivel de iluminación es alto, las luminarias deben permanecer apagadas, representado por el LED rojo apagado.
+    \item Las cámaras de seguridad deben estar en funcionamiento en todo momento, lo cual se representa mediante el encendido de un LED azul.
+    \item En caso de que no se detecte energía eléctrica para el sistema de cámaras (entrada digital detecta GND), el sistema debe encender y apagar el LED azul de manera intermitente, además de activar un buzzer que representa una alarma de error. Esto puede simularse utilizando un botón, un switch o una desconexión de cable.
+\end{enumerate}
+
+La implementación se realizó en la plataforma Tinkercad, utilizando un Arduino UNO. La conexión de los componentes se puede observar en la Figura \ref{fig:luz_ambiental}. El sensor LDR se conectó a una entrada analógica (A0), mientras que los LEDs y el buzzer se conectaron a salidas digitales. Un botón se empleó como entrada digital para simular la presencia o ausencia de energía del sistema de cámaras.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{./img/ckpt_1.png}
+    \caption{Simulación Tinkercad Sensor de luz ambiental}
+    \label{fig:luz_ambiental}
+\end{figure}
+
+En el código (Código \ref{code:sensor_ambiental}), se define un umbral de luminosidad para distinguir entre un ambiente claro u oscuro. Si el valor leído del LDR es menor que este umbral, se activa el LED rojo. Por otro lado, si el botón indica que hay energía (estado HIGH), el LED azul permanece encendido de forma constante. En caso contrario (estado LOW), el sistema simula una falla eléctrica encendiendo el buzzer y haciendo parpadear el LED azul.
+
+\begin{lstlisting}[style=cppstyle, caption={Código en C++ para el sensor ambiental.}, label={code:sensor_ambiental}]
+int LDR_pin = A0;
+int ROJO_pin = 13;
+int AZUL_pin = 12;
+int BUZZER_pin = 11;
+int BUTTON_pin = 7;
+int luz, estadoBoton;
+const int umbral = 500;  // Ajustarlo
+
+void setup() {
+    pinMode(ROJO_pin, OUTPUT); pinMode(AZUL_pin, OUTPUT);
+    pinMode(BUZZER_pin, OUTPUT);
+    pinMode(BUTTON_pin, INPUT_PULLUP);
+    Serial.begin(9600);
+}
+
+void loop() {
+    luz = analogRead(LDR_pin);
+    estadoBoton = digitalRead(BUTTON_pin);
+    Serial.println("Luz: " + String(luz) + " - " + String(umbral));
+    
+    if (luz < umbral) digitalWrite(ROJO_pin, HIGH);
+    else digitalWrite(ROJO_pin, LOW);
+    
+    if (estadoBoton == HIGH) {
+        digitalWrite(AZUL_pin, HIGH);
+        digitalWrite(BUZZER_pin, LOW);
+    } else {
+        digitalWrite(BUZZER_pin, HIGH);
+        digitalWrite(AZUL_pin, HIGH); delay(300);
+        digitalWrite(AZUL_pin, LOW); delay(300);
+    }
+    delay(1000);
+}    
+\end{lstlisting}
+
+\subsection{Cerradura inteligente}
+
+En esta experiencia de laboratorio, se desarrollará un sistema de seguridad para el control de acceso de personas a un área restringida. Para ello, se utilizarán los siguientes componentes: 
+
+\begin{itemize}
+    \item 01 sensor de proximidad.
+    \item 01 teclado matricial.
+    \item 01 LCD 2x16.
+    \item Diodos LED.
+    \item Resistencias variadas.
+    \item Jumpers.
+\end{itemize}
+
+La solución final se puede ver en la Figura \ref{fig:cerradura_smart}. En las siguientes subsecciones se desglosarán las diferentes funcionalidades del sistema.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{./img/ckpt_6.png}
+    \caption{Simulación Tinkercad Resultado final del sistema de cerradura inteligente}
+    \label{fig:cerradura_smart}
+\end{figure}
+
+\subsubsection{Presencia de la persona}
+
+\subsubsection{Mensaje en LCD}
+
+\subsubsection{Autenticación}
+
+\subsubsection{Ahorro Energético (Standby)}
+
+\section{Conclusiones}
+
+\end{document}
