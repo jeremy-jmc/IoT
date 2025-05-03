@@ -18,7 +18,7 @@
     backgroundcolor=\color{backcolour},   
     commentstyle=\color{codegray}\ttfamily,
     keywordstyle=\color{blue}\bfseries,
-    numberstyle=\tiny\color{gray},
+numberstyle=\tiny\color{gray},
     stringstyle=\color{codepurple},
     basicstyle=\ttfamily\footnotesize,
     breaklines=true,
@@ -49,7 +49,7 @@
 
 \subsection{Objetivo General}
 
-\subsection{Objetivos Específicos}
+\subsection{Objetivos Espec\'ificos}
 
 \newpage
 
@@ -59,40 +59,50 @@
 
 \section{Estado del Arte}
 
-\section{Metodología}
+La ense\~nanza de sistemas embebidos e Internet de las Cosas (IoT) conlleva retos importantes, como la necesidad de equipamiento f\'isico costoso y la complejidad de los conceptos multidisciplinares involucrados. En este contexto, los simuladores electrónicos y plataformas de prototipado virtual han emergido como herramientas did\'acticas fundamentales para complementar la teor\'ia con pr\'acticas accesibles y seguras\cite{Albiter2019, Contreras2010}. Diversos estudios se\~aalan que el uso de simuladores facilita la comprensión de los principios de electrónica, al permitir que los estudiantes experimenten de forma interactiva con circuitos y código sin riesgo para los equipos f\'isicos. Por ejemplo, Albiter et al. \cite{Albiter2019} destacan la importancia del software de simulación en la comprensión del funcionamiento de componentes electrónicos, evidenciando que las herramientas digitales pueden mejorar el aprendizaje de conceptos abstractos. Asimismo, Contreras et al. \cite{Contreras2010} tempranamente identificaron que los entornos virtuales propician la transferencia de conocimiento en \'areas tecnológicas. M\'as recientemente, un meta-an\'alisis confirmó que los laboratorios virtuales tienen un impacto positivo significativo en el rendimiento académico y la motivación de los alumnos en disciplinas STEM\cite{Zaturrahmi2020}. Esto refuerza el valor pedagógico de las simulaciones en educación, especialmente frente a escenarios de ense\~aanza remota o h\'ibrida donde el acceso a laboratorios f\'isicos puede ser limitado.
+\\\\
+Dentro de estas herramientas, Tinkercad (plataforma web de Autodesk) ha ganado notable protagonismo en el \'ambito educativo. Originalmente concebida para dise\~ao 3D, Tinkercad incluye un entorno de simulación de circuitos y Arduino que resulta altamente accesible (gratuito y basado en navegador) y f\'acil de usar para estudiantes novatos. Su empleo en cursos de electrónica y programación se ha asociado con mejoras en diversas competencias estudiantiles. Eryilmaz y Deniz \cite{Eryilmaz2021} reportan que la incorporación de Tinkercad en actividades de programación con Arduino mejoró significativamente las habilidades de pensamiento computacional de los alumnos, adem\'as de influir positivamente en sus actitudes hacia la materia. De igual forma, Juanda y Khairullah \cite{Juanda2020} hallaron que este software optimizó el proceso de ense\~aanza-aprendizaje en una asignatura de Electrónica y Microprocesadores, permitiendo a los estudiantes visualizar y experimentar con conceptos abstractos de forma interactiva, lo que facilitó su comprensión. En contextos de educación secundaria, Tinkercad también ha demostrado ser una herramienta efectiva para lograr aprendizajes significativos: según Chiluisa et al. \cite{Chiluisa2022}, el uso estratégico de este simulador contribuyó a una mejor comprensión de los circuitos eléctricos, evidenciada por incrementos en el rendimiento estudiantil después de su implementación. Cabe destacar que durante la pandemia de COVID-19, Tinkercad se utilizó como alternativa para la instrucción pr\'actica a distancia; Villalba et al. \cite{Villalba2021} documentan cómo estudiantes pudieron aprender conceptos b\'asicos de electrónica desde casa usando esta plataforma, manteniendo la continuidad educativa a pesar de las restricciones de acceso a laboratorios f\'isicos. Estos hallazgos consolidan a Tinkercad como una herramienta vers\'atil en la ense\~aanza de electrónica, robótica e IoT, al posibilitar un entrenamiento pr\'actico virtual que complementa la experimentación con hardware real.
+\\\\
+Adem\'as de Tinkercad, existen simuladores de circuitos en l\'inea como el desarrollado por Paul Falstad (conocido simplemente como Falstad Circuit Simulator, actualmente disponible como CircuitJS). Este entorno ofrece una simulación interactiva en tiempo real de circuitos analógicos y digitales a través del navegador, caracteriz\'andose por su sencillez y naturaleza visual. Aunque Falstad no simula microcontroladores, es ampliamente empleado para la ense\~aanza de fundamentos de electrónica, ya que permite visualizar instant\'aneamente fenómenos como la distribución de corrientes, ca\'idas de tensión en componentes y formas de onda, facilitando la conexión entre la teor\'ia y la pr\'actica en circuitos b\'asicos. Su valor pedagógico reside en la retroalimentación inmediata: los estudiantes pueden modificar par\'ametros de un circuito (por ejemplo, cambiar un valor de resistencia o capacitor) y observar al instante los efectos, lo que refuerza su comprensión de conceptos abstractos y les permite aprender por indagación. Solórzano y Estrella \cite{Solorzano2024} resaltan que este tipo de simulaciones interactivas, integradas con estrategias did\'acticas lúdicas, incrementan significativamente la motivación y el rendimiento en cursos de circuitos eléctricos, al permitir a los alumnos manipular modelos virtuales de los sistemas estudiados. En suma, herramientas ligeras como Falstad complementan la formación en electrónica al posibilitar una experimentación virtual r\'apida y accesible. Esto prepara a los estudiantes para afrontar circuitos m\'as complejos y sienta bases sólidas antes de migrar a plataformas de simulación m\'as avanzadas o a montajes con hardware real.
+\\\\
+Por otra parte, Arduino se ha consolidado como una plataforma central en la ense\~aanza de sistemas embebidos e IoT. Desde su introducción en 2005, el ecosistema Arduino (hardware de bajo costo y software libre) se ha adoptado extensamente en educación debido a su facilidad de uso y a la gran comunidad de desarrolladores que lo respalda. En entornos académicos, Arduino permite que estudiantes de pregrado e incluso nivel medio superior construyan prototipos funcionales con sensores, actuadores y módulos de comunicación, materializando conceptos abstractos de programación y electrónica en proyectos tangibles\cite{Vidal2019}. Numerosos trabajos reportan resultados positivos al integrar Arduino en la curr\'icula. Por ejemplo, Tupac et al. \cite{Tupac2021} describen los beneficios de utilizar proyectos con Arduino en un curso introductorio de programación: se observó un mayor involucramiento de los alumnos y una mejor comprensión de la interacción hardware-software, al aplicar la teor\'ia de forma pr\'actica en la resolución de problemas reales. De modo similar, Vidal et al. \cite{Vidal2019} relatan experiencias exitosas en las que estudiantes desarrollaron soluciones tecnológicas basadas en Arduino, promoviendo el aprendizaje activo y el desarrollo de competencias pr\'acticas en electrónica y programación. Arduino, por tanto, no solo acerca a los estudiantes a los principios de los sistemas embebidos, sino que también los introduce al mundo IoT mediante proyectos donde, por ejemplo, conectan sus dispositivos a internet o implementan redes de sensores.
+\\\\
+En la formación orientada al IoT, el uso de Arduino se ve potenciado al combinarlo con simuladores virtuales. Estudios en contextos de IoT educativo muestran que emplear previamente una simulación como Tinkercad para diseñar y probar circuitos con Arduino proporciona a los alumnos una base sólida antes de la experimentación física \cite{Lozoya2022}. Lozoya-Pérez et al. \cite{Lozoya2022} documentan que en una materia de laboratorio IoT, la incorporación de simuladores (Tinkercad, entre otros) facilitó el proceso de enseñanza-aprendizaje, evidenciado por un mejor desempeño de los estudiantes en las prácticas. En dicho estudio, se recomienda utilizar la simulación previa en conjunto con la práctica física, ya que el estudiante logra una mayor comprensión de los resultados de aprendizaje al ensayar primero en un entorno virtual seguro y luego trasladar ese conocimiento al hardware real. Esta aproximación mixta (simulación + experimentación) optimiza el tiempo de laboratorio y reduce errores de montaje, enriqueciendo la experiencia formativa. Por ejemplo, Markushevich (2020)\cite{markushevich2020} documenta el uso de Tinkercad en la enseñanza a distancia de robótica con Arduino Uno, señalando que la simulación virtual resulta eficaz cuando no se dispone de componentes físicos. Del mismo modo, Vibhute (2022) destaca que Tinkercad facilita la comprensión de conceptos al ofrecer una experiencia práctica simulada muy similar a la de un laboratorio físico, mejorando el aprendizaje en electrónica y programación \cite{vibhute2022}. Navas-González (2022) también describe cómo los estudiantes utilizan Tinkercad para simular proyectos en instrumentación biomédica antes de realizarlos físicamente, lo cual optimiza la preparación para actividades prácticas \cite{navas2022}. Asimismo, Abburi et al. (2021) \cite{abburi2021} señalan que Tinkercad, como laboratorio virtual, mejora la participación de los estudiantes y les permite practicar habilidades clave de manera segura, especialmente útil durante situaciones de educación remota. Finalmente, Tupac-Yupanqui et al. (2021) \cite{tupac2021} muestran que el uso de Arduino y Tinkercad en cursos de primer año tuvo un impacto positivo en el desarrollo de competencias de programación, incluso en modalidad virtual, comparado con cohortes anteriores. La literatura actual, por tanto, respalda la integración de herramientas como Tinkercad, simuladores tipo Falstad y plataformas Arduino en la educación tecnológica, ya que potencian el aprendizaje al ofrecer entornos prácticos complementarios que mejoran la comprensión y preparan a los alumnos para los desafíos de la Ingeniería en la era digital.
 
-En esta sección se describirá el desarrollo de cada una de las experiencias del laboratorio.
+\section{Metodolog\'ia}
 
-\subsection{Checkpoint 1: Creación de un circuito básico}
+En esta sección se describir\'a el desarrollo de cada una de las experiencias del laboratorio.
 
-Este ejercicio introductorio propone la implementación de un circuito básico utilizando un diodo LED y una resistencia (Figura \ref{fig:circuito_basico}). 
-% El objetivo es observar el funcionamiento del diodo LED y medir la caída de tensión en sus terminales.
+\subsection{Checkpoint 1: Creación de un circuito b\'asico}
+
+Este ejercicio introductorio propone la implementación de un circuito b\'asico utilizando un diodo LED y una resistencia (Figura \ref{fig:circuito_basico}). 
+% El objetivo es observar el funcionamiento del diodo LED y medir la ca\'ida de tensión en sus terminales.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.85\textwidth]{./img/ckpt_1_0.png}
-    \caption{Circuito básico con un diodo LED y una resistencia.}
+    \caption{Circuito b\'asico con un diodo LED y una resistencia.}
     \label{fig:circuito_basico}
 \end{figure}
 
 \begin{enumerate}
     \item \textbf{Descripción del circuito:} \\
-    El circuito está compuesto por una batería tipo moneda de 3V, un diodo LED conectado en serie y una resistencia de 100~$\Omega$ para limitar el paso de corriente. Luego, se conectará un voltímetro en paralelo con el LED para medir la caída de tensión y un amperímetro después de la resistencia para medir la corriente que atraviesa el circuito.
+    El circuito est\'a compuesto por una bater\'ia tipo moneda de 3V, un diodo LED conectado en serie y una resistencia de 100~$\Omega$ para limitar el paso de corriente. Luego, se conectar\'a un volt\'imetro en paralelo con el LED para medir la ca\'ida de tensión y un amper\'imetro después de la resistencia para medir la corriente que atraviesa el circuito.
 
-    \item \textbf{¿Cuál es el valor de la caída de tensión en los terminales del diodo LED?} \\
-    De acuerdo a la Figura \ref{fig:caida_tension}, la caída de tensión en los terminales del diodo LED es de \textbf{1.98 V}.
+    \item \textbf{¿Cu\'al es el valor de la ca\'ida de tensión en los terminales del diodo LED?} \\
+    De acuerdo a la Figura \ref{fig:caida_tension}, la ca\'ida de tensión en los terminales del diodo LED es de \textbf{1.98 V}.
 
-    \item \textbf{¿Cuál es el valor de corriente obtenido en el circuito?} \\
-    El valor de corriente medido con el amperímetro fue de \textbf{9.30 mA} (miliamperios).
+    \item \textbf{¿Cu\'al es el valor de corriente obtenido en el circuito?} \\
+    El valor de corriente medido con el amper\'imetro fue de \textbf{9.30 mA} (miliamperios).
 
-    \item \textbf{¿Cuál es la potencia consumida por el diodo LED?} \\
+    \item \textbf{¿Cu\'al es la potencia consumida por el diodo LED?} \\
     Usando la fórmula $P = V \times I$, donde $V = 1.98$ V y $I = 9.3$ mA, se obtiene una potencia de aproximadamente \textbf{18.414 mW}.
 \end{enumerate}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.85\textwidth]{./img/ckpt_1_1.png}
-    \caption{Medida de caída de tensión.}
+    \caption{Medida de ca\'ida de tensión.}
     \label{fig:caida_tension}
 \end{figure}
 
@@ -134,16 +144,16 @@ Se solicita simular (Figuras \ref{fig:simulacion_implementacion}, \ref{fig:simul
 
 \begin{enumerate}
     \item \textbf{Descripción del circuito:} \\
-    El circuito consiste en tres ramas conectadas en paralelo a una fuente de 9V. Cada rama contiene un LED en serie con una resistencia limitadora de corriente. Esto permite que cada LED tenga su propia caída de tensión y que la corriente se divida según la resistencia y características del LED en cada línea.
+    El circuito consiste en tres ramas conectadas en paralelo a una fuente de 9V. Cada rama contiene un LED en serie con una resistencia limitadora de corriente. Esto permite que cada LED tenga su propia ca\'ida de tensión y que la corriente se divida según la resistencia y caracter\'isticas del LED en cada l\'inea.
 
-    \item \textbf{¿Qué sucede con el diodo LED en la Línea 1?} \\
-    El LED en la Línea 1 enciende correctamente. La resistencia R1 limita la corriente, permitiendo que el LED funcione dentro de su rango seguro.
+    \item \textbf{¿Qué sucede con el diodo LED en la L\'inea 1?} \\
+    El LED en la L\'inea 1 enciende correctamente. La resistencia R1 limita la corriente, permitiendo que el LED funcione dentro de su rango seguro.
 
-    \item \textbf{¿Qué sucede con el diodo LED en la Línea 2?} \\
-    El LED en la Línea 2 no enciende. Esto se debe a que la polaridad del diodo está invertida, lo que impide el paso de corriente. En este caso, la resistencia R2 no limita la corriente, ya que el LED no permite que fluya.
+    \item \textbf{¿Qué sucede con el diodo LED en la L\'inea 2?} \\
+    El LED en la L\'inea 2 no enciende. Esto se debe a que la polaridad del diodo est\'a invertida, lo que impide el paso de corriente. En este caso, la resistencia R2 no limita la corriente, ya que el LED no permite que fluya.
 
-    \item \textbf{¿Qué sucede con el diodo LED en la Línea 3? ¿Por qué?} \\
-    Ninguno de los LEDs en la Línea 3 enciende. Como ambos están conectados en serie, la caída de tensión total requerida (~4.4V) puede superar la tensión disponible después de la resistencia R3. Además, dado que uno de los LEDs está mal conectado (polaridad invertida), este interrumpe todo el paso de corriente en esa rama, impidiendo que cualquiera de los dos encienda.
+    \item \textbf{¿Qué sucede con el diodo LED en la L\'inea 3? ¿Por qué?} \\
+    Ninguno de los LEDs en la L\'inea 3 enciende. Como ambos est\'an conectados en serie, la ca\'ida de tensión total requerida (~4.4V) puede superar la tensión disponible después de la resistencia R3. Adem\'as, dado que uno de los LEDs est\'a mal conectado (polaridad invertida), este interrumpe todo el paso de corriente en esa rama, impidiendo que cualquiera de los dos encienda.
 \end{enumerate}
 
 \begin{figure}[H]
@@ -235,7 +245,7 @@ A través de la implementación pudimos entender su funcionamiento y determinar 
 
 \subsection{Checkpoint 6: LEDs secuenciales}
 
-En este ejercicio se propone el diseño, simulación e implementación de un sistema que utiliza cuatro diodos LED (rojo, azul, verde y amarillo) que se encienden de manera secuencial en un orden predefinido. Además, se incluye un botón que permite cambiar la dirección de la secuencia de encendido de los LEDs de forma instantánea, sin necesidad de completar el ciclo actual. Este sistema busca reforzar los conceptos básicos de control de hardware mediante Arduino, incluyendo el uso de salidas digitales y la lectura de entradas digitales para modificar el comportamiento del sistema.
+En este ejercicio se propone el dise\~ao, simulación e implementación de un sistema que utiliza cuatro diodos LED (rojo, azul, verde y amarillo) que se encienden de manera secuencial en un orden predefinido. Adem\'as, se incluye un botón que permite cambiar la dirección de la secuencia de encendido de los LEDs de forma instant\'anea, sin necesidad de completar el ciclo actual. Este sistema busca reforzar los conceptos b\'asicos de control de hardware mediante Arduino, incluyendo el uso de salidas digitales y la lectura de entradas digitales para modificar el comportamiento del sistema.
 
 El funcionamiento del sistema se puede dividir en dos modos: 
 \begin{itemize}
@@ -252,7 +262,7 @@ La transición entre modos se realiza al detectar un cambio en el estado del bot
     \label{fig:leds_secuenciales}
 \end{figure}
 
-El código mostrado a continuación permite gestionar esta lógica. Cada vez que se ejecuta el bucle \texttt{loop()}, se verifica el estado del botón. Si está presionado, se invierte la dirección de la secuencia. Luego, se incrementa la variable \texttt{color}, y se decide cuál LED encender según el valor de \texttt{color \% 4} y la dirección actual (\texttt{flag}). Al finalizar, se enciende el LED correspondiente durante un segundo y luego se apaga.
+El código mostrado a continuación permite gestionar esta lógica. Cada vez que se ejecuta el bucle \texttt{loop()}, se verifica el estado del botón. Si est\'a presionado, se invierte la dirección de la secuencia. Luego, se incrementa la variable \texttt{color}, y se decide cu\'al LED encender según el valor de \texttt{color \% 4} y la dirección actual (\texttt{flag}). Al finalizar, se enciende el LED correspondiente durante un segundo y luego se apaga.
 
 
 \begin{lstlisting}[style=cppstyle, caption={Código en C++ para el control de LEDs secuenciales.}, label={code:leds_secuenciales}]
@@ -298,7 +308,7 @@ void loop()
 }
 \end{lstlisting}
 
-Para facilitar la comprensión del algoritmo y su lógica de decisión, se elaboró el siguiente diagrama de flujo. Este representa gráficamente la secuencia de decisiones y acciones que se ejecutan en el ciclo principal del programa. En él se observa cómo se lee el estado del botón, se actualiza el contador y se determina el LED que debe encenderse, de acuerdo con la dirección actual.
+Para facilitar la comprensión del algoritmo y su lógica de decisión, se elaboró el siguiente diagrama de flujo. Este representa gr\'aficamente la secuencia de decisiones y acciones que se ejecutan en el ciclo principal del programa. En él se observa cómo se lee el estado del botón, se actualiza el contador y se determina el LED que debe encenderse, de acuerdo con la dirección actual.
 
 \begin{figure}[H]
     \centering
@@ -307,7 +317,7 @@ Para facilitar la comprensión del algoritmo y su lógica de decisión, se elabo
     \label{fig:leds_secuenciales_flowchart}
 \end{figure}
 
-\subsection{Checkpoint 7: Semáforo}
+\subsection{Checkpoint 7: Sem\'aforo}
 
 \section{Conclusiones}
 
