@@ -162,6 +162,76 @@ La solución final se puede ver en la Figura \ref{fig:cerradura_smart}. En las s
 
 \subsubsection{Ahorro Energético (Standby)}
 
+\subsection{Sistema de control de aforo}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{./img/ckpt_9.png}
+    \caption{Simulación Tinkercad Resultado final del sistema de control de aforo}
+    \label{fig:control_aforo}
+\end{figure}
+
+\begin{lstlisting}[style=cppstyle, caption={Código en C++ para el sistema de control de aforo.}, label={code:sensor_ambiental}]
+#include <LiquidCrystal.h>
+
+// Configuracion del LCD
+LiquidCrystal lcd(8, 9, 4, 5, 6, 7);
+const int PIRPin = 2;
+const int LEDGreen = 13;
+const int LEDRed = 12;
+
+// Variable to store the number of incidents
+int incidentCount = 0;
+
+void setup() {
+    Serial.begin(9600);
+    
+    lcd.begin(16, 2);
+    lcd.clear();
+    pinMode(PIRPin, INPUT);
+    pinMode(LEDGreen, OUTPUT);
+    pinMode(LEDRed, OUTPUT);
+}
+
+void loop() {
+    int value = digitalRead(PIRPin);
+    Serial.println(value);
+
+    if (value == LOW) {
+    // No movement detected, indicating the rest mode
+    digitalWrite(LEDGreen, HIGH);   // Green LED blink (indicates idle state)
+    delay(200);
+    digitalWrite(LEDGreen, LOW);
+    delay(200);
+    
+    // Display "RESTING" on LCD when no movement detected
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("Modo de Reposo");
+    } else {
+    // Movement detected, indicating the active state
+    digitalWrite(LEDGreen, LOW);    // Turn off the green LED
+    digitalWrite(LEDRed, HIGH);     // Turn on the red LED
+
+    // Increment incident count when movement is detected
+    incidentCount++;
+
+    // Display incident count on LCD
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("Incidencias: ");
+    lcd.setCursor(0, 1);
+    lcd.print("00" + String(incidentCount));  // Assuming a 3-digit max count
+    
+    delay(2000); // Wait 2 seconds before checking again
+    }
+    
+    delay(10);  // Small delay to stabilize the loop
+}    
+\end{lstlisting}
+    
+
+
 \section{Conclusiones}
 
 \end{document}
