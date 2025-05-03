@@ -169,6 +169,18 @@ Se solicita simular (Figuras \ref{fig:simulacion_implementacion}, \ref{fig:simul
 
 \subsection{Checkpoint 6: LEDs}
 
+\subsection{Checkpoint 6: LEDs secuenciales}
+
+En este ejercicio se propone el diseño, simulación e implementación de un sistema que utiliza cuatro diodos LED (rojo, azul, verde y amarillo) que se encienden de manera secuencial en un orden predefinido. Además, se incluye un botón que permite cambiar la dirección de la secuencia de encendido de los LEDs de forma instantánea, sin necesidad de completar el ciclo actual. Este sistema busca reforzar los conceptos básicos de control de hardware mediante Arduino, incluyendo el uso de salidas digitales y la lectura de entradas digitales para modificar el comportamiento del sistema.
+
+El funcionamiento del sistema se puede dividir en dos modos: 
+\begin{itemize}
+    \item \textbf{Modo normal (sin presionar el botón):} los LEDs se encienden en el orden rojo → azul → verde → amarillo.
+    \item \textbf{Modo inverso (botón presionado):} los LEDs se encienden en el orden amarillo → verde → azul → rojo.
+\end{itemize}
+
+La transición entre modos se realiza al detectar un cambio en el estado del botón, y la dirección del encendido cambia de inmediato, lo cual se controla mediante una variable lógica \texttt{flag}.
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.85\textwidth]{./img/ckpt_6_0.png}
@@ -176,11 +188,13 @@ Se solicita simular (Figuras \ref{fig:simulacion_implementacion}, \ref{fig:simul
     \label{fig:leds_secuenciales}
 \end{figure}
 
+El código mostrado a continuación permite gestionar esta lógica. Cada vez que se ejecuta el bucle \texttt{loop()}, se verifica el estado del botón. Si está presionado, se invierte la dirección de la secuencia. Luego, se incrementa la variable \texttt{color}, y se decide cuál LED encender según el valor de \texttt{color \% 4} y la dirección actual (\texttt{flag}). Al finalizar, se enciende el LED correspondiente durante un segundo y luego se apaga.
+
+
 \begin{lstlisting}[style=cppstyle, caption={Código en C++ para el control de LEDs secuenciales.}, label={code:leds_secuenciales}]
 // C++ code
-int actual = 0;
+int actual = 0, color = 0;
 bool flag = 1;
-int color = 0;
 
 void setup()
 {
@@ -220,6 +234,14 @@ void loop()
 }
 \end{lstlisting}
 
+Para facilitar la comprensión del algoritmo y su lógica de decisión, se elaboró el siguiente diagrama de flujo. Este representa gráficamente la secuencia de decisiones y acciones que se ejecutan en el ciclo principal del programa. En él se observa cómo se lee el estado del botón, se actualiza el contador y se determina el LED que debe encenderse, de acuerdo con la dirección actual.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{./img/ckpt_6_1.png}
+    \caption{Simulación Tinkercad LEDs secuenciales}
+    \label{fig:leds_secuenciales_flowchart}
+\end{figure}
 
 \subsection{Checkpoint 7: Semáforo}
 
