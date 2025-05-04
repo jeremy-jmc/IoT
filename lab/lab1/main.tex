@@ -172,59 +172,62 @@ Se solicita simular (Figuras \ref{fig:simulacion_implementacion}, \ref{fig:simul
 \end{figure}
 
 \subsection{Checkpoint 3: Simulación en FALSTAD}
-Para el desarrollo de esta parte de la experiencia de laboratorio, nos hemos encargado de construir el siguiente circuito utilizando el programa \textbf{FALSTAD} para su simulacion.
+Para el desarrollo de esta parte de la experiencia de laboratorio, nos hemos encargado de construir el siguiente circuito (ver imagen \ref{fig:circutio_base_chkp3}) utilizando el programa \textbf{FALSTAD} para su simulacion.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.85\textwidth]{./img/Circuito-3.jpeg}
     \caption{Circuito base}
-    \label{fig:simulacion_esquema2}
+    \label{fig:circutio_base_chkp3}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.85\textwidth]{./img/Falstad.jpeg}
     \caption{Circuito en simulador FALSTAD}
-    \label{fig:simulacion_esquema3}
+    \label{fig:circuito_falstad}
 \end{figure}
 
-Una vez realizada la simulación, hemos rescatado los siguientes datos:
+En la Figura~\ref{fig:circuito_falstad} se muestra el circuito simulado en \textbf{FALSTAD}, a partir del cual se obtuvieron los siguientes resultados:
+
 \begin{itemize}
-    \item El valor de la corriente ``i" es de 208.333 $\mu$A
-    \item La caída de tensión en la resistencia, siendo la ultima ubicada en la derecha, de 6k tiene un valor de 1.25 V
-    \item La potencia consumida por la fuente de alimentacion tiene un valor de -4.167 mW
+    \item La corriente ``i'' tiene un valor de 208{,}333\,$\mu$A.
+    \item La caída de tensión en la resistencia final del circuito (ubicada a la derecha), con un valor de 6\,k$\Omega$, es de 1{,}25\,V.
+    \item La potencia suministrada por la fuente de alimentación es de $-4{,}167$\,mW.
 \end{itemize}
 
 \subsection{Checkpoint 4: LED con resistencia y potenciómetro}
-En el siguiente experimento, hemos implementado el siguiente circuito, el cual nos permitira conoces mas a profundidad la funcion de un potenciometro a traves de los LEDs
+En el siguiente experimento, hemos implementado el siguiente circuito (ver Figura \ref{fig:circuito_chkp_4}), el cual nos permitira conoces mas a profundidad la funcion de un potenciometro a traves del uso de los LEDs.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.50\textwidth]{./img/Circuito-potenciometro.png}
     \caption{Circuito base con potenciometro}
-    \label{fig:simulacion_esquema4}
+    \label{fig:circuito_chkp_4}
 \end{figure}
 
-A través de la implementación pudimos entender su funcionamiento y determinar lo siguiente:
-\begin{itemize}
-    \item El LED azul estará siempre prendido una vez inicie el flujo de corriente, debido a que este se encuentra conectado, en serie, con una resistencia de 100 ohmios, permitiendo el flujo de corriente hacia tierra.
-    \item El LED rojo también se encenderá si el pin del Arduino esta en estado alto, sin embargo, su intensidad de brillo dependerá del valor ajustado en el potenciómetro de 10k ohmios
-    \item Al ajustar la perilla del potenciómetro se modifica la resistencia en el circuito, lo que cambia la cantidad de corriente que fluye a través del LED. Si disminuyes la resistencia, el LED rojo brillará con mayor intensidad porque circula más corriente, en cambio, si aumentas la resistencia, el brillo del LED disminuirá hasta apagarse si se llega al minimo
-    \item Si la fuente de alimentación del Arduino la cambiamos de 5 a 3.3, ambos LEDs podrían verse afectados. En primer lugar, el LED azul no se enciende debido a que estos requieren un voltaje de mínimo 3V y si sumamos la resistencia se pierde mucha corriente ocasionando esto. Por otro lado, el LED rojo si se sigue encendiendo pero con menor brillo, ya que hay menos voltaje y corriente disponibles, especialmente si el potenciómetro esta ajustado a un valor alto.
-\end{itemize}
+A continuación, en la Figura \ref{img:chkp-3-4-2} se puede visualizar la implementación completa, tomando como base el esquema previo que se indico.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.50\textwidth]{./img/chkp-3-4-2.jpeg}
     \caption{Implementación LED-Potenciometro 2}
-    \label{fig:simulacion_esquema5}
+    \label{img:chkp-3-4-2}
 \end{figure}
+
+A través de la implementación hemos realizado distintas pruebas, con el fin de conocer a mayor profundidad el uso del potenciómetro. Una vez finalizado, hemos determinar lo siguiente:
+\begin{itemize}
+    \item El LED azul estará siempre prendido una vez inicie el flujo de corriente, debido a que este se encuentra conectado, en serie, con una resistencia de 100 ohmios, permitiendo el flujo de corriente hacia tierra (ver Figura \ref{img:chkp-3-4-2}).
+    \item El LED rojo también se encenderá si el pin del Arduino esta en estado alto, sin embargo, su intensidad de brillo dependerá del valor ajustado en el potenciómetro de 10k ohmios (ver Figura \ref{img:chkp-3-4-2}).
+    \item Al ajustar la perilla del potenciómetro se modifica la resistencia en el circuito, lo que cambia la cantidad de corriente que fluye a través del LED. Si disminuyes la resistencia, el LED rojo brillará con mayor intensidad porque circula más corriente, en cambio, si aumentas la resistencia, el brillo del LED disminuirá hasta apagarse si se llega al minimo (ver Figura \ref{img:chkp-3-4-1}).
+    \item Si la fuente de alimentación del Arduino la cambiamos de 5 a 3.3, ambos LEDs podrían verse afectados. En primer lugar, el LED azul no se enciende debido a que estos requieren un voltaje de mínimo 3V y si sumamos la resistencia se pierde mucha corriente ocasionando esto. Por otro lado, el LED rojo si se sigue encendiendo pero con menor brillo, ya que hay menos voltaje y corriente disponibles, especialmente si el potenciómetro esta ajustado a un valor alto.
+\end{itemize}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.50\textwidth]{./img/chkp-3-4-1.jpeg}
     \caption{Implementación LED-Potenciometro 2}
-    \label{fig:simulacion_esquema6}
+    \label{img:chkp-3-4-1}
 \end{figure}
 
 \subsection{Checkpoint 5: Uso de un botón}
