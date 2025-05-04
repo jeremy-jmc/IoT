@@ -34,7 +34,7 @@ numberstyle=\tiny\color{gray},
 }
 
 \title{Laboratorio 1 - Arduino}
-\author{jeremy.matos@utec.edu.pe, luis.gutierrez@utec.edu.pe}
+\author{jeremy.matos@utec.edu.pe, luis.gutierrez@utec.edu.pe, plinio.avendano@utec.edu.pe}
 \date{Abril 2025}
 
 \begin{document}
@@ -228,6 +228,7 @@ A través de la implementación pudimos entender su funcionamiento y determinar 
 \end{figure}
 
 \subsection{Checkpoint 5: Uso de un botón}
+En esta sección se explora el comportamiento de un circuito digital mediante el uso de un botón configurado como entrada, empleando una conexión tipo pull-up. Esta configuración es común en sistemas embebidos, ya que permite asegurar un estado lógico definido en ausencia de interacción física. En este caso, se busca controlar el encendido de un LED utilizando un botón conectado a tierra.
 
 \begin{figure}[H]
     \centering
@@ -235,6 +236,8 @@ A través de la implementación pudimos entender su funcionamiento y determinar 
     \caption{Circuito base con boton}
     \label{fig:simulacion_esquema7}
 \end{figure}
+
+El circuito se ha diseñado de tal manera que, por defecto, el LED permanece encendido, aprovechando que el voltaje en la salida es alto mientras el botón no es presionado. Al oprimir el botón, la salida se conecta a GND, lo que provoca que el voltaje caiga a nivel bajo y el LED se apague. Esta lógica de control resulta útil para ilustrar el funcionamiento de entradas digitales activas en bajo (active-low) y para analizar el efecto de cambiar la configuración a pull-down, lo cual invertiría completamente el comportamiento del sistema, es decir por defecto estaría apagado y al presionar el botón el circuito se cerraría cambiando a prendido.
 
 \begin{figure}[H]
     \centering
@@ -245,7 +248,7 @@ A través de la implementación pudimos entender su funcionamiento y determinar 
 
 \subsection{Checkpoint 6: LEDs secuenciales}
 
-En este ejercicio se propone el dise\~ao, simulación e implementación de un sistema que utiliza cuatro diodos LED (rojo, azul, verde y amarillo) que se encienden de manera secuencial en un orden predefinido. Adem\'as, se incluye un botón que permite cambiar la dirección de la secuencia de encendido de los LEDs de forma instant\'anea, sin necesidad de completar el ciclo actual. Este sistema busca reforzar los conceptos b\'asicos de control de hardware mediante Arduino, incluyendo el uso de salidas digitales y la lectura de entradas digitales para modificar el comportamiento del sistema.
+En este ejercicio se propone el dise\~no, simulación e implementación de un sistema que utiliza cuatro diodos LED (rojo, azul, verde y amarillo) que se encienden de manera secuencial en un orden predefinido. Adem\'as, se incluye un botón que permite cambiar la dirección de la secuencia de encendido de los LEDs de forma instant\'anea, sin necesidad de completar el ciclo actual. Este sistema busca reforzar los conceptos b\'asicos de control de hardware mediante Arduino, incluyendo el uso de salidas digitales y la lectura de entradas digitales para modificar el comportamiento del sistema.
 
 El funcionamiento del sistema se puede dividir en dos modos: 
 \begin{itemize}
@@ -318,6 +321,24 @@ Para facilitar la comprensión del algoritmo y su lógica de decisión, se elabo
 \end{figure}
 
 \subsection{Checkpoint 7: Sem\'aforo}
+
+Este ejercicio propone el diseño y la implementación de un sistema de semáforo, simulando el comportamiento real de un cruce vehicular y peatonal. El objetivo es comprender cómo gestionar múltiples salidas digitales mediante temporización, estableciendo una lógica secuencial con distintos tiempos de activación. Para ello, se controlan dos sistemas simultáneos: un semáforo de vehículos con tres estados (rojo, verde y amarillo), y un semáforo peatonal con dos estados (caminar y detenerse).
+
+La lógica del sistema se basa en tiempos de permanencia predeterminados para cada luz (rojo: 10 segundos, verde: 5 segundos, amarillo: 2 segundos), lo que permite replicar el comportamiento típico de una intersección vial. A través del uso de estructuras de control y funciones de temporización en el entorno de Arduino, los estudiantes pueden simular y luego implementar físicamente esta lógica de control, reforzando conceptos como la sincronización de eventos, control de múltiples salidas y diseño mediante diagramas de flujo.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{./img/flujo_semaforo.png}
+    \caption{Diagrama de flujo}
+    \label{fig:leds_secuenciales_flowchart}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{./img/semaforo.jpeg}
+    \caption{Implementación semáforo}
+    \label{fig:leds_secuenciales_flowchart}
+\end{figure}
 
 \section{Conclusiones}
 
