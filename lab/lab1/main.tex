@@ -324,12 +324,21 @@ Para facilitar la comprensión del algoritmo y su lógica de decisión, se elabo
 
 Este ejercicio propone el diseño y la implementación de un sistema de semáforo, simulando el comportamiento real de un cruce vehicular y peatonal. El objetivo es comprender cómo gestionar múltiples salidas digitales mediante temporización, estableciendo una lógica secuencial con distintos tiempos de activación. Para ello, se controlan dos sistemas simultáneos: un semáforo de vehículos con tres estados (rojo, verde y amarillo), y un semáforo peatonal con dos estados (caminar y detenerse).
 
-La lógica del sistema se basa en tiempos de permanencia predeterminados para cada luz (rojo: 10 segundos, verde: 5 segundos, amarillo: 2 segundos), lo que permite replicar el comportamiento típico de una intersección vial. A través del uso de estructuras de control y funciones de temporización en el entorno de Arduino, los estudiantes pueden simular y luego implementar físicamente esta lógica de control, reforzando conceptos como la sincronización de eventos, control de múltiples salidas y diseño mediante diagramas de flujo.
+A continuación el diagrama de flujo que se diseño para representar el código a implementar.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.6\textwidth]{./img/flujo_semaforo.png}
     \caption{Diagrama de flujo}
+    \label{fig:leds_secuenciales_flowchart}
+\end{figure}
+
+La lógica del sistema se basa en tiempos de permanencia predeterminados para cada luz (rojo: 10 segundos, verde: 5 segundos, amarillo: 2 segundos), lo que permite replicar el comportamiento típico de una intersección vial.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{./img/simulacion_semaforo.png}
+    \caption{Simulación Tinkercad semáforo}
     \label{fig:leds_secuenciales_flowchart}
 \end{figure}
 
