@@ -267,6 +267,14 @@ La implementación del circuito se muestra en las Figuras \ref{fig:simulacion_es
     \label{fig:simulacion_esquema5}
 \end{figure}
 
+A través de la implementación hemos realizado distintas pruebas, con el fin de conocer a mayor profundidad el uso del potenciómetro. Una vez finalizado, hemos determinar lo siguiente:
+\begin{itemize}
+    \item El LED azul estará siempre prendido una vez inicie el flujo de corriente, debido a que este se encuentra conectado, en serie, con una resistencia de 100 ohmios, permitiendo el flujo de corriente hacia tierra (ver Figura \ref{fig:simulacion_esquema5}).
+    \item El LED rojo también se encenderá si el pin del Arduino esta en estado alto, sin embargo, su intensidad de brillo dependerá del valor ajustado en el potenciómetro de 10k ohmios (ver Figura \ref{fig:simulacion_esquema5}).
+    \item Al ajustar la perilla del potenciómetro se modifica la resistencia en el circuito, lo que cambia la cantidad de corriente que fluye a través del LED. Si disminuyes la resistencia, el LED rojo brillará con mayor intensidad porque circula más corriente, en cambio, si aumentas la resistencia, el brillo del LED disminuirá hasta apagarse si se llega al minimo (ver Figura \ref{fig:simulacion_esquema6}).
+    \item Si la fuente de alimentación del Arduino la cambiamos de 5 a 3.3, ambos LEDs podrían verse afectados. En primer lugar, el LED azul no se enciende debido a que estos requieren un voltaje de mínimo 3V y si sumamos la resistencia se pierde mucha corriente ocasionando esto. Por otro lado, el LED rojo si se sigue encendiendo pero con menor brillo, ya que hay menos voltaje y corriente disponibles, especialmente si el potenciómetro esta ajustado a un valor alto.
+\end{itemize}
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.50\textwidth]{./img/ckpt_3_4_1.png}
