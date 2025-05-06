@@ -5,7 +5,7 @@
 *.log
 *.out
 *.toc
-*.pdf
+main.pdf
 *.synctex.gz
 *.fls
 *.fdb_latexmk
