@@ -69,6 +69,8 @@
 
 \subsection{SENSORES - Sensor de luz ambiental}
 
+% DONE: Simulacion
+
 En esta experiencia de laboratorio, se desarrollará un sistema de medición ambiental utilizando los siguientes componentes: 
 \begin{itemize}
     \item 1 LDR (sensor de luz)
@@ -136,6 +138,8 @@ void loop() {
 
 \subsection{SENSORES - Cerradura inteligente}
 
+% TODO: Diagrama de flujo
+% DONE: Simulacion
 En esta experiencia de laboratorio, se desarrollará un sistema de seguridad para el control de acceso de personas a un área restringida. Para ello, se utilizarán los siguientes componentes: 
 
 \begin{itemize}
@@ -156,6 +160,8 @@ La solución final se puede ver en la Figura \ref{fig:cerradura_smart}. En las s
     \label{fig:cerradura_smart}
 \end{figure}
 
+% TODO: foto de la implementacion presencial en el laboratorio
+
 \subsubsection{Presencia de la persona}
 
 \subsubsection{Mensaje en LCD}
@@ -164,7 +170,9 @@ La solución final se puede ver en la Figura \ref{fig:cerradura_smart}. En las s
 
 \subsubsection{Ahorro Energético (Standby)}
 
-\subsection{Sistema de control de aforo}
+\subsection{SENSORES - Sistema de control de aforo}
+
+% DONE: Simulacion
 
 \begin{figure}[H]
     \centering
@@ -232,7 +240,9 @@ void loop() {
 }    
 \end{lstlisting}
     
+% TODO: foto de la implementacion presencial en el laboratorio
 % TODO: diagrama de flujo
+% TODO: diagrama de bloques
 % ? TODO: checkpoint 5 y 6 son distintas simulaciones????
 
 
@@ -246,6 +256,14 @@ void loop() {
     \label{fig:encendido_motor}
 \end{figure}
 
+% TODO: simulacion
+% TODO: diagrama de bloques
+% TODO: respuesta a las preguntas
+
+\begin{enumerate}
+    \item ¿Cuál es la corriente que consume el motor durante su operación?
+    \item Si usted quisiera regular la velocidad del motor, ¿qué añadiría a su esquema de conexión?
+\end{enumerate}
 
 \subsection{ACTUADORES - Control de un motor con Driver}
 
@@ -258,6 +276,18 @@ void loop() {
     \label{fig:motor_driver}
 \end{figure}
 
+\begin{enumerate}
+    \item ¿Cuál es la función del potenciómetro en este sistema de control de motor y cómo se
+    relaciona con la velocidad de rotación?
+    \item Explique por qué se requiere una fuente de alimentación externa para el motor en lugar de usar directamente la salida de 5V del Arduino.
+    \item Describa el comportamiento esperado del motor cuando se presiona únicamente el botón
+    derecho, el izquierdo, y cuando no se presiona ninguno. ¿Qué sucede si se presionan los dos?
+\end{enumerate}
+
+% TODO: simulacion
+% TODO: diagrama de bloques
+% TODO: respuesta a las preguntas
+
 
 \subsection{ACTUADORES - Uso de Relé con Motor}
 
@@ -268,6 +298,37 @@ void loop() {
     \label{fig:motor_driver}
 \end{figure}
 
+% TODO: simulacion
+% TODO: foto de la implementacion presencial en el laboratorio
+% TODO: diagrama de flujo
+% TODO: diagrama de bloques
+
+\subsection{ACTUADORES - Uso de Driver Puente H L298N con Motor}
+
+\begin{enumerate}
+    \item Prueba alimentar el módulo L298N directamente desde el pin de 5V del Arduino (en lugar de la fuente para protoboard). ¿Notas alguna diferencia en el rendimiento del motor? Justifica técnicamente tu observación.
+    \item Restablezca la alimentación del motor. Modiﬁca el circuito para invertir el sentido de giro automáticamente cada 3 segundos.
+    \item ¿Qué función cumple el pin ENA en el módulo L298N y por qué debe conectarse a un pin PWM del Arduino?
+    \item ¿Qué sucede si se intercambian las conexiones de IN1 e IN2? ¿Cómo afecta esto a la dirección del giro del motor?
+\end{enumerate}
+
+% TODO: implementacion
+% TODO: respuesta a las preguntas
+% TODO: diagrama de flujo
+% TODO: diagrama de bloques
+
+
+\subsection{ACTUADORES - Sistema de riego inteligente}
+
+% TODO: foto de la implementacion presencial en el laboratorio
+% TODO: diagrama de flujo
+% TODO: diagrama de bloques
+
+
+\subsection{ACTUADORES - Control de ventiladores}
+
+% TODO: solo simulacion Tinkercad
+% TODO: diagrama de bloques del sistema
 
 
 \section{Conclusiones}
