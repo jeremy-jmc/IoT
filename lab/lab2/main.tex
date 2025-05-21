@@ -34,7 +34,7 @@
 }
 
 \title{Laboratorio 2 - Sensores y Actuadores}
-\author{jeremy.matos@utec.edu.pe, luis.gutierrez@utec.edu.pe}
+\author{jeremy.matos@utec.edu.pe, luis.gutierrez@utec.edu.pe, plinio.avendano@utec.edu.pe}
 \date{Abril 2025}
 
 \begin{document}
@@ -49,13 +49,42 @@
 
 \subsection{Objetivo General}
 
+Diseñar, implementar y documentar sistemas completos de sensor-actuador, con el propósito de entender a cabalidad su funcionamiento.
+
 \subsection{Objetivos Específicos}
+
+\begin{itemize}
+    \item Modelar y simular la activación directa de un motor DC con Arduino, determinando límites seguros de corriente y tensión, y analizando cómo la entrada analógica del potenciómetro condiciona el encendido del motor.
+    \item Diseñar circuitos de conmutación basados en relés para cargas inductivas, aplicando diodos fly-back y fuentes externas para aislar la etapa de potencia; luego contrastar su desempeño y versatilidad con las soluciones basadas en drivers.
+    \item Desarrollar sistemas utilitarios empleando todos los conceptos aprendidos, plasmando en soluciones prototiparias problemas de la vida real como un sistema de riego inteligente.
+\end{itemize}
 
 \newpage
 
 \section{Marco teórico}
 
 \section{Estado del Arte}
+
+Las arquitecturas modernas de sensor–actuador para sistemas IoT parten de redes inalámbricas de muy bajo consumo que recogen el estado del entorno y disparan actuadores distribuidos. Un referente es SM-Light, que demostró cómo un WSN de alumbrado público reduce un 40\% la energía al activar luminarias mediante nodos ultra-low-power y pasarelas multihop. \cite{karapetyan2020smlight}
+
+En la misma línea, Sajini y Pushpa integran sensores ultrasónicos y visión por computador sobre Raspberry Pi para asistencia a invidentes, destacando la fiabilidad de lazo cerrado entre sensado e iluminación/buzzers accionados desde la nube. \cite{sajini2023proximity}
+
+Estos trabajos posicionan al microcontrolador como orquestador de la lógica, mientras que el subsistema de potencia se delega a drivers o relés aislados; un requisito que nuestra práctica de laboratorio satisface con módulos L298N y relés de 5V.
+
+En cuánto al control de motores DC, la literatura converge en usar puentes H acompañados de modulación PWM para gobernar velocidad y reversa. Tesfaye y Liu describen un esquema con Arduino Uno que logra ±5 \% de error en velocidad combinando PWM de 490 Hz con lógica L293D/L298N, validando su idoneidad para educación y robótica ligera. \cite{kaffale2025dcmotor}
+
+Para tareas de conmutación on/off de cargas donde no se requiere inversión de sentido, la comunidad opta por relés electromecánicos o por relés de estado sólido (SSR) que aíslan la MCU mediante optoacopladores. Medina et al. presentan un SSR de duty-cycle variable gobernado vía Wi-Fi que maneja 120 V / 10 A y reporta tensión, corriente y factor de potencia al usuario, ilustrando la tendencia a integrar sensado de potencia en el propio actuador. \cite{medina2024ssr} 
+
+Plasmando estos conceptos a sistemas utilitarios en vida real, en aplicaciones agrícolas, los sistemas de riego inteligente accionan bombas de agua a través de relés de 5 V controlados por NodeMCU, demostrando ahorros de hasta 25 \% en consumo hídrico y trazabilidad vía Blynk o ThingSpeak. \cite{muthekar2024smartirr}
+
+En síntesis, el estado del arte converge en tres principios que se reflejan en nuestra guía de laboratorio:
+
+Separar la lógica de control del plano de potencia mediante drivers o relés con aislamiento adecuado.
+
+Utilizar PWM para regular energía —velocidad en motores o intensidad luminosa— con microcontroladores de propósito general.
+
+Conectar los actuadores a plataformas IoT para monitorizar variables eléctricas y ambientales en tiempo real, habilitando optimización energética y mantenimiento predictivo. Estos lineamientos, respaldados por la literatura citada, fundamentan la elección de los módulos relé y L298N, así como la inclusión de prácticas de medición y protección (diodo) que el laboratorio exige implementar.
+
 
 % file:///home/tenken/Downloads/30_ShodhKosh_RS_5111.pdf
 
@@ -308,27 +337,73 @@ void loop() {
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.85\textwidth]{./img/ckpt_rele_motor.png}
-    \caption{Simulación Tinkercad ...}
+    \caption{Simulación Tinkercad}
     \label{fig:motor_driver}
 \end{figure}
 
-% TODO: simulacion
-% TODO: foto de la implementacion presencial en el laboratorio
-% TODO: diagrama de flujo
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{./img/checkpoint_presencialrele.jpeg}
+    \caption{Implementación del relé con motor}
+    \label{fig:motor_driver}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{./img/flujo_rele.png}
+    \caption{Diagrama de flujo funcionamiento relé-motor}
+    \label{fig:motor_driver}
+\end{figure}
+
+% DONE: simulacion
+% DONE: foto de la implementacion presencial en el laboratorio
+% DONE: diagrama de flujo
 % TODO: diagrama de bloques
 
 \subsection{ACTUADORES - Uso de Driver Puente H L298N con Motor}
 
 \begin{enumerate}
     \item Prueba alimentar el módulo L298N directamente desde el pin de 5V del Arduino (en lugar de la fuente para protoboard). ¿Notas alguna diferencia en el rendimiento del motor? Justifica técnicamente tu observación.
+
+    El rendimiento del motor decae, su movimiento se hace más lento y pierde fuerza. Esto es debido a que hemos cambiado de operar con una fuente de 9V a una de 5V.
+        
     \item Restablezca la alimentación del motor. Modiﬁca el circuito para invertir el sentido de giro automáticamente cada 3 segundos.
+
+    Esto lo logramos invirtiendo los valores HIGH y LOW del in1 e in2.
+    
     \item ¿Qué función cumple el pin ENA en el módulo L298N y por qué debe conectarse a un pin PWM del Arduino?
+
+    Permitir regular la velocidad del motor, se conecta a un pin PWM debido a que estos permiten enviar una señal modulada que simula un voltaje medio variable. 
+    
     \item ¿Qué sucede si se intercambian las conexiones de IN1 e IN2? ¿Cómo afecta esto a la dirección del giro del motor?
+
+    Cambia la dirección del motor, de izquierda a derecha, respectivamente.
 \end{enumerate}
 
-% TODO: implementacion
-% TODO: respuesta a las preguntas
-% TODO: diagrama de flujo
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{./img/simulacion_puenteh.png}
+    \caption{Simulación Tinkercad}
+    \label{fig:motor_driver}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{./img/ckpt_presencial_298.jpeg}
+    \caption{Implementación del L298N con Motor}
+    \label{fig:motor_driver}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{./img/flujo_298.png}
+    \caption{Diagrama de flujo}
+    \label{fig:motor_driver}
+\end{figure}
+
+% DONE: implementacion
+% DONE: respuesta a las preguntas
+% DONE: diagrama de flujo
 % TODO: diagrama de bloques
 
 
@@ -347,4 +422,10 @@ void loop() {
 
 \section{Conclusiones}
 
+\bibliographystyle{plain}
+\bibliography{bibliografia}
+
 \end{document}
+
+\bibliographystyle{plain}
+\bibliography{bibliografia}
