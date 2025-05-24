@@ -1,0 +1,28 @@
+Las arquitecturas modernas de sensor–actuador para sistemas IoT parten de redes inalámbricas de muy bajo consumo que recogen el estado del entorno y disparan actuadores distribuidos. Un referente es SM-Light, que demostró cómo un WSN de alumbrado público reduce un 40\% la energía al activar luminarias mediante nodos ultra-low-power y pasarelas multihop. \cite{karapetyan2020smlight}
+
+En la misma línea, Sajini y Pushpa integran sensores ultrasónicos y visión por computador sobre Raspberry Pi para asistencia a invidentes, destacando la fiabilidad de lazo cerrado entre sensado e iluminación/buzzers accionados desde la nube. \cite{sajini2023proximity}
+
+Estos trabajos posicionan al microcontrolador como orquestador de la lógica, mientras que el subsistema de potencia se delega a drivers o relés aislados; un requisito que nuestra práctica de laboratorio satisface con módulos L298N y relés de 5V.
+
+En cuánto al control de motores DC, la literatura converge en usar puentes H acompañados de modulación PWM para gobernar velocidad y reversa. Tesfaye y Liu describen un esquema con Arduino Uno que logra ±5 \% de error en velocidad combinando PWM de 490 Hz con lógica L293D/L298N, validando su idoneidad para educación y robótica ligera. \cite{kaffale2025dcmotor}
+
+Para tareas de conmutación on/off de cargas donde no se requiere inversión de sentido, la comunidad opta por relés electromecánicos o por relés de estado sólido (SSR) que aíslan la MCU mediante optoacopladores. Medina et al. presentan un SSR de duty-cycle variable gobernado vía Wi-Fi que maneja 120 V / 10 A y reporta tensión, corriente y factor de potencia al usuario, ilustrando la tendencia a integrar sensado de potencia en el propio actuador. \cite{medina2024ssr} 
+
+Plasmando estos conceptos a sistemas utilitarios en vida real, en aplicaciones agrícolas, los sistemas de riego inteligente accionan bombas de agua a través de relés de 5 V controlados por NodeMCU, demostrando ahorros de hasta 25 \% en consumo hídrico y trazabilidad vía Blynk o ThingSpeak. \cite{muthekar2024smartirr}
+
+En síntesis, el estado del arte converge en tres principios que se reflejan en nuestra guía de laboratorio:
+
+Separar la lógica de control del plano de potencia mediante drivers o relés con aislamiento adecuado.
+
+Utilizar PWM para regular energía —velocidad en motores o intensidad luminosa— con microcontroladores de propósito general.
+
+Conectar los actuadores a plataformas IoT para monitorizar variables eléctricas y ambientales en tiempo real, habilitando optimización energética y mantenimiento predictivo. Estos lineamientos, respaldados por la literatura citada, fundamentan la elección de los módulos relé y L298N, así como la inclusión de prácticas de medición y protección (diodo) que el laboratorio exige implementar.
+
+
+% file:///home/tenken/Downloads/30_ShodhKosh_RS_5111.pdf
+
+% https://www.etasr.com/index.php/ETASR/article/view/6410
+
+% https://users.cecs.anu.edu.au/~sid.chau/papers/TOSN-smlight.pdf
+
+% https://www.semanticscholar.org/paper/Innovative-IoT-Smart-Lock-System:-Enhancing-with-Zainuddin-Rahman/563edb5ed5795c9bb35eefc69aa010c9f7c60157
