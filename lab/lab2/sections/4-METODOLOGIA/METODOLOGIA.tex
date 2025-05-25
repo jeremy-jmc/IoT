@@ -424,6 +424,25 @@ void loop() {
 
 \section{ACTUADORES - Uso de Relé con Motor}
 
+
+En esta experiencia de laboratorio se explora el uso de un módulo de relé como interfaz entre un microcontrolador (Arduino) y un motor de corriente directa (DC), permitiendo su control mediante una fuente de alimentación externa. El uso del relé permite aislar eléctricamente la etapa de control (Arduino) de la etapa de potencia (motor y fuente), proporcionando una solución segura y eficiente para activar cargas mayores a las que el microcontrolador puede manejar directamente. \\
+
+Para llevar a cabo esta práctica, se empleó un módulo de relé de un canal de 5V conectado a un Arduino UNO. La lógica de control utilizada es activa en bajo, es decir, el relé se activa cuando se aplica un nivel lógico \textbf{LOW} en su pin de entrada, cerrando el contacto entre los terminales \textbf{COM} y \textbf{NO} (normalmente abierto), y permitiendo así el paso de corriente al motor.
+
+La conexión del sistema se realizó de la siguiente manera:
+
+\begin{itemize}
+    \item El pin \textbf{COM} del relé se conectó a la salida de 5V de la fuente de protoboard.
+    \item El pin \textbf{NO} se conectó a uno de los terminales del motor DC.
+    \item El otro terminal del motor se conectó a \textbf{GND}.
+    \item El módulo de relé se conectó al Arduino: \textbf{VCC} al pin 5V, \textbf{GND} a GND, e \textbf{IN1} al pin digital 7.
+\end{itemize}
+
+En la Figura \ref{fig:rele_tinkercad} se presenta la simulación del sistema en Tinkercad, permitiendo verificar su correcto funcionamiento virtualmente antes de su implementación física. La implementación real del sistema se muestra en la Figura \ref{fig:rele_implementacion} donde se observa el circuito ensamblado sobre protoboard y conectado a un Arduino MEGA.
+
+Para documentar el comportamiento lógico del sistema, se elaboró el diagrama de flujo mostrado en la Figura \ref{fig:flujo_rele} el cual representa de manera estructurada las condiciones bajo las cuales el motor es activado o desactivado dependiendo de la señal enviada desde el Arduino al relé.
+
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.85\textwidth]{./img/ckpt_rele_motor.png}
@@ -444,6 +463,29 @@ void loop() {
     \caption{Diagrama de flujo funcionamiento relé-motor}
     \label{fig:flujo_rele}
 \end{figure}
+
+
+\begin{lstlisting}[style=cppstyle, caption={Código en C++ para uso de motor con relé.}, label={code:rele_arduino}]
+const int RELAY_PIN = 7;   // IN1 del modulo de rele
+const int T_ON  = 3000;   // ms - tiempo encendido
+const int T_OFF = 3000;   // ms - tiempo apagado
+
+void setup() {
+  pinMode(RELAY_PIN, OUTPUT);
+  digitalWrite(RELAY_PIN, HIGH);   // Rele desactivado (motor OFF) al arrancar
+}
+
+void loop() {
+  // Encender motor
+  digitalWrite(RELAY_PIN, LOW);    // Rele activo (cierra COM-NO)
+  delay(T_ON);
+
+  // Apagar motor
+  digitalWrite(RELAY_PIN, HIGH);   // Rele inactivo
+  delay(T_OFF);
+}
+\end{lstlisting}
+
 
 % DONE: simulacion
 % DONE: foto de la implementacion presencial en el laboratorio
@@ -473,22 +515,22 @@ void loop() {
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.85\textwidth]{./img/simulacion_puenteh.png}
-    \caption{Simulación Tinkercad}
-    \label{fig:motor_driver}
+    \caption{Simulación Tinkercad: Puente H L298N con Motor}
+    \label{fig:l298n_simulacion}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.85\textwidth]{./img/ckpt_presencial_298.jpeg}
     \caption{Implementación del L298N con Motor}
-    \label{fig:motor_driver}
+    \label{fig:l298n_implementacion}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.85\textwidth]{./img/flujo_298.png}
     \caption{Diagrama de flujo}
-    \label{fig:motor_driver}
+    \label{fig:l298n_flujo}
 \end{figure}
 
 % DONE: implementacion
