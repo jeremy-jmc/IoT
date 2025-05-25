@@ -380,22 +380,30 @@ void loop() {
 % Enlace al video: \url{https://drive.google.com/file/d/1VmmF8ljH7DoGnzlM0mKaFVM4Yu7p21BW/view?usp}
 
 \section{ACTUADORES - Encendido de un Motor DC con Arduino}
-
+Para el experimento de encendido de un motor DC, se utilizó un motor de corriente continua conectado a un Arduino MEGA. El voltaje de alimentación del motor se regulo con un potenciometro a 5V. El principal objetivo de este experimento era ver que ocurria cuando se conectaba el motor unicamente a la alimentacion de 5V del Arduino. Es por eso que solamente se realizo la simulacion en Tinkercad ya que sin diodos de proteccion, cuando el potenciometro manda la corriente al motor, este genera un pico de tension que puede dañar el Arduino. La imagen de la simulacion se puede observar en la Figura \ref{fig:encendido_motor}. El diagrama de bloques del sistema se puede observar en la Figura \ref{fig:bloques_encendido_motor}.
 % https://www.tinkercad.com/things/7Ta4Am5NLdF/editel?returnTo=%2Fdashboard%2Fdesigns%2Fcircuits&sharecode=ddM9-NkLnJGgaDXANovwieeo9xofWe2gha9ahUL3Y-o
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{./img/ckpt_encendido_motor.png}
-    \caption{Simulación Tinkercad ...}
+    \includegraphics[width=0.85\textwidth]{./img/4-Encendido-Motor.png}
+    \caption{Simulación Tinkercad Encendido de motor con Potenciometro}
     \label{fig:encendido_motor}
 \end{figure}
 
-% TODO: simulacion
-% TODO: diagrama de bloques
-% TODO: respuesta a las preguntas
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{./img/4-Diagrama-bloques.png}
+    \caption{Diagrama de bloques del sistema de encendido de motor}
+    \label{fig:bloques_encendido_motor}
+\end{figure}
+
 
 \begin{enumerate}
+    \item ¿Qué sucede en su simulación con el Arduino?
+    \item El Arduino cuando trasmite mediante el potenciometro una corriente de entre 3V y 5V segun las condiciones establecidas, el motor gira, pero con advertencia de que el voltaje puede dañar el Arduino. 
     \item ¿Cuál es la corriente que consume el motor durante su operación?
+    \item El motor consume alrededor de 3.49V, esto se puede observar en la simulacion de Tinkercad.
     \item Si usted quisiera regular la velocidad del motor, ¿qué añadiría a su esquema de conexión?
+    \item Para poder controlar la velocidad del motor, se puede utilizar un potenciometro o un driver de motor. El potenciometro permite regular la tension que llega al motor, mientras que el driver permite controlar la velocidad y direccion del motor.
 \end{enumerate}
 
 \section{ACTUADORES - Control de un motor con Driver}
@@ -506,19 +514,20 @@ Finalmente, el sistema completo puede representarse con el diagrama de bloques d
 \begin{enumerate}
     \item Prueba alimentar el módulo L298N directamente desde el pin de 5V del Arduino (en lugar de la fuente para protoboard). ¿Notas alguna diferencia en el rendimiento del motor? Justifica técnicamente tu observación.
 
-    El rendimiento del motor decae, su movimiento se hace más lento y pierde fuerza. Esto es debido a que hemos cambiado de operar con una fuente de 9V a una de 5V.
-        
+    Sí, se nota una disminución en el rendimiento del motor. Al alimentarlo desde el pin de 5V del Arduino, el motor se mueve más lentamente y con menos fuerza (torque). Esto ocurre porque el pin de 5V del Arduino no está diseñado para entregar grandes cantidades de corriente, y además el voltaje disponible es menor (5V frente a los 9V originales de la fuente para protoboard). Los motores DC requieren tanto un voltaje adecuado como suficiente corriente para operar eficientemente. Al reducirse estos parámetros, el motor pierde capacidad de respuesta y potencia.
+
     \item Restablezca la alimentación del motor. Modiﬁca el circuito para invertir el sentido de giro automáticamente cada 3 segundos.
 
-    Esto lo logramos invirtiendo los valores HIGH y LOW del in1 e in2.
+    Para lograr esto, se puede programar el Arduino para alternar los niveles de voltaje en los pines IN1 e IN2 del módulo L298N cada 3 segundos. Cuando IN1 está en HIGH e IN2 en LOW, el motor gira en una dirección; al invertir estos valores (IN1 en LOW e IN2 en HIGH), se invierte el sentido de giro del motor. Este cambio puede realizarse automáticamente dentro del bucle loop() del código utilizando funciones como digitalWrite() y delay(3000) para controlar el tiempo.
     
     \item ¿Qué función cumple el pin ENA en el módulo L298N y por qué debe conectarse a un pin PWM del Arduino?
 
-    Permitir regular la velocidad del motor, se conecta a un pin PWM debido a que estos permiten enviar una señal modulada que simula un voltaje medio variable. 
-    
+    El pin ENA activa el motor A y permite controlar su velocidad. Se conecta a un pin PWM del Arduino porque estos pueden generar una señal modulada que simula un voltaje variable, lo que permite ajustar la velocidad del motor.
+
     \item ¿Qué sucede si se intercambian las conexiones de IN1 e IN2? ¿Cómo afecta esto a la dirección del giro del motor?
 
-    Cambia la dirección del motor, de izquierda a derecha, respectivamente.
+    Si se intercambian IN1 e IN2, el motor gira en sentido contrario. Esto se debe a que se invierte la polaridad de la señal que recibe el motor.
+
 \end{enumerate}
 
 \begin{figure}[H]
