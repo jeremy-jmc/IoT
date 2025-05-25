@@ -10,10 +10,10 @@ En esta experiencia de laboratorio, se desarrollará un sistema de medición amb
     \item Botón o switch
 \end{itemize}
 
-El objetivo es implementar un sistema que permita medir la cantidad de luz en un ambiente determinado, el cual complementará un sistema de cámaras de seguridad y un control inteligente de luminarias. El sistema debe cumplir con las siguientes funciones:
+El objetivo de esta experiencia es implementar un sistema que permita medir la cantidad de luz en un ambiente determinado, el cual complementaría (idealmente) un sistema de cámaras de seguridad y un control inteligente de iluminación. El sistema debe cumplir con las siguientes funciones:
 \begin{enumerate}
-    \item Si el nivel de iluminación es bajo, las luminarias de la habitación deben encenderse, representado por el encendido de un LED rojo.
-    \item Si el nivel de iluminación es alto, las luminarias deben permanecer apagadas, representado por el LED rojo apagado.
+    \item Cuando el nivel de iluminación es bajo, los focos de la habitación deben encenderse, representado por el encendido de un LED rojo.
+    \item Cuando el nivel de iluminación es alto, los focos deben permanecer apagadas, representado por el LED rojo apagado.
     \item Las cámaras de seguridad deben estar en funcionamiento en todo momento, lo cual se representa mediante el encendido de un LED azul.
     \item En caso de que no se detecte energía eléctrica para el sistema de cámaras (entrada digital detecta GND), el sistema debe encender y apagar el LED azul de manera intermitente, además de activar un buzzer que representa una alarma de error. Esto puede simularse utilizando un botón, un switch o una desconexión de cable.
 \end{enumerate}
@@ -67,19 +67,29 @@ void loop() {
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{img/sensores_chkp_2.png}
-    \caption{Simulación Tinkercad Sensor de luz ambiental}
-    \label{fig:luz_ambiental}
+    \includegraphics[width=0.5\textwidth]{img/sensores_chkp_2.png}
+    \caption{Implementación en laboratorio: Estado de luz baja (LED rojo encendido) y camáras en funcionamiento (LED azul encendido)}
+    \label{fig:luz_ambiental_lab_estado_1}
+\end{figure}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{img/sensores_chkp_2_2.png}
+    \caption{Implementación en laboratorio: Estado de funcionamiento (LED rojo apagado) y camáras en funcionamiento (LED azul encendido)}
+    \label{fig:luz_ambiental_lab_estado_2}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{img/sensores_chkp_2_1.png}
-    \caption{Simulación Tinkercad Sensor de luz ambiental}
-    \label{fig:luz_ambiental}
+    \includegraphics[width=0.5\textwidth]{img/sensores_chkp_2_1.png}
+    \caption{Implementación en laboratorio: Estado de corte de energía/error (buzzer activo)}
+    \label{fig:luz_ambiental_lab_estado_3}
 \end{figure}
 
-% TODO: foto de la implementacion presencial en el laboratorio
+% Enlace al video: \url{https://drive.google.com/file/d/1v76hk4pJjSoHVMHp4mmkme9ZRFEXyfd-/view}
+
+% DONE: foto de la implementacion presencial en el laboratorio
 
 \section{SENSORES - Cerradura inteligente}
 
@@ -95,35 +105,213 @@ En esta experiencia de laboratorio, se desarrollará un sistema de seguridad par
     \item Resistencias variadas.
     \item Jumpers.
 \end{itemize}
+% TODO: foto de la implementacion presencial en el laboratorio
+A continuación, se presenta la simulación del sistema de cerradura inteligente en Tinkercad. Se desglosa la implementacion en cuatro partes:
+\begin{itemize}
+    \item Presencia de la persona.
+    \item Mensaje en LCD.
+    \item Autenticación.
+    \item Ahorro energético (Standby).
+\end{itemize}
+\subsection{Presencia de la persona}
+El primer paso de la simulación consiste en detectar la presencia de una persona utilizando un sensor de proximidad. Este sensor se conecta a un pin digital del Arduino y se utiliza para encender un LED rojo cuando se detecta movimiento. La simulación se puede observar en la Figura \ref{fig:cerradura_smart_presencia}.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{./img/2-1-presencia-de-persona.png}
+    \caption{Simulación Tinkercad integrando el sensor de proximidad al sistema de cerradura inteligente}
+    \label{fig:cerradura_smart_presencia}
+\end{figure}
 
-La solución final se puede ver en la Figura \ref{fig:cerradura_smart}. En las siguientes subsecciones se desglosarán las diferentes funcionalidades del sistema.
+\subsection{Mensaje en LCD}
+El segundo paso consiste en mostrar un mensaje en un LCD 2x16 cuando se detecta la presencia de una persona. El mensaje indica que el sistema está esperando la autenticación. La simulación se puede observar en la Figura \ref{fig:cerradura_smart_LCD}.
+El LCD se conecta a los pines digitales del Arduino y se utiliza la biblioteca LiquidCrystal para controlar su funcionamiento. El código de la simulación se puede observar en el Código \ref{code:cerradura_smart_LCD}.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{./img/2-2-Mensaje-LCD.png}
+    \caption{Simulación Tinkercad integrando LCD al sistema de cerradura inteligente}
+    \label{fig:cerradura_smart_LCD}
+\end{figure}
+
+\subsection{Autenticación}
+El tercer paso consiste en implementar un sistema de autenticación utilizando un teclado matricial. El usuario debe ingresar un código de acceso para desbloquear la cerradura. Si el código es correcto, se enciende un LED verde y se muestra un mensaje de "Acceso correcto" en el LCD. Si el código es incorrecto, se enciende un LED rojo y se muestra un mensaje de "Clave Incorrecta". La simulación se puede observar en la Figura \ref{fig:cerradura_smart_autenticacion}.
+El teclado matricial se conecta a los pines digitales del Arduino y se utiliza la biblioteca Keypad para controlar su funcionamiento. El código de la simulación se puede observar en el Código \ref{code:cerradura_smart_LCD}.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{./img/2-3-Autenticacion.png}
+    \caption{Simulación Tinkercad Aplicando la autenticación}
+    \label{fig:cerradura_smart_autenticacion}
+\end{figure}
+
+\subsection{Ahorro Energético (Standby)}
+El cuarto paso consiste en implementar un sistema de ahorro energético. Cuando no se detecta movimiento durante un período de tiempo determinado, el sistema entra en modo de espera (standby) y apaga el LCD y los LEDs. La simulación se puede observar en la Figura \ref{fig:cerradura_smart_final}. Finalmente, se puede observar el diagrama de flujo del sistema de cerradura inteligente en la Figura \ref{fig:flujo_cerradura_smart}. El diagrama muestra el flujo de trabajo del sistema, desde la detección de movimiento hasta la autenticación y el ahorro energético.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{./img/2-4-Ahorro-energetico.png}
+    \caption{Simulación Tinkercad Resultado final del sistema de cerradura inteligente}
+    \label{fig:cerradura_smart_final}
+\end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{./img/ckpt_6.png}
-    \caption{Simulación Tinkercad Resultado final del sistema de cerradura inteligente}
-    \label{fig:cerradura_smart}
+    \includegraphics[width=0.85\textwidth]{./img/2-Diagrama-flujo.png}
+    \caption{Diagrama de flujo del sistema de cerradura inteligente}
+    \label{fig:flujo_cerradura_smart}
 \end{figure}
 
-% TODO: foto de la implementacion presencial en el laboratorio
+\begin{lstlisting}[style=cppstyle, caption={Código en C++ para el sistema de control de aforo.}, label={code:cerradura_smart_LCD}]
+#include <LiquidCrystal.h>
+#include <Keypad.h>
 
-\subsection{Presencia de la persona}
+// Configuracion del LCD
+LiquidCrystal lcd(8, 9, 4, 5, 6, 7);
 
-\subsection{Mensaje en LCD}
+// Configuracion del sensor ultrasonico
+const int triggerPin = 2;
+const int echoPin = 3;
 
-\subsection{Autenticación}
+// Configuracion de LEDs
+const int ledRojo = A5;
+const int ledVerde = A4;
 
-\subsection{Ahorro Energético (Standby)}
+// Contrasenha correcta
+String password = "1234";
+String inputPassword = "";
+
+// Configuracion del Keypad
+const byte ROWS = 4; // 4 filas
+const byte COLS = 4; // 4 columnas
+
+char keys[ROWS][COLS] = {
+  {'1','2','3','A'},
+  {'4','5','6','B'},
+  {'7','8','9','C'},
+  {'*','0','#','D'}
+};
+
+// Ajustar pines del keypad segun tu tabla
+byte rowPins[ROWS] = {10, 11, 12, 13}; // Filas
+byte colPins[COLS] = {A3, A2, A1, A0}; // Columnas
+
+Keypad keypad = Keypad(makeKeymap(keys), rowPins, colPins, ROWS, COLS);
+
+void setup() {
+  Serial.begin(9600);
+  
+  pinMode(triggerPin, OUTPUT);
+  pinMode(echoPin, INPUT);
+  pinMode(ledRojo, OUTPUT);
+  pinMode(ledVerde, OUTPUT);
+  
+  lcd.begin(16, 2);
+  lcd.clear();
+}
+
+void loop() {
+  long distance = getDistance();
+
+  if (distance < 20) {
+    digitalWrite(ledRojo, HIGH); // Activar grabacion (presencia detectada)
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("Ingrese clave:");
+    inputPassword = "";
+
+    while (inputPassword.length() < 4) {
+      char key = keypad.getKey();
+      if (key) {
+        inputPassword += key;
+        lcd.setCursor(inputPassword.length() - 1, 1);
+        lcd.print("*"); // Mostrar asterisco por cada numero
+      }
+    }
+
+    delay(500);
+    lcd.clear();
+    
+    if (inputPassword == password) {
+      lcd.setCursor(0, 0);
+      lcd.print("Acceso correcto");
+      digitalWrite(ledRojo, LOW);
+      digitalWrite(ledVerde, HIGH);
+      delay(3000);
+      digitalWrite(ledVerde, LOW);
+    } else {
+      lcd.setCursor(0, 0);
+      lcd.print("Clave incorrecta");
+      delay(2000);
+    }
+  } else {
+    digitalWrite(ledRojo, LOW); // Standby: nadie presente
+    lcd.clear();
+  }
+}
+
+long getDistance() {
+  digitalWrite(triggerPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(triggerPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(triggerPin, LOW);
+  
+  long duration = pulseIn(echoPin, HIGH);
+  long distance = duration * 0.034 / 2;
+  return distance;
+}
+\end{lstlisting}
 
 \section{SENSORES - Sistema de control de aforo}
 
 % DONE: Simulacion
+La presente experiencia de laboratorio tiene como objetivo implementar un sistema de control de aforo utilizando un sensor PIR (Passive Infrared Sensor) y un LCD. El sistema se basa en la detección de movimiento para contar el número de personas que ingresan a un área determinada. A continuación, se describen los componentes utilizados:
+
+\begin{itemize}
+    \item Arduino
+    \item Sensor PIR
+    \item Diodo LED verde
+    \item Diodo LED rojo
+    \item LCD 2x16
+\end{itemize}
+
+\subsection{Funcionamiento}
+
+El sensor de movimiento PIR es el encargado de detectar la presencia o movimiento de personas en la zona monitoreada. El sistema opera bajo dos modos principales, los cuales se ilustran en las Figuras \ref{fig:control_aforo_reposo} y \ref{fig:control_aforo_contando}.
+
+\begin{enumerate}
+    \item \textbf{Modo de Reposo:} Cuando no se detecta movimiento, el sistema entra en modo de reposo. En este estado, el LED verde se enciende y apaga de manera intermitente cada 200 ms, indicando que el sistema está activo y a la espera de detectar alguna incidencia. La Figura \ref{fig:control_aforo_reposo} muestra el sistema en este estado, con el LED verde parpadeando y el LCD indicando el modo de reposo.
+    
+    \item \textbf{Detección de Movimiento:} Al detectar movimiento en el área, el sistema apaga el LED verde y enciende el LED rojo, señalizando la presencia de una persona. Simultáneamente, el LCD muestra la cantidad de incidencias detectadas, por ejemplo: ``INCIDENCIAS 001''. Es importante destacar que el sistema implementa una lógica de temporización para evitar contar múltiples veces a la misma persona: si el movimiento persiste durante 500 ms, el contador no incrementa. Solo si, tras 5 segundos sin movimiento, se vuelve a detectar una nueva presencia, el contador incrementa nuevamente (por ejemplo, ``INCIDENCIAS 002''). La Figura \ref{fig:control_aforo_contando} ilustra el sistema durante la detección de movimiento, con el LED rojo encendido y el LCD mostrando el conteo de incidencias.
+    
+    \item \textbf{Retorno al modo de reposo:} Si el sistema deja de detectar movimiento, automáticamente retorna al modo de reposo, reanudando el parpadeo del LED verde y esperando nuevas incidencias.
+\end{enumerate}
+
+Para comprender la arquitectura general del sistema, se presenta el diagrama de bloques en la Figura \ref{fig:bloques_conteo_personas}, donde se visualizan las conexiones y la interacción entre los distintos componentes. El flujo lógico de funcionamiento, desde la detección de movimiento hasta el conteo y visualización en el LCD, se detalla en el diagrama de flujo de la Figura \ref{fig:flujo_conteo_personas}. Finalmente, el Código \ref{code:sensor_ambiental} muestra la implementación en Arduino, donde se observa cómo se lleva a cabo la lógica de detección, conteo y visualización, siguiendo la secuencia planteada en los diagramas mencionados.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{./img/ckpt_9_1.png}
+    \caption{Simulación Tinkercad: Estado de reposo (LED verde parpadeando, sistema activo)}
+    \label{fig:control_aforo_reposo}
+\end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.85\textwidth]{./img/ckpt_9.png}
-    \caption{Simulación Tinkercad Resultado final del sistema de control de aforo}
-    \label{fig:control_aforo}
+    \caption{Simulación Tinkercad: Estado de detección de movimiento (LED rojo encendido, pantalla contando incidencias)}
+    \label{fig:control_aforo_contando}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{./img/bloques_conteo_personas.png}
+    \caption{Diagrama de bloques del sistema de control de aforo}
+    \label{fig:bloques_conteo_personas}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{./img/3-Diagrama-flujo.png}
+    \caption{Diagrama de flujo del sistema de control de aforo}
+    \label{fig:flujo_conteo_personas}
 \end{figure}
 
 \begin{lstlisting}[style=cppstyle, caption={Código en C++ para el sistema de control de aforo.}, label={code:sensor_ambiental}]
@@ -185,11 +373,11 @@ void loop() {
 }    
 \end{lstlisting}
     
-% TODO: foto de la implementacion presencial en el laboratorio
-% TODO: diagrama de flujo
-% TODO: diagrama de bloques
-% ? TODO: checkpoint 5 y 6 son distintas simulaciones????
+% DONE: foto de la implementacion presencial en el laboratorio
+% DONE: diagrama de flujo
+% DONE: diagrama de bloques
 
+% Enlace al video: \url{https://drive.google.com/file/d/1VmmF8ljH7DoGnzlM0mKaFVM4Yu7p21BW/view?usp}
 
 \section{ACTUADORES - Encendido de un Motor DC con Arduino}
 
@@ -240,21 +428,21 @@ void loop() {
     \centering
     \includegraphics[width=0.85\textwidth]{./img/ckpt_rele_motor.png}
     \caption{Simulación Tinkercad}
-    \label{fig:motor_driver}
+    \label{fig:rele_tinkercad}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{./img/checkpoint_presencialrele.jpeg}
+    \includegraphics[width=0.5\textwidth]{./img/checkpoint_presencialrele.jpeg}
     \caption{Implementación del relé con motor}
-    \label{fig:motor_driver}
+    \label{fig:rele_implementacion}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.85\textwidth]{./img/flujo_rele.png}
     \caption{Diagrama de flujo funcionamiento relé-motor}
-    \label{fig:motor_driver}
+    \label{fig:flujo_rele}
 \end{figure}
 
 \begin{figure}[H]
