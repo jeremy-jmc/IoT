@@ -105,25 +105,159 @@ En esta experiencia de laboratorio, se desarrollará un sistema de seguridad par
     \item Resistencias variadas.
     \item Jumpers.
 \end{itemize}
+% TODO: foto de la implementacion presencial en el laboratorio
+A continuación, se presenta la simulación del sistema de cerradura inteligente en Tinkercad. Se desglosa la implementacion en cuatro partes:
+\begin{itemize}
+    \item Presencia de la persona.
+    \item Mensaje en LCD.
+    \item Autenticación.
+    \item Ahorro energético (Standby).
+\end{itemize}
+\subsection{Presencia de la persona}
+El primer paso de la simulación consiste en detectar la presencia de una persona utilizando un sensor de proximidad. Este sensor se conecta a un pin digital del Arduino y se utiliza para encender un LED rojo cuando se detecta movimiento. La simulación se puede observar en la Figura \ref{fig:cerradura_smart_presencia}.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{./img/2-1-presencia-de-persona.png}
+    \caption{Simulación Tinkercad integrando el sensor de proximidad al sistema de cerradura inteligente}
+    \label{fig:cerradura_smart_presencia}
+\end{figure}
 
-La solución final se puede ver en la Figura \ref{fig:cerradura_smart}. En las siguientes subsecciones se desglosarán las diferentes funcionalidades del sistema.
+\subsection{Mensaje en LCD}
+El segundo paso consiste en mostrar un mensaje en un LCD 2x16 cuando se detecta la presencia de una persona. El mensaje indica que el sistema está esperando la autenticación. La simulación se puede observar en la Figura \ref{fig:cerradura_smart_LCD}.
+El LCD se conecta a los pines digitales del Arduino y se utiliza la biblioteca LiquidCrystal para controlar su funcionamiento. El código de la simulación se puede observar en el Código \ref{code:cerradura_smart_LCD}.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{./img/2-2-Mensaje-LCD.png}
+    \caption{Simulación Tinkercad integrando LCD al sistema de cerradura inteligente}
+    \label{fig:cerradura_smart_LCD}
+\end{figure}
+
+\subsection{Autenticación}
+El tercer paso consiste en implementar un sistema de autenticación utilizando un teclado matricial. El usuario debe ingresar un código de acceso para desbloquear la cerradura. Si el código es correcto, se enciende un LED verde y se muestra un mensaje de "Acceso correcto" en el LCD. Si el código es incorrecto, se enciende un LED rojo y se muestra un mensaje de "Clave Incorrecta". La simulación se puede observar en la Figura \ref{fig:cerradura_smart_autenticacion}.
+El teclado matricial se conecta a los pines digitales del Arduino y se utiliza la biblioteca Keypad para controlar su funcionamiento. El código de la simulación se puede observar en el Código \ref{code:cerradura_smart_LCD}.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{./img/2-3-Autenticacion.png}
+    \caption{Simulación Tinkercad Aplicando la autenticación}
+    \label{fig:cerradura_smart_autenticacion}
+\end{figure}
+
+\subsection{Ahorro Energético (Standby)}
+El cuarto paso consiste en implementar un sistema de ahorro energético. Cuando no se detecta movimiento durante un período de tiempo determinado, el sistema entra en modo de espera (standby) y apaga el LCD y los LEDs. La simulación se puede observar en la Figura \ref{fig:cerradura_smart_final}. Finalmente, se puede observar el diagrama de flujo del sistema de cerradura inteligente en la Figura \ref{fig:flujo_cerradura_smart}. El diagrama muestra el flujo de trabajo del sistema, desde la detección de movimiento hasta la autenticación y el ahorro energético.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{./img/2-4-Ahorro-energetico.png}
+    \caption{Simulación Tinkercad Resultado final del sistema de cerradura inteligente}
+    \label{fig:cerradura_smart_final}
+\end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{./img/ckpt_6.png}
-    \caption{Simulación Tinkercad Resultado final del sistema de cerradura inteligente}
-    \label{fig:cerradura_smart}
+    \includegraphics[width=0.85\textwidth]{./img/2-Diagrama-flujo.png}
+    \caption{Diagrama de flujo del sistema de cerradura inteligente}
+    \label{fig:flujo_cerradura_smart}
 \end{figure}
 
-% TODO: foto de la implementacion presencial en el laboratorio
+\begin{lstlisting}[style=cppstyle, caption={Código en C++ para el sistema de control de aforo.}, label={code:cerradura_smart_LCD}]
+#include <LiquidCrystal.h>
+#include <Keypad.h>
 
-\subsection{Presencia de la persona}
+// Configuracion del LCD
+LiquidCrystal lcd(8, 9, 4, 5, 6, 7);
 
-\subsection{Mensaje en LCD}
+// Configuracion del sensor ultrasonico
+const int triggerPin = 2;
+const int echoPin = 3;
 
-\subsection{Autenticación}
+// Configuracion de LEDs
+const int ledRojo = A5;
+const int ledVerde = A4;
 
-\subsection{Ahorro Energético (Standby)}
+// Contrasenha correcta
+String password = "1234";
+String inputPassword = "";
+
+// Configuracion del Keypad
+const byte ROWS = 4; // 4 filas
+const byte COLS = 4; // 4 columnas
+
+char keys[ROWS][COLS] = {
+  {'1','2','3','A'},
+  {'4','5','6','B'},
+  {'7','8','9','C'},
+  {'*','0','#','D'}
+};
+
+// Ajustar pines del keypad segun tu tabla
+byte rowPins[ROWS] = {10, 11, 12, 13}; // Filas
+byte colPins[COLS] = {A3, A2, A1, A0}; // Columnas
+
+Keypad keypad = Keypad(makeKeymap(keys), rowPins, colPins, ROWS, COLS);
+
+void setup() {
+  Serial.begin(9600);
+  
+  pinMode(triggerPin, OUTPUT);
+  pinMode(echoPin, INPUT);
+  pinMode(ledRojo, OUTPUT);
+  pinMode(ledVerde, OUTPUT);
+  
+  lcd.begin(16, 2);
+  lcd.clear();
+}
+
+void loop() {
+  long distance = getDistance();
+
+  if (distance < 20) {
+    digitalWrite(ledRojo, HIGH); // Activar grabacion (presencia detectada)
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("Ingrese clave:");
+    inputPassword = "";
+
+    while (inputPassword.length() < 4) {
+      char key = keypad.getKey();
+      if (key) {
+        inputPassword += key;
+        lcd.setCursor(inputPassword.length() - 1, 1);
+        lcd.print("*"); // Mostrar asterisco por cada numero
+      }
+    }
+
+    delay(500);
+    lcd.clear();
+    
+    if (inputPassword == password) {
+      lcd.setCursor(0, 0);
+      lcd.print("Acceso correcto");
+      digitalWrite(ledRojo, LOW);
+      digitalWrite(ledVerde, HIGH);
+      delay(3000);
+      digitalWrite(ledVerde, LOW);
+    } else {
+      lcd.setCursor(0, 0);
+      lcd.print("Clave incorrecta");
+      delay(2000);
+    }
+  } else {
+    digitalWrite(ledRojo, LOW); // Standby: nadie presente
+    lcd.clear();
+  }
+}
+
+long getDistance() {
+  digitalWrite(triggerPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(triggerPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(triggerPin, LOW);
+  
+  long duration = pulseIn(echoPin, HIGH);
+  long distance = duration * 0.034 / 2;
+  return distance;
+}
+\end{lstlisting}
 
 \section{SENSORES - Sistema de control de aforo}
 
