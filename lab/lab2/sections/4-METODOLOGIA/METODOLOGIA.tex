@@ -556,7 +556,7 @@ Finalmente, el sistema completo puede representarse con el diagrama de bloques d
     \includegraphics[width=0.65\textwidth]{./img/bloques_298.png}
     \caption{Diagrama de bloques para el L298N}
     \label{fig:bloques_l298n}
-\end{figure}
+\end{figure} 
 
 % DONE: implementacion
 % DONE: respuesta a las preguntas
@@ -707,6 +707,48 @@ void loop() {
 
 
 \section{ACTUADORES - Control de ventiladores}
+Para este laboratorio se deseo implementar un sistema de dos ventiladores que se controlaran mediante dos sensores de temperatura. El sistema se implemento en Tinkercad, utilizando un Arduino UNO y dos sensores DHT11. El objetivo del sistema es encender el ventilador 1 cuando la temperatura es mayor a 28 grados en el sensor 1 y en el sensor 2 sea menor a 28, caso contrario prender el ventilador 2. La simulacion se puede observar en la Figura \ref{fig:ventiladores}. El diagrama de bloques del sistema se puede observar en la Figura \ref{fig:bloques_ventiladores} y el codigo en el Código \ref{code:ventiladores}.
 
-% TODO: solo simulacion Tinkercad
-% TODO: diagrama de bloques del sistema
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{./img/13-Controlador-Ventiladores.png}
+    \caption{Simulación Tinkercad Ventiladores}
+    \label{fig:ventiladores}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{./img/13-Diagrama-Bloques.png}
+    \caption{Diagrama de bloques del sistema de ventiladores}
+    \label{fig:bloques_ventiladores}
+\end{figure}
+
+\begin{lstlisting}[style=cppstyle, caption={Código en C++ para el sistema de ventiladores.}, label={code:ventiladores}]
+const int sensor1 = A0;
+const int sensor2 = A1;
+const int relePin = 2;
+const float umbral = 28.0;
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(relePin, OUTPUT);
+  digitalWrite(relePin, LOW); // Rele apagado al inicio
+}
+
+void loop() {
+  float t1 = ((analogRead(sensor1) * 5.0 / 1023.0) - 0.5) * 100.0;
+  float t2 = ((analogRead(sensor2) * 5.0 / 1023.0) - 0.5) * 100.0;
+  float rele = digitalRead(relePin);
+  Serial.print("Temp1: "); Serial.print(t1);Serial.print(" | D2: "); Serial.print(rele) ;Serial.print(" | Temp2: "); Serial.println(t2);
+  
+  if (t1 > umbral && t2 <= umbral) {
+    digitalWrite(relePin, LOW);  
+  } else if (t2 > umbral && t1 <= umbral) {
+    digitalWrite(relePin, HIGH);   
+  } else {
+    digitalWrite(relePin, LOW);
+  }
+
+  delay(1000);
+}
+\end{lstlisting}
