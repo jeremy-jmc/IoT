@@ -380,22 +380,30 @@ void loop() {
 % Enlace al video: \url{https://drive.google.com/file/d/1VmmF8ljH7DoGnzlM0mKaFVM4Yu7p21BW/view?usp}
 
 \section{ACTUADORES - Encendido de un Motor DC con Arduino}
-
+Para el experimento de encendido de un motor DC, se utilizó un motor de corriente continua conectado a un Arduino MEGA. El voltaje de alimentación del motor se regulo con un potenciometro a 5V. El principal objetivo de este experimento era ver que ocurria cuando se conectaba el motor unicamente a la alimentacion de 5V del Arduino. Es por eso que solamente se realizo la simulacion en Tinkercad ya que sin diodos de proteccion, cuando el potenciometro manda la corriente al motor, este genera un pico de tension que puede dañar el Arduino. La imagen de la simulacion se puede observar en la Figura \ref{fig:encendido_motor}. El diagrama de bloques del sistema se puede observar en la Figura \ref{fig:bloques_encendido_motor}.
 % https://www.tinkercad.com/things/7Ta4Am5NLdF/editel?returnTo=%2Fdashboard%2Fdesigns%2Fcircuits&sharecode=ddM9-NkLnJGgaDXANovwieeo9xofWe2gha9ahUL3Y-o
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{./img/ckpt_encendido_motor.png}
-    \caption{Simulación Tinkercad ...}
+    \includegraphics[width=0.85\textwidth]{./img/4-Encendido-Motor.png}
+    \caption{Simulación Tinkercad Encendido de motor con Potenciometro}
     \label{fig:encendido_motor}
 \end{figure}
 
-% TODO: simulacion
-% TODO: diagrama de bloques
-% TODO: respuesta a las preguntas
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{./img/4-Diagrama-bloques.png}
+    \caption{Diagrama de bloques del sistema de encendido de motor}
+    \label{fig:bloques_encendido_motor}
+\end{figure}
+
 
 \begin{enumerate}
+    \item ¿Qué sucede en su simulación con el Arduino?
+    \item El Arduino cuando trasmite mediante el potenciometro una corriente de entre 3V y 5V segun las condiciones establecidas, el motor gira, pero con advertencia de que el voltaje puede dañar el Arduino. 
     \item ¿Cuál es la corriente que consume el motor durante su operación?
+    \item El motor consume alrededor de 3.49V, esto se puede observar en la simulacion de Tinkercad.
     \item Si usted quisiera regular la velocidad del motor, ¿qué añadiría a su esquema de conexión?
+    \item Para poder controlar la velocidad del motor, se puede utilizar un potenciometro o un driver de motor. El potenciometro permite regular la tension que llega al motor, mientras que el driver permite controlar la velocidad y direccion del motor.
 \end{enumerate}
 
 \section{ACTUADORES - Control de un motor con Driver}
