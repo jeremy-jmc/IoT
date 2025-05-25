@@ -133,12 +133,19 @@ El teclado matricial se conecta a los pines digitales del Arduino y se utiliza l
 \end{figure}
 
 \subsection{Ahorro Energético (Standby)}
-El cuarto paso consiste en implementar un sistema de ahorro energético. Cuando no se detecta movimiento durante un período de tiempo determinado, el sistema entra en modo de espera (standby) y apaga el LCD y los LEDs. La simulación se puede observar en la Figura \ref{fig:cerradura_smart_final}.
+El cuarto paso consiste en implementar un sistema de ahorro energético. Cuando no se detecta movimiento durante un período de tiempo determinado, el sistema entra en modo de espera (standby) y apaga el LCD y los LEDs. La simulación se puede observar en la Figura \ref{fig:cerradura_smart_final}. Finalmente, se puede observar el diagrama de flujo del sistema de cerradura inteligente en la Figura \ref{fig:flujo_cerradura_smart}. El diagrama muestra el flujo de trabajo del sistema, desde la detección de movimiento hasta la autenticación y el ahorro energético.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.85\textwidth]{./img/2-4-Ahorro-energetico.png}
     \caption{Simulación Tinkercad Resultado final del sistema de cerradura inteligente}
     \label{fig:cerradura_smart_final}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{./img/2-Diagrama-flujo.png}
+    \caption{Diagrama de flujo del sistema de cerradura inteligente}
+    \label{fig:flujo_cerradura_smart}
 \end{figure}
 
 \begin{lstlisting}[style=cppstyle, caption={Código en C++ para el sistema de control de aforo.}, label={code:cerradura_smart_LCD}]
