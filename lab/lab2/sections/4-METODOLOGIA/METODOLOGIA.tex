@@ -87,7 +87,7 @@ void loop() {
     \label{fig:luz_ambiental_lab_estado_3}
 \end{figure}
 
-Para mayor detalle el funcionamiento de la experiencia, se puede consultar el siguiente enlace: \url{https://drive.google.com/file/d/1v76hk4pJjSoHVMHp4mmkme9ZRFEXyfd-/view?usp=drive_link}
+% Enlace al video: \url{https://drive.google.com/file/d/1v76hk4pJjSoHVMHp4mmkme9ZRFEXyfd-/view}
 
 % DONE: foto de la implementacion presencial en el laboratorio
 
@@ -284,6 +284,8 @@ El sensor de movimiento PIR es el encargado de detectar la presencia o movimient
     \item \textbf{Retorno al modo de reposo:} Si el sistema deja de detectar movimiento, automáticamente retorna al modo de reposo, reanudando el parpadeo del LED verde y esperando nuevas incidencias.
 \end{enumerate}
 
+Para comprender la arquitectura general del sistema, se presenta el diagrama de bloques en la Figura \ref{fig:bloques_conteo_personas}, donde se visualizan las conexiones y la interacción entre los distintos componentes. El flujo lógico de funcionamiento, desde la detección de movimiento hasta el conteo y visualización en el LCD, se detalla en el diagrama de flujo de la Figura \ref{fig:flujo_conteo_personas}. Finalmente, el Código \ref{code:sensor_ambiental} muestra la implementación en Arduino, donde se observa cómo se lleva a cabo la lógica de detección, conteo y visualización, siguiendo la secuencia planteada en los diagramas mencionados.
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.85\textwidth]{./img/ckpt_9_1.png}
@@ -298,12 +300,18 @@ El sensor de movimiento PIR es el encargado de detectar la presencia o movimient
     \label{fig:control_aforo_contando}
 \end{figure}
 
-
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.85\textwidth]{./img/bloques_conteo_personas.png}
     \caption{Diagrama de bloques del sistema de control de aforo}
     \label{fig:bloques_conteo_personas}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{./img/3-Diagrama-flujo.png}
+    \caption{Diagrama de flujo del sistema de control de aforo}
+    \label{fig:flujo_conteo_personas}
 \end{figure}
 
 \begin{lstlisting}[style=cppstyle, caption={Código en C++ para el sistema de control de aforo.}, label={code:sensor_ambiental}]
@@ -365,11 +373,11 @@ void loop() {
 }    
 \end{lstlisting}
     
-% TODO: foto de la implementacion presencial en el laboratorio
-% TODO: diagrama de flujo
-% TODO: diagrama de bloques
-% ? TODO: checkpoint 5 y 6 son distintas simulaciones????
+% DONE: foto de la implementacion presencial en el laboratorio
+% DONE: diagrama de flujo
+% DONE: diagrama de bloques
 
+% Enlace al video: \url{https://drive.google.com/file/d/1VmmF8ljH7DoGnzlM0mKaFVM4Yu7p21BW/view?usp}
 
 \section{ACTUADORES - Encendido de un Motor DC con Arduino}
 
@@ -420,21 +428,21 @@ void loop() {
     \centering
     \includegraphics[width=0.85\textwidth]{./img/ckpt_rele_motor.png}
     \caption{Simulación Tinkercad}
-    \label{fig:motor_driver}
+    \label{fig:rele_tinkercad}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{./img/checkpoint_presencialrele.jpeg}
+    \includegraphics[width=0.5\textwidth]{./img/checkpoint_presencialrele.jpeg}
     \caption{Implementación del relé con motor}
-    \label{fig:motor_driver}
+    \label{fig:rele_implementacion}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.85\textwidth]{./img/flujo_rele.png}
     \caption{Diagrama de flujo funcionamiento relé-motor}
-    \label{fig:motor_driver}
+    \label{fig:flujo_rele}
 \end{figure}
 
 % DONE: simulacion
