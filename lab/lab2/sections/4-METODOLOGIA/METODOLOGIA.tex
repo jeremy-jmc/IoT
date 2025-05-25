@@ -462,19 +462,20 @@ void loop() {
 \begin{enumerate}
     \item Prueba alimentar el módulo L298N directamente desde el pin de 5V del Arduino (en lugar de la fuente para protoboard). ¿Notas alguna diferencia en el rendimiento del motor? Justifica técnicamente tu observación.
 
-    El rendimiento del motor decae, su movimiento se hace más lento y pierde fuerza. Esto es debido a que hemos cambiado de operar con una fuente de 9V a una de 5V.
-        
+    Sí, se nota una disminución en el rendimiento del motor. Al alimentarlo desde el pin de 5V del Arduino, el motor se mueve más lentamente y con menos fuerza (torque). Esto ocurre porque el pin de 5V del Arduino no está diseñado para entregar grandes cantidades de corriente, y además el voltaje disponible es menor (5V frente a los 9V originales de la fuente para protoboard). Los motores DC requieren tanto un voltaje adecuado como suficiente corriente para operar eficientemente. Al reducirse estos parámetros, el motor pierde capacidad de respuesta y potencia.
+
     \item Restablezca la alimentación del motor. Modiﬁca el circuito para invertir el sentido de giro automáticamente cada 3 segundos.
 
-    Esto lo logramos invirtiendo los valores HIGH y LOW del in1 e in2.
+    Para lograr esto, se puede programar el Arduino para alternar los niveles de voltaje en los pines IN1 e IN2 del módulo L298N cada 3 segundos. Cuando IN1 está en HIGH e IN2 en LOW, el motor gira en una dirección; al invertir estos valores (IN1 en LOW e IN2 en HIGH), se invierte el sentido de giro del motor. Este cambio puede realizarse automáticamente dentro del bucle loop() del código utilizando funciones como digitalWrite() y delay(3000) para controlar el tiempo.
     
     \item ¿Qué función cumple el pin ENA en el módulo L298N y por qué debe conectarse a un pin PWM del Arduino?
 
-    Permitir regular la velocidad del motor, se conecta a un pin PWM debido a que estos permiten enviar una señal modulada que simula un voltaje medio variable. 
-    
+    El pin ENA activa el motor A y permite controlar su velocidad. Se conecta a un pin PWM del Arduino porque estos pueden generar una señal modulada que simula un voltaje variable, lo que permite ajustar la velocidad del motor.
+
     \item ¿Qué sucede si se intercambian las conexiones de IN1 e IN2? ¿Cómo afecta esto a la dirección del giro del motor?
 
-    Cambia la dirección del motor, de izquierda a derecha, respectivamente.
+    Si se intercambian IN1 e IN2, el motor gira en sentido contrario. Esto se debe a que se invierte la polaridad de la señal que recibe el motor.
+
 \end{enumerate}
 
 \begin{figure}[H]
