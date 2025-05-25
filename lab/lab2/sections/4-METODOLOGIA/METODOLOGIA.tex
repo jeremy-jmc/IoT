@@ -591,9 +591,8 @@ Cuando el valor de humedad es inferior a un umbral mínimo (equivalente al 20\% 
 Después de regar la planta, el sistema entra en un estado de reposo durante 15 segundos. Durante este tiempo, no se hacen nuevas mediciones ni se activa la bomba. El Monitor Serial muestra el mensaje “Modo IDLE”. Ver Figura~\ref{fig:riego_logs}.
 
 \subsubsection*{3. Estado de alerta}
-Si el nivel de humedad supera el 75\%, el sistema considera que la planta está sobre-hidratada. En este caso, se activa una alarma sonora (buzzer) y visual (LED rojo intermitente), ambos operando de forma parpadeante para llamar la atención. La Figura~\ref{fig:riego_sobrehidratacion} muestra este estado en la implementación.
+Si el nivel de humedad supera el 75\%, el sistema considera que la planta está sobre-hidratada. En este caso, se activa una alarma sonora (buzzer) y visual (LED rojo intermitente), ambos operando de forma parpadeante para llamar la atención. La Figura~\ref{fig:riego_sobrehidratacion} muestra este estado en la implementación. El funcionamiento general del sistema puede observarse en las Figuras~\ref{fig:riego_regando} (estado de riego), \ref{fig:riego_sobrehidratacion} (estado de alerta por sobre-hidratación) y \ref{fig:riego_logs} (logs del sistema), mientras que la arquitectura general se resume en el diagrama de bloques de la Figura~\ref{fig:bloques_riego_inteligente}. El código completo que implementa la lógica descrita se presenta en el Código~\ref{code:riego_inteligente}. Finalmente, el diagrama de flujo del sistema se presenta en la Figura~\ref{fig:riego_diagrama_flujo}.
 
-La Figura~\ref{fig:bloques_riego_inteligente} muestra el diagrama de bloques general del sistema, donde se observa la interacción entre los sensores, actuadores y la unidad de control. A continuación, se incluye el código completo implementado para gestionar los estados y componentes.
 
 \begin{figure}[H]
     \centering
@@ -609,14 +608,12 @@ La Figura~\ref{fig:bloques_riego_inteligente} muestra el diagrama de bloques gen
     \label{fig:riego_sobrehidratacion}
 \end{figure}
 
-
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.4\textwidth]{./img/riego_monitoreo.png}
     \caption{Implementación en laboratorio: Logs del sistema}
     \label{fig:riego_logs}
 \end{figure}
-
 
 \begin{figure}[H]
     \centering
@@ -700,10 +697,12 @@ void loop() {
 }
 \end{lstlisting}
 
-
-% DONE: foto de la implementacion presencial en el laboratorio
-% TODO: diagrama de flujo
-% DONE: diagrama de bloques
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{./img/12-Diagrama-Flujo.png}
+    \caption{Diagrama de flujo del sistema de riego inteligente}
+    \label{fig:riego_diagrama_flujo}
+\end{figure}
 
 
 \section{ACTUADORES - Control de ventiladores}
