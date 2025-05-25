@@ -153,7 +153,7 @@ El cuarto paso consiste en implementar un sistema de ahorro energético. Cuando 
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{./img/2-Diagrama-flujo.png}
+    \includegraphics[width=0.7\textwidth]{./img/2-Diagrama-flujo.png}
     \caption{Diagrama de flujo del sistema de cerradura inteligente}
     \label{fig:flujo_cerradura_smart}
 \end{figure}
@@ -566,28 +566,53 @@ Finalmente, el sistema completo puede representarse con el diagrama de bloques d
 
 \section{ACTUADORES - Sistema de riego inteligente}
 
-% TODO: foto de la implementacion presencial en el laboratorio
-% TODO: diagrama de flujo
-% DONE: diagrama de bloques
+
+En esta experiencia de laboratorio se desarrolló un sistema de riego automatizado que emplea un sensor de humedad de tierra para monitorear el estado del sustrato y activar una bomba de agua en función del nivel de humedad detectado. El sistema hace uso de un módulo de relé para controlar la bomba, LEDs indicadores, y un buzzer como sistema de alerta en casos de sobre-hidratación. Adicionalmente, se modificaron los hiperparámetros de umbral para el sensor de humedad con el objetivo adaptarlo a las condiciones del laboratorio, permitiendo las pruebas del sistema (Código \ref{code:riego_inteligente}).
+
+\subsection{Componentes y Funcionamiento General}
+
+Los componentes utilizados en el montaje se detallan a continuación:
+
+\begin{itemize}
+    \item Sensor de humedad de tierra
+    \item Módulo de relé
+    \item Bomba de agua
+    \item LED azul (riego), LED rojo (alerta)
+    \item Buzzer piezoeléctrico
+    \item Arduino UNO o MEGA
+\end{itemize}
+
+El sistema opera bajo tres modos principales de funcionamiento:
+
+\subsubsection*{1. Riego de planta}
+Cuando el valor de humedad es inferior a un umbral mínimo (equivalente al 20\% de humedad), el sistema entra en estado de riego. Se activa el relé que controla la bomba de agua durante 10 segundos, y se enciende un LED azul como indicador visual. El sistema reporta en el Monitor Serial el valor de humedad y el estado actual. La Figura~\ref{fig:riego_regando} ilustra este estado en la implementación real.
+
+\subsubsection*{2. Estado IDLE}
+Después de regar la planta, el sistema entra en un estado de reposo durante 15 segundos. Durante este tiempo, no se hacen nuevas mediciones ni se activa la bomba. El Monitor Serial muestra el mensaje “Modo IDLE”. Ver Figura~\ref{fig:riego_logs}.
+
+\subsubsection*{3. Estado de alerta}
+Si el nivel de humedad supera el 75\%, el sistema considera que la planta está sobre-hidratada. En este caso, se activa una alarma sonora (buzzer) y visual (LED rojo intermitente), ambos operando de forma parpadeante para llamar la atención. La Figura~\ref{fig:riego_sobrehidratacion} muestra este estado en la implementación.
+
+La Figura~\ref{fig:bloques_riego_inteligente} muestra el diagrama de bloques general del sistema, donde se observa la interacción entre los sensores, actuadores y la unidad de control. A continuación, se incluye el código completo implementado para gestionar los estados y componentes.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{./img/riego_estado_riego.png}
+    \includegraphics[width=0.4\textwidth]{./img/riego_estado_riego.png}
     \caption{Implementación en laboratorio: Estado de riego (LED azul encendido)}
     \label{fig:riego_regando}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{./img/riego_sobrehidratacion.png}
-    \caption{Implementación en laboratorio: Estado de alerta (LED rojo encendido y buzzer activo)}
+    \includegraphics[width=0.4\textwidth]{./img/riego_sobrehidratacion.png}
+    \caption{Implementación en laboratorio: Estado de alerta (LED rojo intermitente y buzzer activo)}
     \label{fig:riego_sobrehidratacion}
 \end{figure}
 
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{./img/riego_monitoreo.png}
+    \includegraphics[width=0.4\textwidth]{./img/riego_monitoreo.png}
     \caption{Implementación en laboratorio: Logs del sistema}
     \label{fig:riego_logs}
 \end{figure}
@@ -674,6 +699,12 @@ void loop() {
   }
 }
 \end{lstlisting}
+
+
+% DONE: foto de la implementacion presencial en el laboratorio
+% TODO: diagrama de flujo
+% DONE: diagrama de bloques
+
 
 \section{ACTUADORES - Control de ventiladores}
 
