@@ -568,8 +568,112 @@ Finalmente, el sistema completo puede representarse con el diagrama de bloques d
 
 % TODO: foto de la implementacion presencial en el laboratorio
 % TODO: diagrama de flujo
-% TODO: diagrama de bloques
+% DONE: diagrama de bloques
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{./img/riego_estado_riego.png}
+    \caption{Implementación en laboratorio: Estado de riego (LED azul encendido)}
+    \label{fig:riego_regando}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{./img/riego_sobrehidratacion.png}
+    \caption{Implementación en laboratorio: Estado de alerta (LED rojo encendido y buzzer activo)}
+    \label{fig:riego_sobrehidratacion}
+\end{figure}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{./img/riego_monitoreo.png}
+    \caption{Implementación en laboratorio: Logs del sistema}
+    \label{fig:riego_logs}
+\end{figure}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{./img/bloques_riego_inteligente.png}
+    \caption{Diagrama de bloques para el sistema de riego inteligente}
+    \label{fig:bloques_riego_inteligente}
+\end{figure}
+
+\begin{lstlisting}[style=cppstyle, caption={Código en C++ para sistema de riego inteligente con relé.}, label={code:riego_inteligente}]
+int RELAY_PIN = 10;    // Rele para bomba
+const int LEDBlue = 7; // LED azul (riego)
+const int LEDRed = 4;  // LED rojo (alerta)
+const int BUZZER = 5;  // Buzzer de alerta
+int SensorPin = A0;    // Sensor de humedad
+
+const int t_riego = 10000; // 10 segundos riego
+const int t_idle = 15000;  // 15 segundos IDLE
+
+const int umbral_riego = 700;   // 20% humedad (ajustar segun sensor)
+const int umbral_alerta = 300;  // 75% humedad (ajustar segun sensor)
+
+void setup() {
+  pinMode(RELAY_PIN, OUTPUT);
+  pinMode(LEDBlue, OUTPUT);
+  pinMode(LEDRed, OUTPUT);
+  pinMode(BUZZER, OUTPUT);
+
+  digitalWrite(RELAY_PIN, HIGH); // Bomba OFF
+  digitalWrite(LEDBlue, LOW);    // LED azul OFF
+  digitalWrite(LEDRed, LOW);     // LED rojo OFF
+  digitalWrite(BUZZER, LOW);     // Buzzer OFF
+
+  Serial.begin(9600);
+}
+
+void loop() {
+  int humedad = analogRead(SensorPin);
+
+  Serial.print("Nivel de humedad: ");
+  Serial.println(humedad);
+
+  if (humedad <= umbral_riego) {
+    // Estado de Riego
+    Serial.println("Estado: RIEGO");
+
+    digitalWrite(LEDBlue, HIGH);  // LED Azul ON
+    digitalWrite(RELAY_PIN, LOW); // Bomba ON
+    delay(t_riego);
+
+    // Pasar a modo IDLE
+    Serial.println("Estado: IDLE");
+
+    digitalWrite(RELAY_PIN, HIGH); // Bomba OFF
+    digitalWrite(LEDBlue, LOW);    // LED Azul OFF
+    delay(t_idle);
+
+  } else if (humedad >= umbral_alerta) {
+    // Estado de Alerta
+    Serial.println("Estado: ALERTA - Sobrehidratacion");
+
+    for (int i = 0; i < 5; i++) {  // 5 parpadeos
+      digitalWrite(LEDRed, HIGH);
+      digitalWrite(BUZZER, HIGH);
+      delay(500);
+
+      digitalWrite(LEDRed, LOW);
+      digitalWrite(BUZZER, LOW);
+      delay(500);
+    }
+
+  } else {
+    // Estado IDLE normal
+    Serial.println("Estado: IDLE (sin riego)");
+
+    digitalWrite(RELAY_PIN, HIGH); // Bomba OFF
+    digitalWrite(LEDBlue, LOW);    // LED Azul OFF
+    digitalWrite(LEDRed, LOW);     // LED Rojo OFF
+    digitalWrite(BUZZER, LOW);     // Buzzer OFF
+    delay(1000); // Pausa para lecturas
+  }
+}
+\end{lstlisting}
 
 \section{ACTUADORES - Control de ventiladores}
 
