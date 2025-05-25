@@ -10,10 +10,10 @@ En esta experiencia de laboratorio, se desarrollará un sistema de medición amb
     \item Botón o switch
 \end{itemize}
 
-El objetivo es implementar un sistema que permita medir la cantidad de luz en un ambiente determinado, el cual complementará un sistema de cámaras de seguridad y un control inteligente de luminarias. El sistema debe cumplir con las siguientes funciones:
+El objetivo de esta experiencia es implementar un sistema que permita medir la cantidad de luz en un ambiente determinado, el cual complementaría (idealmente) un sistema de cámaras de seguridad y un control inteligente de iluminación. El sistema debe cumplir con las siguientes funciones:
 \begin{enumerate}
-    \item Si el nivel de iluminación es bajo, las luminarias de la habitación deben encenderse, representado por el encendido de un LED rojo.
-    \item Si el nivel de iluminación es alto, las luminarias deben permanecer apagadas, representado por el LED rojo apagado.
+    \item Cuando el nivel de iluminación es bajo, los focos de la habitación deben encenderse, representado por el encendido de un LED rojo.
+    \item Cuando el nivel de iluminación es alto, los focos deben permanecer apagadas, representado por el LED rojo apagado.
     \item Las cámaras de seguridad deben estar en funcionamiento en todo momento, lo cual se representa mediante el encendido de un LED azul.
     \item En caso de que no se detecte energía eléctrica para el sistema de cámaras (entrada digital detecta GND), el sistema debe encender y apagar el LED azul de manera intermitente, además de activar un buzzer que representa una alarma de error. Esto puede simularse utilizando un botón, un switch o una desconexión de cable.
 \end{enumerate}
@@ -67,19 +67,29 @@ void loop() {
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{img/sensores_chkp_2.png}
-    \caption{Simulación Tinkercad Sensor de luz ambiental}
-    \label{fig:luz_ambiental}
+    \includegraphics[width=0.5\textwidth]{img/sensores_chkp_2.png}
+    \caption{Implementación en laboratorio: Estado de luz baja (LED rojo encendido) y camáras en funcionamiento (LED azul encendido)}
+    \label{fig:luz_ambiental_lab_estado_1}
+\end{figure}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{img/sensores_chkp_2_2.png}
+    \caption{Implementación en laboratorio: Estado de funcionamiento (LED rojo apagado) y camáras en funcionamiento (LED azul encendido)}
+    \label{fig:luz_ambiental_lab_estado_2}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{img/sensores_chkp_2_1.png}
-    \caption{Simulación Tinkercad Sensor de luz ambiental}
-    \label{fig:luz_ambiental}
+    \includegraphics[width=0.5\textwidth]{img/sensores_chkp_2_1.png}
+    \caption{Implementación en laboratorio: Estado de corte de energía/error (buzzer activo)}
+    \label{fig:luz_ambiental_lab_estado_3}
 \end{figure}
 
-% TODO: foto de la implementacion presencial en el laboratorio
+Para mayor detalle el funcionamiento de la experiencia, se puede consultar el siguiente enlace: \url{https://drive.google.com/file/d/1v76hk4pJjSoHVMHp4mmkme9ZRFEXyfd-/view?usp=drive_link}
+
+% DONE: foto de la implementacion presencial en el laboratorio
 
 \section{SENSORES - Cerradura inteligente}
 
@@ -118,12 +128,48 @@ La solución final se puede ver en la Figura \ref{fig:cerradura_smart}. En las s
 \section{SENSORES - Sistema de control de aforo}
 
 % DONE: Simulacion
+La presente experiencia de laboratorio tiene como objetivo implementar un sistema de control de aforo utilizando un sensor PIR (Passive Infrared Sensor) y un LCD. El sistema se basa en la detección de movimiento para contar el número de personas que ingresan a un área determinada. A continuación, se describen los componentes utilizados:
+
+\begin{itemize}
+    \item Arduino
+    \item Sensor PIR
+    \item Diodo LED verde
+    \item Diodo LED rojo
+    \item LCD 2x16
+\end{itemize}
+
+\subsection{Funcionamiento}
+
+El sensor de movimiento PIR es el encargado de detectar la presencia o movimiento de personas en la zona monitoreada. El sistema opera bajo dos modos principales, los cuales se ilustran en las Figuras \ref{fig:control_aforo_reposo} y \ref{fig:control_aforo_contando}.
+
+\begin{enumerate}
+    \item \textbf{Modo de Reposo:} Cuando no se detecta movimiento, el sistema entra en modo de reposo. En este estado, el LED verde se enciende y apaga de manera intermitente cada 200 ms, indicando que el sistema está activo y a la espera de detectar alguna incidencia. La Figura \ref{fig:control_aforo_reposo} muestra el sistema en este estado, con el LED verde parpadeando y el LCD indicando el modo de reposo.
+    
+    \item \textbf{Detección de Movimiento:} Al detectar movimiento en el área, el sistema apaga el LED verde y enciende el LED rojo, señalizando la presencia de una persona. Simultáneamente, el LCD muestra la cantidad de incidencias detectadas, por ejemplo: ``INCIDENCIAS 001''. Es importante destacar que el sistema implementa una lógica de temporización para evitar contar múltiples veces a la misma persona: si el movimiento persiste durante 500 ms, el contador no incrementa. Solo si, tras 5 segundos sin movimiento, se vuelve a detectar una nueva presencia, el contador incrementa nuevamente (por ejemplo, ``INCIDENCIAS 002''). La Figura \ref{fig:control_aforo_contando} ilustra el sistema durante la detección de movimiento, con el LED rojo encendido y el LCD mostrando el conteo de incidencias.
+    
+    \item \textbf{Retorno al modo de reposo:} Si el sistema deja de detectar movimiento, automáticamente retorna al modo de reposo, reanudando el parpadeo del LED verde y esperando nuevas incidencias.
+\end{enumerate}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{./img/ckpt_9_1.png}
+    \caption{Simulación Tinkercad: Estado de reposo (LED verde parpadeando, sistema activo)}
+    \label{fig:control_aforo_reposo}
+\end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.85\textwidth]{./img/ckpt_9.png}
-    \caption{Simulación Tinkercad Resultado final del sistema de control de aforo}
-    \label{fig:control_aforo}
+    \caption{Simulación Tinkercad: Estado de detección de movimiento (LED rojo encendido, pantalla contando incidencias)}
+    \label{fig:control_aforo_contando}
+\end{figure}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{./img/bloques_conteo_personas.png}
+    \caption{Diagrama de bloques del sistema de control de aforo}
+    \label{fig:bloques_conteo_personas}
 \end{figure}
 
 \begin{lstlisting}[style=cppstyle, caption={Código en C++ para el sistema de control de aforo.}, label={code:sensor_ambiental}]
