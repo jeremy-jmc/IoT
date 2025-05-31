@@ -1,0 +1,256 @@
+
+\section{MQTT - Instalacion del controlador para ESP32}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{./img/esp32_paso1.png}
+    \caption{ESP32 ...}
+    \label{fig:esp32_paso1}
+\end{figure}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{./img/esp32_paso2.png}
+    \caption{ESP32 ...}
+    \label{fig:esp32_paso2}
+\end{figure}
+
+\begin{lstlisting}[style=bashstyle, caption={Comandos de instalacion}, label={code:comandos}]
+pip3 install --user --upgrade pyserial
+python3 -c "import serial, sys; print('pyserial → OK', serial.__version__, sys.executable)"
+\end{lstlisting}
+
+\begin{lstlisting}[style=cppstyle, caption={Código LED de ESP32 parpadea}, label={code:name}]
+void setup() {
+  pinMode(LED_BUILTIN, OUTPUT);
+}
+void loop() {
+  digitalWrite(LED_BUILTIN, HIGH); delay(500);
+  digitalWrite(LED_BUILTIN, LOW);  delay(500);
+}
+\end{lstlisting}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{./img/luz_on_off.jpeg}
+    \caption{ESP32 ...}
+    \label{fig:esp32_on_off}
+\end{figure}
+
+% TODO
+% a. En el informe redactar guía básica de instalación que le haya resultado.
+% b. En caso de que haya tenido algún problema con la carga del código, contextualizar el problema y cómo lo solucionó.
+
+
+\section{MQTT - Implementación básica de sensor con ESP32}
+
+
+\begin{lstlisting}[style=bashstyle, caption={Comandos de instalacion}, label={code:comandos}]
+sudo apt-get update
+sudo apt install mosquitto
+sudo ufw allow 1883/tcp
+sudo systemctl status mosquitto
+sudo systemctl stop mosquitto
+\end{lstlisting}
+
+\begin{lstlisting}[style=txtstyle, caption={Comandos de instalacion}, label={code:comandos}]
+listener 1883
+allow_anonymous true
+\end{lstlisting}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{./img/mqtt_verificar.png}
+    \caption{Verificar instalación/ejecución de MQTT}
+    \label{fig:mqtt_verify_install}
+\end{figure}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{./img/mqtt_conf_exec.png}
+    \caption{Levantando el MQTT broker}
+    \label{fig:mqtt_broker}
+\end{figure}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{./img/mqtt_publicando.png}
+    \caption{Publicando desde ...}
+    \label{fig:mqtt_publish}
+\end{figure}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{./img/mqtt_suscribiendo.png}
+    \caption{Recibiendo desde ...}
+    \label{fig:mqtt_subscribe}
+\end{figure}
+
+\begin{lstlisting}[style=cppstyle, caption={Código funcional}, label={code:name}]
+/******************* CONFIGURA AQUÍ *******************/
+#define WIFI_SSID     "GalaxyS10+"
+#define WIFI_PASSWORD "sksg2586"
+#define MQTT_BROKER   "192.168.170.231"   // IP del PC con Mosquitto
+#define MQTT_PORT     1883
+#define MQTT_TOPIC    "iot/"
+/******************************************************/
+
+#include <WiFi.h>
+#include <PubSubClient.h>
+
+#define LDR_PIN 34        // GPIO del sensor LDR
+const int ADC_MAX = 4095;  // resolución de 12 bits (0-4095)
+
+WiFiClient espClient;
+PubSubClient mqtt(espClient);
+
+/******************* FUNCIONES *******************/
+void connectWiFi() {
+  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+  Serial.print("Conectando a Wi-Fi...");
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+  Serial.println("\n✅ Wi-Fi conectado: " + WiFi.localIP().toString());
+}
+
+void connectMQTT() {
+  while (!mqtt.connected()) {
+    Serial.print("Conectando a MQTT... ");
+    if (mqtt.connect("ESP32_LDR_Client")) {
+      Serial.println("✓ conectado");
+    } else {
+      Serial.printf("❌ fallo (rc=%d) - Reintentando en 2s\n", mqtt.state());
+      delay(2000);
+    }
+  }
+}
+
+/******************* SETUP *******************/
+void setup() {
+  Serial.begin(115200);
+  pinMode(LDR_PIN, INPUT);
+  analogReadResolution(12);  // 12 bits = 0-4095
+
+  connectWiFi();
+  mqtt.setServer(MQTT_BROKER, MQTT_PORT);
+  connectMQTT();
+}
+
+/******************* LOOP PRINCIPAL *******************/
+void loop() {
+  if (WiFi.status() != WL_CONNECTED) connectWiFi();
+  if (!mqtt.connected())             connectMQTT();
+  mqtt.loop();
+
+  int raw = analogRead(LDR_PIN);
+  float light_norm = raw / (float)ADC_MAX;
+
+  char payload[128];
+  snprintf(payload, sizeof(payload),
+           "{\"light_raw\": %u, \"light_norm\": %.3f}", raw, light_norm);
+
+  mqtt.publish(MQTT_TOPIC, payload);
+  Serial.println(String("📤 Publicado a ") + MQTT_TOPIC + ": " + payload);
+
+  delay(2000);  // esperar 10 segundos
+}
+\end{lstlisting}
+
+% TODO
+% Incluir capturas de las señales adquiridas y comunicadas.
+% Diagrama de bloques
+% Diagrama de ﬂujo
+
+\section{MQTT - Implementación con Sistema: Estación de Control Ambiental}
+
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{./img/estado_rojo.jpeg}
+    \caption{Estado rojo ...}
+    \label{fig:estado_rojo}
+\end{figure}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{./img/estado_verde.jpeg}
+    \caption{Estado verde ...}
+    \label{fig:estado_verde}
+\end{figure}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{./img/estado_azul.jpeg}
+    \caption{Estado azul ...}
+    \label{fig:estado_azul}
+\end{figure}
+
+\begin{lstlisting}[style=cppstyle, caption={Código funcional}, label={code:name}]
+/******************************************************************
+ * Estación Ambiental - LM35 + DHT11 usando SimpleDHT
+ * - Temperatura analógica (LM35)        → A0
+ * - Humedad digital    (DHT11)          → D2
+ * - Envío UART: "tempC_LM35,hum%\n"     → ESP32 RX2 (9600 baud)
+ ******************************************************************/
+#include <SimpleDHT.h>
+
+/* ---------- Pines ---------- */
+#define LM35_PIN A0        // salida analógica del LM35
+#define DHT_PIN  2         // pin DATA del DHT11 (10 kΩ pull-up a 5 V)
+
+SimpleDHT11 dht11(DHT_PIN);
+
+void setup() {
+  Serial.begin(115200);     // Monitor serial
+  Serial1.begin(9600);      // TX1 (pin 18) → ESP32 RX2 (GPIO 16)
+}
+
+void loop() {
+  /********** 1. Leer LM35 **********/
+  int rawLM35 = analogRead(LM35_PIN);          // ADC 10-bit
+  float tempC = rawLM35 * (5.0 / 1023.0) * 100.0;
+
+  Serial.print("LM35 ADC: "); Serial.print(rawLM35);
+  Serial.print(" → Temp: "); Serial.print(tempC, 1); Serial.println(" °C");
+
+  /********** 2. Leer DHT11 **********/
+  byte dhtTemp = 0, dhtHum = 0;
+  int err = dht11.read(&dhtTemp, &dhtHum, NULL);
+
+  if (err != SimpleDHTErrSuccess) {
+    Serial.print("[WARN] Error leyendo DHT11: ");
+    Serial.println(err);
+    delay(2000);
+    return;  // Saltar este ciclo si hay error
+  }
+
+  float humPct = (float)dhtHum;
+
+  Serial.print("Humedad: "); Serial.print(humPct, 0); Serial.println(" %");
+
+  /********** 3. Enviar por UART **********/
+  Serial1.print(tempC, 1);   Serial1.print(',');
+  Serial1.print(humPct, 0); Serial1.print('\n');
+
+  delay(2000);  // Tiempo mínimo entre lecturas
+}
+\end{lstlisting}
+
+% TODO
+% A. Mostrar los datos obtenidos desde el ESP en el monitor serial
+% B. El micro servo se acciona si se superan los umbrales definidos
+% C. El sistema debe responder en tiempo real
+% D. Grabar un video del funcionamiento
+% E. Presentar diagrama de ﬂujo y diagrama de bloques
+% F. Presentar al profesor el funcionamiento del sistema
+
