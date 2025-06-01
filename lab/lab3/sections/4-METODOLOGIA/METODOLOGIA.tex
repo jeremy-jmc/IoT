@@ -18,7 +18,7 @@
 
 \begin{lstlisting}[style=bashstyle, caption={Comandos de instalacion}, label={code:comandos}]
 pip3 install --user --upgrade pyserial
-python3 -c "import serial, sys; print('pyserial → OK', serial.__version__, sys.executable)"
+python3 -c "import serial, sys; print('pyserial -> OK', serial.__version__, sys.executable)"
 \end{lstlisting}
 
 \begin{lstlisting}[style=cppstyle, caption={Código LED de ESP32 parpadea}, label={code:name}]
@@ -93,7 +93,7 @@ allow_anonymous true
 \end{figure}
 
 \begin{lstlisting}[style=cppstyle, caption={Código funcional}, label={code:name}]
-/******************* CONFIGURA AQUÍ *******************/
+/******************* CONFIGURA AQUI *******************/
 #define WIFI_SSID     "GalaxyS10+"
 #define WIFI_PASSWORD "sksg2586"
 #define MQTT_BROKER   "192.168.170.231"   // IP del PC con Mosquitto
@@ -105,7 +105,7 @@ allow_anonymous true
 #include <PubSubClient.h>
 
 #define LDR_PIN 34        // GPIO del sensor LDR
-const int ADC_MAX = 4095;  // resolución de 12 bits (0-4095)
+const int ADC_MAX = 4095;  // resolucion de 12 bits (0-4095)
 
 WiFiClient espClient;
 PubSubClient mqtt(espClient);
@@ -118,16 +118,16 @@ void connectWiFi() {
     delay(500);
     Serial.print(".");
   }
-  Serial.println("\n✅ Wi-Fi conectado: " + WiFi.localIP().toString());
+  Serial.println("\n Wi-Fi conectado: " + WiFi.localIP().toString());
 }
 
 void connectMQTT() {
   while (!mqtt.connected()) {
     Serial.print("Conectando a MQTT... ");
     if (mqtt.connect("ESP32_LDR_Client")) {
-      Serial.println("✓ conectado");
+      Serial.println(" conectado");
     } else {
-      Serial.printf("❌ fallo (rc=%d) - Reintentando en 2s\n", mqtt.state());
+      Serial.printf(" fallo (rc=%d) - Reintentando en 2s\n", mqtt.state());
       delay(2000);
     }
   }
@@ -158,7 +158,7 @@ void loop() {
            "{\"light_raw\": %u, \"light_norm\": %.3f}", raw, light_norm);
 
   mqtt.publish(MQTT_TOPIC, payload);
-  Serial.println(String("📤 Publicado a ") + MQTT_TOPIC + ": " + payload);
+  Serial.println(String(" Publicado a ") + MQTT_TOPIC + ": " + payload);
 
   delay(2000);  // esperar 10 segundos
 }
@@ -198,22 +198,22 @@ void loop() {
 
 \begin{lstlisting}[style=cppstyle, caption={Código funcional}, label={code:name}]
 /******************************************************************
- * Estación Ambiental - LM35 + DHT11 usando SimpleDHT
- * - Temperatura analógica (LM35)        → A0
- * - Humedad digital    (DHT11)          → D2
- * - Envío UART: "tempC_LM35,hum%\n"     → ESP32 RX2 (9600 baud)
+ * Estacion Ambiental - LM35 + DHT11 usando SimpleDHT
+ * - Temperatura analogica (LM35)        -> A0
+ * - Humedad digital    (DHT11)          -> D2
+ * - Envio UART: "tempC_LM35,hum%\n"     -> ESP32 RX2 (9600 baud)
  ******************************************************************/
 #include <SimpleDHT.h>
 
 /* ---------- Pines ---------- */
-#define LM35_PIN A0        // salida analógica del LM35
-#define DHT_PIN  2         // pin DATA del DHT11 (10 kΩ pull-up a 5 V)
+#define LM35_PIN A0        // salida analogica del LM35
+#define DHT_PIN  2         // pin DATA del DHT11 (10 k$/ohm$ pull-up a 5 V)
 
 SimpleDHT11 dht11(DHT_PIN);
 
 void setup() {
   Serial.begin(115200);     // Monitor serial
-  Serial1.begin(9600);      // TX1 (pin 18) → ESP32 RX2 (GPIO 16)
+  Serial1.begin(9600);      // TX1 (pin 18) -> ESP32 RX2 (GPIO 16)
 }
 
 void loop() {
@@ -222,7 +222,7 @@ void loop() {
   float tempC = rawLM35 * (5.0 / 1023.0) * 100.0;
 
   Serial.print("LM35 ADC: "); Serial.print(rawLM35);
-  Serial.print(" → Temp: "); Serial.print(tempC, 1); Serial.println(" °C");
+  Serial.print(" -> Temp: "); Serial.print(tempC, 1); Serial.println(" C");
 
   /********** 2. Leer DHT11 **********/
   byte dhtTemp = 0, dhtHum = 0;
@@ -235,7 +235,7 @@ void loop() {
     return;  // Saltar este ciclo si hay error
   }
 
-  float humPct = (float)dhtHum;
+  float humPct = (float)dhtHum; 
 
   Serial.print("Humedad: "); Serial.print(humPct, 0); Serial.println(" %");
 
@@ -243,7 +243,7 @@ void loop() {
   Serial1.print(tempC, 1);   Serial1.print(',');
   Serial1.print(humPct, 0); Serial1.print('\n');
 
-  delay(2000);  // Tiempo mínimo entre lecturas
+  delay(2000);  // Tiempo minimo entre lecturas
 }
 \end{lstlisting}
 
