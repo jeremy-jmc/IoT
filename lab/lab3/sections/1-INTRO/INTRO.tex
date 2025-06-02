@@ -1,13 +1,14 @@
 \section{Objetivo General}
 
-OG
+Implementar un sistema de monitoreo y control ambiental que utilice un sensor de temperatura (LM35) conectado a un Arduino Mega, comunicándose mediante MQTT a través de un ESP32 con un broker Mosquitto, de manera que se recojan lecturas periódicas de temperatura, se publiquen en un topic MQTT y, al exceder un umbral crítico configurado en tiempo real, se activen mecanismos de alerta o respuesta (servo y LEDs) para mantener condiciones óptimas.
 
 \section{Objetivos Específicos}
 
 \begin{itemize}
-    \item OE1
-    \item OE2
-    \item OE3
+    \item OE1: Configurar y conectar el sensor de temperatura LM35 al Arduino Mega, realizando la lectura analógica y envío de datos por UART hacia el ESP32.
+    \item OE2: Instalar y poner en funcionamiento el broker Mosquitto en un equipo local, y programar el ESP32 para conectarse a la red Wi-Fi, suscribirse y publicar mensajes MQTT con las lecturas de temperatura recibidas por UART.
+    \item OE3: Desarrollar la lógica de control mediante Arduino Mega y ESP32 para que, al superar el umbral de temperatura definido con un potenciómetro, el sistema active un microservo y encienda el LED rojo como señal de alarma, permitiendo asimismo la visualización de datos en el monitor serial MQTT.
 \end{itemize}
+
 
 % TODO: Completar
