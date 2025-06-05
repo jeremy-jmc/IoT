@@ -1,0 +1,19 @@
+\section{Conclusiones}
+
+El presente laboratorio tiene como objetivo la implementación de un sistema de monitoreo ambiental utilizando el protocolo MQTT para la comunicación entre un Arduino Mega y un ESP32. A lo largo del proceso se configuraron diversos componentes como sensores de temperatura LM35, sensores de humedad DHT11 y actuadores como un micro servo, todo ello gestionado a través de un broker MQTT instalado en un entorno local.
+
+\begin{itemize}
+    \item \textbf{Instalación y Configuración del Sistema:} La instalación del entorno de desarrollo en Arduino Uno, junto con la configuración del ESP32, fue exitosa después de la instalación de las bibliotecas necesarias, como \texttt{pyserial}, para la correcta comunicación serial. La implementación de MQTT a través del broker Mosquitto en la máquina local permitió establecer la comunicación eficiente entre el sensor y el servidor, cumpliendo con los objetivos iniciales del laboratorio.
+
+    \item \textbf{Publicación y Recepción de Datos:} A través de la conexión Wi-Fi del ESP32, los datos obtenidos de los sensores LM35 y DHT11 fueron publicados en un topic MQTT. La verificación de la recepción de estos datos fue exitosa, tal como se observa en los resultados del monitoreo serial, con datos como la temperatura y la humedad siendo enviadas y recibidas en tiempo real.
+
+    \item \textbf{Control Ambiental con Actuadores:} La lógica de control implementada, que activa un servo y un LED rojo en caso de superar los umbrales de temperatura o humedad, funcionó correctamente. Este control permitió simular un sistema de alerta en tiempo real, en el que, al detectar valores anómalos, el sistema responde adecuadamente, activando el actuador correspondiente.
+
+    \item \textbf{Escalabilidad y Flexibilidad del Protocolo MQTT:} El uso de MQTT ha demostrado ser una solución eficiente y escalable para la implementación de sistemas IoT. La arquitectura basada en publicación y suscripción permitió una fácil integración de nuevos dispositivos y la ampliación del sistema, sin complicaciones en la gestión de recursos ni la sincronización de los dispositivos.
+    
+    \item \textbf{Desafíos y Soluciones:} Durante la implementación, se enfrentaron algunos desafíos relacionados con la conexión de los dispositivos al broker MQTT, lo que se solucionó configurando correctamente el puerto de comunicación y asegurando la conexión continua entre los nodos. Además, fue necesario realizar ajustes en la configuración de los sensores y el entorno de desarrollo para obtener resultados precisos.
+
+    \item \textbf{Recomendaciones:} Se recomienda realizar pruebas adicionales utilizando más sensores y ampliando las capacidades del sistema, como integrar más tipos de sensores ambientales (por ejemplo, CO2 o presión) y ampliar el rango de control en el sistema de alerta. Además, para mejorar la robustez del sistema, se podrían implementar medidas de seguridad adicionales en la comunicación, como cifrado TLS para la transmisión de datos sensibles.
+\end{itemize}
+
+En conclusión, el laboratorio permitió consolidar el conocimiento sobre el protocolo MQTT y su aplicación en sistemas IoT, además de proporcionar experiencia práctica en la integración de sensores y actuadores para monitoreo y control en tiempo real.
