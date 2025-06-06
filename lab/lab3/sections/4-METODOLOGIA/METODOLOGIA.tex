@@ -158,6 +158,19 @@ Como se puede ver en la imagen \ref{fig:mqtt_verify_install}, se verificó la in
     \caption{Recibiendo los datos desde el broker MQTT.}
     \label{fig:mqtt_subscribe}
 \end{figure}
+Finalmente, se comparte los diagramas de flujo \ref{fig:Diagrama_flujo_4_2} y diagramas de bloques \ref{fig:Diagrama_bloques_4_2} de la solucion implementada.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.3\textwidth]{./img/Diagrama_flujo_4_2.png}
+    \caption{Diagrama de flujo de la solucion MQTT}
+    \label{fig:Diagrama_flujo_4_2}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{./img/Diagrama_bloques_4_2.png}
+    \caption{Diagrama de bloques de la solucion MQTT}
+    \label{fig:Diagrama_bloques_4_2}
+\end{figure}
 
 \section{MQTT - Implementación con Sistema: Estación de Control Ambiental}
 
@@ -204,7 +217,7 @@ Como se puede observar en la imagen \ref{fig:estado_rojo}, el sistema muestra un
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{./img/estado_verde.jpeg}
+    \includegraphics[width=0.3\textwidth]{./img/estado_verde.jpeg}
     \caption{Estado verde: Condiciones ambientales normales.}
     \label{fig:estado_verde}
 \end{figure}
@@ -266,3 +279,18 @@ void loop() {
   delay(2000);  // Tiempo minimo entre lecturas
 }
 \end{lstlisting}
+Finalmente se adjuntan los diagramas de flujo y bloques para las solucion planteada para el control de ambiente.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{./img/Diagrama_flujo_4_3.png}
+    \caption{Diagrama de flujo para el control ambiental}
+    \label{fig:Diagrama_flujo_4_3}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{./img/Diagrama_bloque_4_3.png}
+    \caption{Diagrama de bloques para el control ambiental}
+    \label{fig:Diagrama_bloque_4_3}
+\end{figure}
