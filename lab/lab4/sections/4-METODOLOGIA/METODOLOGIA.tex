@@ -1,0 +1,76 @@
+\section{Checkpoint 1 ...}
+
+Descripcion de la experiencia de laboratorio ...
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{./img/esp32_paso1.png}
+    \caption{Agregando la librería de ESP32 a los board managers de Arduino Uno.}
+    \label{fig:esp32_paso1}
+\end{figure}
+
+\begin{lstlisting}[style=bashstyle]
+sudo apt-get update
+sudo apt install mosquitto
+sudo ufw allow 1883/tcp
+sudo systemctl status mosquitto
+sudo systemctl stop mosquitto
+\end{lstlisting}
+
+
+\begin{lstlisting}[style=cppstyle]
+#define WIFI_SSID     "GalaxyS10+"
+#define WIFI_PASSWORD "sksg2586"
+#define MQTT_BROKER   "192.168.170.231"   // IP del PC con Mosquitto
+#define MQTT_PORT     1883
+#define MQTT_TOPIC    "iot/"
+
+#include <WiFi.h>
+#include <PubSubClient.h>
+
+#define LDR_PIN 34        // GPIO del sensor LDR
+const int ADC_MAX = 4095;  // resolucion de 12 bits (0-4095)
+
+WiFiClient espClient;
+PubSubClient mqtt(espClient);
+
+void connectWiFi() {
+  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+  }
+}
+
+void connectMQTT() {
+  while (!mqtt.connected()) {
+    if (mqtt.connect("ESP32_LDR_Client")) {
+    } else {
+      delay(2000);
+    }
+  }
+}
+
+void setup() {
+  Serial.begin(115200);
+  pinMode(LDR_PIN, INPUT);
+  analogReadResolution(12);  // 12 bits = 0-4095
+  connectWiFi();
+  mqtt.setServer(MQTT_BROKER, MQTT_PORT);
+  connectMQTT();
+}
+
+void loop() {
+  if (WiFi.status() != WL_CONNECTED) connectWiFi();
+  if (!mqtt.connected()) connectMQTT();
+  mqtt.loop();
+
+  int raw = analogRead(LDR_PIN);
+  float light_norm = raw / (float)ADC_MAX;
+
+  char payload[128];
+  snprintf(payload, sizeof(payload), "{\"light_raw\": %u, \"light_norm\": %.3f}", raw, light_norm);
+
+  mqtt.publish(MQTT_TOPIC, payload);
+  delay(2000);
+}
+\end{lstlisting}
