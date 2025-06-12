@@ -267,6 +267,50 @@ Ante esta problemática, surge la necesidad de desarrollar soluciones tecnológi
 
 % ENTREGA 1
 % TODO: a. Lista de componentes
+
+\subsection{Lista de componentes}
+
+\subsubsection{Módulo MPU6050: Acelerómetro y giroscopio I2C}
+
+\textbf{Función:} Medir la inclinación de la espalda mediante la detección de movimientos y rotaciones. \\
+\textbf{Cantidad:} 1
+
+\subsubsection{ESP32 DEVKIT V1 - NodeMCU 32 30-pin}
+
+\textbf{Función:} Microcontrolador que se utilizará para procesar los datos del sensor y enviar la información de forma inalámbrica a la aplicación o servidor. \\
+\textbf{Cantidad:} 2
+
+\subsubsection{Pulsioxímetro MAX30102}
+
+\textbf{Función:} Medir el nivel de oxigenación en sangre y la frecuencia del pulso. \\
+\textbf{Cantidad:} 1
+
+\subsubsection{Módulo Cargador de batería litio TP4056 con protección USB-C}
+
+\textbf{Función:} Cargar la batería del dispositivo wearable. \\
+\textbf{Cantidad:} 1
+
+\subsubsection{Batería Plana 3.7V 450mAh 502040}
+
+\textbf{Función:} Fuente de energía para los wearables. \\
+\textbf{Cantidad:} 2
+
+\subsubsection{Cable Jumper Dupont hembra a macho 10cm}
+
+\textbf{Función:} Conectar los sensores y otros componentes al microcontrolador. \\
+\textbf{Cantidad:} 1
+
+\subsubsection{Módulo Buzzer Pasivo MH-FMD}
+
+\textbf{Función:} Generar una alerta sonora en el dispositivo wearable para avisar al usuario sobre ciertos eventos. \\
+\textbf{Cantidad:} 1
+
+\subsubsection{Microcontrolador a usar}
+
+El ESP32 se utilizará como el microcontrolador central del proyecto, encargado de procesar la información recibida de los sensores (MPU6050 y MAX30102), realizar los cálculos necesarios (como la inclinación de la espalda y el nivel de oxigenación/pulso), y enviar los datos a un servidor o dispositivo móvil a través de conexión Wi-Fi o Bluetooth.
+
+Alguna de sus características claves son: Conectividad Wi-Fi y Bluetooth incorporada, compatibilidad con Arduino IDE y otros entornos de desarrollo, bajo consumo de energía para aplicaciones portátiles, entre muchos otros.
+
 % TODO: b. Microcontrolador a usar
 % TODO: c. Diagrama de bloques del sistema propuesto
 
@@ -276,6 +320,30 @@ Ante esta problemática, surge la necesidad de desarrollar soluciones tecnológi
 
 
 \section{Objetivos y Alcances}
+
+\begin{itemize}
+    \item \textbf{Objetivo General:} Desarrollar dos dispositivos wearables para medir la inclinación de la espalda y los niveles de oxigenación y pulso en tiempo real, utilizando sensores y tecnología IoT.
+    
+    \item \textbf{Objetivos Específicos:}
+    \begin{itemize}
+        \item Diseñar el circuito electrónico para medir la inclinación de la espalda utilizando el módulo MPU6050.
+        \item Integrar el pulsioxímetro MAX30102 para medir el nivel de oxigenación en sangre y la frecuencia cardíaca del usuario.
+        \item Desarrollar el firmware para el microcontrolador ESP32, encargado de procesar los datos de los sensores y enviarlos de manera inalámbrica.
+        \item Construir una aplicación móvil que permita visualizar en tiempo real los datos obtenidos por los dispositivos wearables.
+        \item Implementar una interfaz de usuario en la aplicación para la visualización de datos de inclinación, oxigenación y pulso.
+        \item Garantizar la autonomía del dispositivo wearable mediante el uso de una batería recargable de litio, gestionada por un módulo TP4056.
+        \item Incorporar una alerta sonora utilizando el buzzer para notificar al usuario sobre cambios importantes en los parámetros monitoreados.
+    \end{itemize}
+
+    \item \textbf{Alcances y limitaciones:}
+
+
+    El alcance principal de este proyecto es proporcionar una solución en tiempo real para la medición y visualización de la inclinación de la espalda y los niveles de oxigenación y pulso. La visualización de los datos obtenidos de los dispositivos wearables se llevará a cabo únicamente cuando la aplicación esté abierta y en primer plano. En este sentido, la aplicación se encargará de mostrar los datos de manera activa mientras el usuario la esté utilizando, lo que permitirá un monitoreo constante de las variables de interés. Sin embargo, en este primer ciclo de desarrollo, no se contempla la capacidad de la aplicación para realizar un seguimiento de los datos cuando se encuentre en segundo plano, lo que limita la funcionalidad en cuanto a la gestión y almacenamiento continuo de la información.
+
+Para una segunda iteración del proyecto, se plantea como objetivo la implementación de una funcionalidad adicional que permita a la aplicación almacenar y acceder a los datos históricos incluso cuando esté en segundo plano. Esto permitirá a los usuarios visualizar el historial de datos registrados en sesiones anteriores y realizar un análisis más detallado de su progreso a lo largo del tiempo. Además, se buscará optimizar la gestión de la memoria y el almacenamiento local para asegurar que los datos puedan ser guardados de manera eficiente y sin afectar el rendimiento general de la aplicación, incluso cuando no esté en uso activo.
+
+    
+\end{itemize}
 
 % TODO: ENTREGA 1 -> Los alcances deﬁnen las limitaciones del proyecto
 
