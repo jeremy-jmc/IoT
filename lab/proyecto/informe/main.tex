@@ -219,9 +219,25 @@ Ante esta problemática, surge la necesidad de desarrollar soluciones tecnológi
 
 \section{Marco Te\'orico}
 
-La vida sedentaria y sus efectos sobre la salud han sido ampliamente estudiados. Investigaciones indican que pasar largas horas en posiciones estáticas, especialmente frente a pantallas de computadoras o dispositivos móviles, conduce a la fatiga muscular y al deterioro de la postura. Además, el desequilibrio muscular causado por la inactividad contribuye a enfermedades como el dolor lumbar y trastornos musculoesqueléticos. En este contexto, el monitoreo de la postura y la integración de tecnología en dispositivos wearables ofrecen una solución potencial. 
+\subsection{Internet de las Cosas (IoT)}
+En términos generales, el Internet de las Cosas se entiende como la interconexión de objetos físicos provistos de sensores, capacidad de procesamiento y conectividad de red, los cuales pueden intercambiar datos sin intervención humana directa. Esta noción suele representarse mediante una arquitectura de tres capas: \textit{percepción}, \textit{red} y \textit{aplicación}. Cada capa cumple un rol específico: la primera captura señales del entorno; la segunda las transporta, y la tercera las procesa y presenta al usuario. \cite{kitrum2023}
 
-El uso de sensores de inclinación y pulsioxímetros en dispositivos portátiles permite una medición precisa en tiempo real, lo que posibilita la corrección de la postura y la detección temprana de alteraciones en los parámetros de salud. Las tecnologías más comunes utilizadas para medir la inclinación son los acelerómetros y giroscopios, mientras que los pulsioxímetros se utilizan para evaluar los niveles de oxigenación y pulso, variables cruciales en el monitoreo de la salud cardiovascular.
+\subsection{Aplicaciones de los wearables en salud}
+Los dispositivos vestibles amplían el paradigma IoT hacia el cuerpo humano. En salud preventiva, permiten monitorear variables fisiológicas y biomecánicas de forma continua, facilitando la detección temprana de riesgo postural, fatiga o hipoxemia. Estudios recientes demuestran que los sensores inerciales integrados en prendas o cinturones alcanzan precisiones superiores al 90\% en la clasificación de posturas de la columna, mientras que los pulsioxímetros ópticos añaden contexto sobre la condición cardiorrespiratoria del usuario.
+
+\subsection{Microcontrolador ESP32 DEVKIT V1}
+El núcleo del dispositivo es el ESP32, un SoC de doble procesador Xtensa LX6 a 240 MHz que incorpora 520 kB de SRAM, Wi-Fi 802.11 b/g/n (hasta 150 Mb/s) y Bluetooth clásico/BLE. Entre sus ventajas destaca el modo \emph{deep-sleep} —menor a 10 µA—, esencial para prolongar la autonomía en aplicaciones portátiles. Adicionalmente, la plataforma dispone de aceleradores criptográficos (AES, SHA-2, RSA) y de funciones de arranque seguro y cifrado de memoria flash, lo que fortalece la protección de firmware y de datos biométricos.
+
+\subsection{Sensores de adquisición de datos}
+
+\subsubsection{Sensor inercial MPU6050}
+El MPU6050 unifica en un solo encapsulado un acelerómetro y un giroscopio de tres ejes con convertidores A/D de 16 bits. Gracias a su bus I²C y a la posibilidad de fusionar datos mediante filtros complementarios o de Kalman, el módulo permite estimar la orientación (pitch, roll, yaw) con la precisión necesaria para detectar desviaciones posturales en tiempo real.
+
+\subsubsection{Fotopletismografía y Pulsioxímetro MAX30102}
+La fotopletismografía (PPG) aprovecha la absorción diferencial de luz en el tejido para inferir cambios en el volumen sanguíneo. El MAX30102 integra LEDs rojo (660 nm) e infrarrojo (880 nm) junto con un fotodiodo y electrónica de rechazo de luz ambiente. Mediante la relación entre las señales AC y DC en ambos canales se calcula la saturación de oxígeno (SpO${_2}$), mientras que la periodicidad de la señal pulsátil revela la frecuencia cardíaca.
+
+\subsection{Gestión energética y protección}
+A fin de garantizar autonomía y seguridad, el sistema emplea una batería plana de 3,7 V / 450 mAh junto con el cargador TP4056, el cual implementa carga CC/CV a 1 A y un circuito DW01A que protege frente a sobrecarga, sobredescarga y cortocircuitos. Este conjunto extiende la vida útil de la batería y mitiga riesgos térmicos o eléctricos propios de plataformas portátiles. 
 
 \section{Estado del Arte}
 
@@ -309,17 +325,20 @@ Se recopilaron y analizaron datos de múltiples estudios controlados aleatorios 
 \textbf{Resultados:} \\
 El meta-análisis reveló que los dispositivos portátiles fueron efectivos para reducir el tiempo sedentario y el tiempo de sentado prolongado, con una reducción promedio del 15-20\% en ambos. Los resultados sugieren que los wearables son herramientas útiles para promover la actividad física y mejorar los hábitos posturales, especialmente en poblaciones adultas.
 
-\subsection{Wearable Technology Assesses Surgeons' Posture During Surgery}
-\textbf{Referencia:} Baylor College of Medicine (2024) \cite{baylor2024wearable}\\
+\subsection{Resumen del Artículo: Sistema de Detección y Corrección de la Postura de Cabeza Adelantada en Tiempo Real Utilizando un Sensor de Unidad de Medición Inercial \cite{park2024real}}
 
-\textbf{¿Qué propusieron?} \\
-Este estudio exploró el uso de tecnología portátil para evaluar la postura de los cirujanos durante procedimientos quirúrgicos prolongados. El objetivo era proporcionar una herramienta objetiva para monitorear las posturas y promover prácticas ergonómicas para prevenir trastornos musculoesqueléticos en los cirujanos.
+\subsection*{¿Qué hicieron?}
 
-\textbf{¿Cómo lo hicieron?} \\
-Equiparon a los cirujanos con sensores portátiles que medían la postura y los movimientos durante las cirugías. Los sensores registraron datos en tiempo real que fueron analizados para evaluar las posturas durante el procedimiento quirúrgico. El sistema también proporcionó retroalimentación sobre las posturas y sugirió correcciones.
+El estudio propuso un sistema en tiempo real para detectar y corregir la postura de cabeza adelantada (FHP, por sus siglas en inglés), un defecto postural comúnmente asociado con el dolor de cuello y una mala alineación espinal. El sistema utiliza un solo sensor de Unidad de Medición Inercial (IMU) que se coloca en el cuerpo del usuario para medir los cambios en la postura que podrían indicar el inicio de la FHP. El objetivo principal era proporcionar retroalimentación personalizada en tiempo real al usuario, alertándolo sobre la mala postura y guiándolo hacia una mejor alineación.
 
-\textbf{Resultados:} \\
-Los resultados mostraron que los sensores portátiles podían proporcionar datos precisos sobre las posturas de los cirujanos, identificando posturas que podrían contribuir a lesiones. El sistema fue efectivo para ofrecer retroalimentación en tiempo real y mejorar la ergonomía durante las cirugías.
+\subsection*{¿Cómo lo hicieron?}
+
+Los investigadores colocaron el sensor IMU en la columna cervical de los participantes y recolectaron datos en tiempo real sobre su postura del cuello. Usaron estos datos para determinar el Ángulo Cráneo-Vertebral (CVA), que es un indicador clave de la FHP. Se estableció un CVA base para cada participante y las desviaciones de esta base activaban alertas si el participante mantenía una mala postura durante más de 10 segundos. El sistema proporcionaba retroalimentación visual inmediata a través de una interfaz de usuario para fomentar la corrección de la postura. Se realizaron experimentos en un entorno controlado similar a una oficina con diez participantes masculinos, y se evaluó la capacidad del sistema para detectar y corregir la FHP.
+
+\subsection*{¿Cuáles fueron los resultados?}
+
+Los resultados mostraron que el sistema fue efectivo para detectar la transición a la FHP, con un retraso de menos de 0.5 segundos. El sistema alertó con éxito a los participantes para que mantuvieran la postura correcta, lo que llevó a un aumento en su ángulo cráneo-vertebral (CVA) promedio. El sistema fue personalizado para cada participante, teniendo en cuenta sus condiciones físicas individuales. Cuando se proporcionó retroalimentación en tiempo real, los participantes mejoraron significativamente su postura, con un aumento promedio en su CVA de aproximadamente 3 a 5°. El sistema demostró un gran potencial para su aplicación en entornos donde los usuarios permanecen sedentarios por largos períodos, como el trabajo de oficina o el estudio.
+
 
 \section{Metodología}
 
