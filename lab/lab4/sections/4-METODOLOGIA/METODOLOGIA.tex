@@ -1,79 +1,80 @@
-\section{Introducción a Comunicacion LoRa (Comandos AT)}
+\section{Introducción a Comunicación LoRa (Comandos AT)}
+
+La comunicación LoRa (Long Range) es una tecnología que permite la transmisión de datos a larga distancia con un bajo consumo de energía. Para la configuración de los dispositivos LoRa, como el RAK3172S, se utilizan comandos AT, los cuales permiten configurar parámetros como la frecuencia de operación, el modo de comunicación y otros ajustes esenciales.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.85\textwidth]{./img/AT_command.png}
-    \caption{...}
+    \caption{Ejecución de comandos AT en el dispositivo RAK3172S}
     \label{fig:at_command}
 \end{figure}
 
 % TODO: desarrollo de la experiencia
 
+\section{Carga de Código de Prueba a RAK3172S}
 
-\section{Carga de Codigo de Prueba a RAK3172S}
+El código de prueba para el dispositivo RAK3172S fue cargado a través del IDE de Arduino, lo que permitió verificar la funcionalidad básica del dispositivo en cuanto a la comunicación y ejecución de comandos AT.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.85\textwidth]{./img/codigo_prueba.png}
-    \caption{...}
+    \caption{Captura de pantalla mostrando la carga del código de prueba en RAK3172S}
     \label{fig:codigo_prueba}
 \end{figure}
 
 % TODO: desarrollo de la experiencia
 
-\section{Implementacion del sistema de comunicacion P2P con LoRa}
-
+\section{Implementación del sistema de comunicación P2P con LoRa}
 
 \subsection{Transmisor}
+
+Para la implementación de la comunicación P2P con LoRa, se configuraron dos dispositivos RAK3272S, uno como transmisor y otro como receptor. En el siguiente diagrama se muestran las conexiones y la implementación del transmisor.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.85\textwidth]{./img/transmisor_setup.png}
-    \caption{...}
+    \caption{Configuración del transmisor RAK3172S}
     \label{fig:transmisor_setup}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.85\textwidth]{./img/transmisor.jpg}
-    \caption{...}
+    \caption{Montaje del transmisor RAK3172S}
     \label{fig:transmisor_impl}
 \end{figure}
-
-
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.85\textwidth]{./img/transmisor_envio_mnsjs.png}
-    \caption{...}
+    \caption{Envío de mensaje LoRa desde el transmisor}
     \label{fig:transmisor_envio_mnsjs}
 \end{figure}
 
-
 \subsection{Receptor}
+
+El receptor RAK3272S está configurado para recibir los mensajes enviados por el transmisor. A continuación se describe el proceso de recepción de mensajes LoRa.
 
 % TODO: Receptor
 % TODO: desarrollo de la experiencia
 
+\section{Implementación del sistema de comunicación P2P con LoRa, integrado con Arduino y un sensor}
 
-\section{Implementacion del sistema de comunicacion P2P con LoRa, integrado con Arduino y un sensor}
-
+En esta etapa, se utilizó un sensor (MQ2) conectado al Arduino MEGA. Los datos del sensor fueron enviados al módulo RAK3272S a través de la comunicación UART.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.85\textwidth]{./img/emisor_arduino.jpg}
-    \caption{...}
+    \caption{Montaje del Arduino MEGA con el sensor MQ2}
     \label{fig:emisor_arduino}
 \end{figure}
-
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.85\textwidth]{./img/receptor_arduino.jpg}
-    \caption{...}
+    \caption{Montaje del receptor Arduino conectado al RAK3272S}
     \label{fig:receptor_arduino}
 \end{figure}
-
 
 \begin{lstlisting}[style=cppstyle]
 #define SENSOR_PIN A0       // Pin del sensor
@@ -124,10 +125,12 @@ void loop() {
 
 \section{Sistema IoT de alerta de fuga de gas}
 
+En esta sección se implementa un sistema IoT para la detección de fugas de gas. El sistema está compuesto por un módulo detector y un módulo de alerta. A continuación, se muestra la implementación del módulo detector.
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.85\textwidth]{./img/fuga_gas_impl.jpg}
-    \caption{...}
+    \caption{Implementación del módulo detector de fugas de gas}
     \label{fig:fuga_gas_impl}
 \end{figure}
 
