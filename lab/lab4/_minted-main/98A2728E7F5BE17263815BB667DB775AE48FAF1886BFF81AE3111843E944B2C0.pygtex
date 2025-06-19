@@ -1,0 +1,28 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+      flowchart TD
+      subgraph Módulo Detector
+      MQ2[Sensor de gas MQ2]
+      LM35[Sensor de temperatura LM35]
+      ARDUINO[Arduino MEGA 2560]
+      LED\PYGZus{}R[LED Rojo]
+      LED\PYGZus{}A[LED Azul]
+      BUZZER[Buzzer]
+      SERVO[Servo Motor]
+      RAK\PYGZus{}TX[RAK3272S \PYGZhy{} Transmisor]
+
+      MQ2 \PYGZhy{}\PYGZhy{}\PYGZgt{} ARDUINO
+      LM35 \PYGZhy{}\PYGZhy{}\PYGZgt{} ARDUINO
+      ARDUINO \PYGZhy{}\PYGZhy{}\PYGZgt{} LED\PYGZus{}R
+      ARDUINO \PYGZhy{}\PYGZhy{}\PYGZgt{} LED\PYGZus{}A
+      ARDUINO \PYGZhy{}\PYGZhy{}\PYGZgt{} BUZZER
+      ARDUINO \PYGZhy{}\PYGZhy{}\PYGZgt{} SERVO
+      ARDUINO \PYGZhy{}\PYGZhy{}\PYGZgt{} RAK\PYGZus{}TX
+      end
+
+      subgraph Módulo Alerta
+      RAK\PYGZus{}RX[RAK3272S \PYGZhy{} Receptor]
+      PC[Terminal Serial en PC]
+      RAK\PYGZus{}RX \PYGZhy{}\PYGZhy{}\PYGZgt{} PC
+      end
+
+\end{Verbatim}

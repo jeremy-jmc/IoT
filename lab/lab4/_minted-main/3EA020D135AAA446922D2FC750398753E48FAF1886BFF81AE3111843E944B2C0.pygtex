@@ -1,0 +1,18 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+    flowchart TD
+    START([Inicio])
+    TEMP[Leer temperatura]
+    GAS[Leer concentración de gas]
+    TEMP\PYGZus{}ALT\PYGZob{}¿Temp \PYGZgt{} 50°C?\PYGZcb{}
+    GAS\PYGZus{}ALT\PYGZob{}¿Gas \PYGZgt{} 80 ppm?\PYGZcb{}
+    ALARM\PYGZus{}TEMP[Activar LED rojo y buzzer (500ms ON / 1s OFF)]
+    ALARM\PYGZus{}GAS[Activar LED azul, buzzer (1.5s ON / 1s OFF), y servo 0°→180°]
+    ENVIAR[Enviar mensaje por LoRa]
+    ESPERAR[Esperar y repetir]
+
+    START \PYGZhy{}\PYGZhy{}\PYGZgt{} TEMP \PYGZhy{}\PYGZhy{}\PYGZgt{} GAS \PYGZhy{}\PYGZhy{}\PYGZgt{} TEMP\PYGZus{}ALT
+    TEMP\PYGZus{}ALT \PYGZhy{}\PYGZhy{} Sí \PYGZhy{}\PYGZhy{}\PYGZgt{} ALARM\PYGZus{}TEMP \PYGZhy{}\PYGZhy{}\PYGZgt{} ENVIAR \PYGZhy{}\PYGZhy{}\PYGZgt{} ESPERAR
+    TEMP\PYGZus{}ALT \PYGZhy{}\PYGZhy{} No \PYGZhy{}\PYGZhy{}\PYGZgt{} GAS\PYGZus{}ALT
+    GAS\PYGZus{}ALT \PYGZhy{}\PYGZhy{} Sí \PYGZhy{}\PYGZhy{}\PYGZgt{} ALARM\PYGZus{}GAS \PYGZhy{}\PYGZhy{}\PYGZgt{} ENVIAR \PYGZhy{}\PYGZhy{}\PYGZgt{} ESPERAR
+    GAS\PYGZus{}ALT \PYGZhy{}\PYGZhy{} No \PYGZhy{}\PYGZhy{}\PYGZgt{} ESPERAR
+\end{Verbatim}

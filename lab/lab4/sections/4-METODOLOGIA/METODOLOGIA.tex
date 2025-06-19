@@ -83,23 +83,23 @@ En esta etapa, se utilizó un sensor (MQ2) conectado al Arduino MEGA. Los datos 
 #define BAUD_RAK 115200     // Velocidad del RAK3172
 
 void setup() {
-  Serial.begin(BAUD_PC);    // Comunicación con la PC
-  RAK.begin(BAUD_RAK);      // Comunicación con el RAK3172
+  Serial.begin(BAUD_PC);    // Comunicacion con la PC
+  RAK.begin(BAUD_RAK);      // Comunicacion con el RAK3172
   delay(1000);
-  Serial.println("Inicio de transmisión LoRa con datos del sensor...");
+  Serial.println("Inicio de transmision LoRa con datos del sensor...");
 }
 
 void loop() {
   int sensorValue = analogRead(SENSOR_PIN);  // Lectura (0 a 1023)
-  Serial.print("Valor leído del sensor: ");
+  Serial.print("Valor leido del sensor: ");
   Serial.println(sensorValue);
 
-  // Convertir a hexadecimal y rellenar a 4 dígitos con ceros
+  // Convertir a hexadecimal y rellenar a 4 digitos con ceros
   String mensajeHex = String(sensorValue, HEX);
   while (mensajeHex.length() < 4) {
     mensajeHex = "0" + mensajeHex;
   }
-  mensajeHex.toUpperCase();  // Opcional: para mantener todo en mayúsculas
+  mensajeHex.toUpperCase();  // Opcional: para mantener todo en mayusculas
 
   // Enviar comando AT+PSEND=XXXX
   String comando = "AT+PSEND=" + mensajeHex + "\r\n";
@@ -139,4 +139,61 @@ En esta sección se implementa un sistema IoT para la detección de fugas de gas
 % TODO: Los sistemas deben estar conectados a laptops diferentes, a fin de demostrar la comunicación inalámbrica.
 % TODO: Diagrama de bloques y diagrama de flujo (en clase).
 % TODO: Tomar fotos y grabar videos del funcionamiento para su informe.
+  
+\begin{figure}[H]
+    \centering
+    \begin{minted}[fontsize=\small]{text}
+    flowchart TD
+    START([Inicio])
+    TEMP[Leer temperatura]
+    GAS[Leer concentración de gas]
+    TEMP_ALT{¿Temp > 50°C?}
+    GAS_ALT{¿Gas > 80 ppm?}
+    ALARM_TEMP[Activar LED rojo y buzzer (500ms ON / 1s OFF)]
+    ALARM_GAS[Activar LED azul, buzzer (1.5s ON / 1s OFF), y servo 0°→180°]
+    ENVIAR[Enviar mensaje por LoRa]
+    ESPERAR[Esperar y repetir]
 
+    START --> TEMP --> GAS --> TEMP_ALT
+    TEMP_ALT -- Sí --> ALARM_TEMP --> ENVIAR --> ESPERAR
+    TEMP_ALT -- No --> GAS_ALT
+    GAS_ALT -- Sí --> ALARM_GAS --> ENVIAR --> ESPERAR
+    GAS_ALT -- No --> ESPERAR
+    \end{minted}
+    \caption{Diagrama de flujo del sistema de detección y respuesta}
+    \label{fig:bloques_fuga}
+  \end{figure}
+  
+  \begin{figure}[H]
+    \centering
+    \begin{minted}[fontsize=\small]{text}
+      flowchart TD
+      subgraph Módulo Detector
+      MQ2[Sensor de gas MQ2]
+      LM35[Sensor de temperatura LM35]
+      ARDUINO[Arduino MEGA 2560]
+      LED_R[LED Rojo]
+      LED_A[LED Azul]
+      BUZZER[Buzzer]
+      SERVO[Servo Motor]
+      RAK_TX[RAK3272S - Transmisor]
+      
+      MQ2 --> ARDUINO
+      LM35 --> ARDUINO
+      ARDUINO --> LED_R
+      ARDUINO --> LED_A
+      ARDUINO --> BUZZER
+      ARDUINO --> SERVO
+      ARDUINO --> RAK_TX
+      end
+      
+      subgraph Módulo Alerta
+      RAK_RX[RAK3272S - Receptor]
+      PC[Terminal Serial en PC]
+      RAK_RX --> PC
+      end
+      
+    \end{minted}
+    \caption{Diagrama de bloques del sistema de alerta de fuga de gas}
+    \label{fig:flujo_fuga}
+\end{figure}
