@@ -1,0 +1,26 @@
+      flowchart TD
+      subgraph Módulo Detector
+      MQ2[Sensor de gas MQ2]
+      LM35[Sensor de temperatura LM35]
+      ARDUINO[Arduino MEGA 2560]
+      LED_R[LED Rojo]
+      LED_A[LED Azul]
+      BUZZER[Buzzer]
+      SERVO[Servo Motor]
+      RAK_TX[RAK3272S - Transmisor]
+
+      MQ2 --> ARDUINO
+      LM35 --> ARDUINO
+      ARDUINO --> LED_R
+      ARDUINO --> LED_A
+      ARDUINO --> BUZZER
+      ARDUINO --> SERVO
+      ARDUINO --> RAK_TX
+      end
+
+      subgraph Módulo Alerta
+      RAK_RX[RAK3272S - Receptor]
+      PC[Terminal Serial en PC]
+      RAK_RX --> PC
+      end
+

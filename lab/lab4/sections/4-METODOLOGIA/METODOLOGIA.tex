@@ -1,19 +1,43 @@
 \section{Introducción a Comunicación LoRa (Comandos AT)}
+La tecnología LoRa (Long Range) permite la transmisión eficiente de datos a largas distancias con bajo consumo energético, lo que la hace ideal para aplicaciones IoT. Para iniciar la experiencia, fue necesario configurar los módulos RAK3172S mediante comandos AT, los cuales permiten ajustar parámetros como la frecuencia, el modo de operación y otros aspectos fundamentales para la comunicación.
 
-La comunicación LoRa (Long Range) es una tecnología que permite la transmisión de datos a larga distancia con un bajo consumo de energía. Para la configuración de los dispositivos LoRa, como el RAK3172S, se utilizan comandos AT, los cuales permiten configurar parámetros como la frecuencia de operación, el modo de comunicación y otros ajustes esenciales.
+Inicialmente, se instaló el paquete de soporte para la placa RAK3172S en el entorno de desarrollo Arduino IDE. Esto se realizó siguiendo las instrucciones proporcionadas en el laboratorio, lo que permitió que el IDE reconociera la placa y sus capacidades (Figuras \ref{fig:instalacion} y \ref{fig:confirmacion}).
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[width=0.85\textwidth]{./img/AT_command.png}
-    \caption{Ejecución de comandos AT en el dispositivo RAK3172S}
-    \label{fig:at_command}
+  \centering
+  \includegraphics[width=0.85\textwidth]{./img/instalacion_rak.png}
+  \caption{Linkeo del parquete de soporte de placa RAK3172S en Arduino IDE}
+  \label{fig:instalacion}
 \end{figure}
 
-% TODO: desarrollo de la experiencia
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.3\textwidth]{./img/confirmacion_setup.png}
+  \caption{Proceso de instalación del firmware para la placa RAK3172S en el entorno Arduino IDE}
+  \label{fig:confirmacion}
+\end{figure}
+
+Siguiendo las indicaciones del laboratorio, se realizó la conexión de los pines TX2 a RX2, RX2 a TX2, GND a GND y VCC a 3.3V utilizando un adaptador USB a TTL (Figura \ref{fig:transmisor_impl}). Posteriormente, se empleó un software de terminal para enviar los comandos AT al módulo RAK3172S (Figura \ref{fig:at_command}), lo que permitió verificar y ajustar la configuración necesaria para establecer la comunicación LoRa entre los dispositivos.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.85\textwidth]{./img/AT_command.png}
+  \caption{Ejecución de comandos AT en el dispositivo RAK3172S}
+  \label{fig:at_command}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.85\textwidth]{./img/transmisor.jpg}
+  \caption{Montaje del transmisor RAK3172S}
+  \label{fig:transmisor_impl}
+\end{figure}
+
+% DONE: desarrollo de la experiencia
 
 \section{Carga de Código de Prueba a RAK3172S}
 
-El código de prueba para el dispositivo RAK3172S fue cargado a través del IDE de Arduino, lo que permitió verificar la funcionalidad básica del dispositivo en cuanto a la comunicación y ejecución de comandos AT.
+La segunda experiencia consiste en cargar un código de prueba en el dispositivo RAK3172S a través del IDE de Arduino, lo que permitió verificar la funcionalidad básica del dispositivo en cuanto a la comunicación y ejecución de comandos AT.
 
 \begin{figure}[H]
     \centering
@@ -22,61 +46,75 @@ El código de prueba para el dispositivo RAK3172S fue cargado a través del IDE 
     \label{fig:codigo_prueba}
 \end{figure}
 
-% TODO: desarrollo de la experiencia
-
 \section{Implementación del sistema de comunicación P2P con LoRa}
 
+En esta experiencia se implementó un sistema de comunicación punto a punto (P2P) utilizando la tecnología LoRa y los módulos RAK3272S. El objetivo principal fue establecer una comunicación inalámbrica eficiente entre dos dispositivos, configurando uno como transmisor y el otro como receptor. Para ello, se emplearon comandos AT para ajustar los parámetros de enlace, como la frecuencia de operación, el modo de transmisión y otros aspectos relevantes para la comunicación P2P. Además, se integró la solución con Arduino y un sensor, permitiendo la transmisión de datos sensados a través del enlace LoRa. Esta experiencia permitió comprender el proceso de configuración, programación y validación de un sistema de comunicación inalámbrica de largo alcance, así como la importancia de la correcta conexión y parametrización de los dispositivos involucrados.
+
+% DONE: desarrollo de la experiencia
 \subsection{Transmisor}
 
-Para la implementación de la comunicación P2P con LoRa, se configuraron dos dispositivos RAK3272S, uno como transmisor y otro como receptor. En el siguiente diagrama se muestran las conexiones y la implementación del transmisor.
+Para la implementación de la comunicación P2P con LoRa, se configuraron dos dispositivos RAK3272S, uno como transmisor y otro como receptor. Usando los comandos AT, se estableció la frecuencia de operación y el modo de transmisión. A continuación, se detallan los pasos para configurar el transmisor (ver Código~\ref{lst:comandos_transmisor} y Figura \ref{fig:transmisor_setup}). Para finalmente enviar los mensajes LoRa (ver Figura \ref{fig:transmisor_envio_mnsjs}).
+
+\begin{lstlisting}[style=bashstyle,caption={Comandos AT utilizados para configurar el transmisor LoRa},label={lst:comandos_transmisor}]
+AT+NWM=0
+AT+P2P=923100000:7:125:0:10:14
+AT+PRECV=0
+AT+PSEND:<Mensaje en Hexadecimal>
+\end{lstlisting}
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[width=0.85\textwidth]{./img/transmisor_setup.png}
-    \caption{Configuración del transmisor RAK3172S}
-    \label{fig:transmisor_setup}
+  \centering
+  \includegraphics[width=0.85\textwidth]{./img/transmisor_setup.png}
+  \caption{Configuración del transmisor RAK3172S}
+  \label{fig:transmisor_setup}
 \end{figure}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.85\textwidth]{./img/transmisor.jpg}
-    \caption{Montaje del transmisor RAK3172S}
-    \label{fig:transmisor_impl}
-\end{figure}
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[width=0.85\textwidth]{./img/transmisor_envio_mnsjs.png}
-    \caption{Envío de mensaje LoRa desde el transmisor}
-    \label{fig:transmisor_envio_mnsjs}
+  \centering
+  \includegraphics[width=0.85\textwidth]{./img/transmisor_envio_mnsjs.png}
+  \caption{Envío de mensaje LoRa desde el transmisor}
+  \label{fig:transmisor_envio_mnsjs}
 \end{figure}
 
 \subsection{Receptor}
 
-El receptor RAK3272S está configurado para recibir los mensajes enviados por el transmisor. A continuación se describe el proceso de recepción de mensajes LoRa.
+El receptor RAK3272S está configurado para recibir los mensajes enviados por el transmisor a su número de grupo X (1 en nuestro caso)El proceso de configuración se ilustra en el Código ~\ref{lst:comandos_receptor}, así como en la Figura~\ref{fig:receptor_recepciona}, donde se observa el montaje del receptor Arduino conectado al RAK3272S.
 
-% TODO: Receptor
-% TODO: desarrollo de la experiencia
+\begin{lstlisting}[style=bashstyle, caption={Comandos AT utilizados para configurar el receptor LoRa},label={lst:comandos_receptor}]
+AT+NWM=0
+AT+P2P=923100000:7:125:0:10:14
+AT+PRECV=65534
+\end{lstlisting}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.85\textwidth]{./img/receptor_1.png}
+  \caption{Receptor RAK3272S en funcionamiento}
+  \label{fig:receptor_recepciona}
+\end{figure}
 
 \section{Implementación del sistema de comunicación P2P con LoRa, integrado con Arduino y un sensor}
 
-En esta etapa, se utilizó un sensor (MQ2) conectado al Arduino MEGA. Los datos del sensor fueron enviados al módulo RAK3272S a través de la comunicación UART.
+En esta etapa, se utilizó un sensor (MQ2) conectado al Arduino MEGA. Los datos del sensor fueron enviados al módulo RAK3272S a través de la comunicación UART. El Código~\ref{lst:codigo_sensor} muestra el código de Arduino utilizado para leer los datos del sensor y enviarlos a través de LoRa. El montaje del Arduino MEGA con el sensor MQ2 se ilustra en la Figura~\ref{fig:emisor_arduino}, mientras que la Figura~\ref{fig:receptor_arduino} muestra el montaje del receptor Arduino conectado al RAK3272S.
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[width=0.85\textwidth]{./img/emisor_arduino.jpg}
-    \caption{Montaje del Arduino MEGA con el sensor MQ2}
-    \label{fig:emisor_arduino}
+  \centering
+  \includegraphics[width=0.85\textwidth]{./img/emisor_arduino.jpg}
+  \caption{Montaje del Arduino MEGA con el sensor MQ2}
+  \label{fig:emisor_arduino}
 \end{figure}
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[width=0.85\textwidth]{./img/receptor_arduino.jpg}
-    \caption{Montaje del receptor Arduino conectado al RAK3272S}
-    \label{fig:receptor_arduino}
+  \centering
+  \includegraphics[width=0.4\textwidth]{./img/receptor_2.png}
+  \caption{Montaje del receptor Arduino conectado al RAK3272S}
+  \label{fig:receptor_arduino}
 \end{figure}
 
-\begin{lstlisting}[style=cppstyle]
+El Código~\ref{lst:codigo_sensor} muestra la implementación en Arduino para la transmisión de datos sensados a través del módulo LoRa RAK3172S. El programa lee el valor analógico del sensor conectado al pin A0, lo convierte a formato hexadecimal de cuatro dígitos y construye el comando AT correspondiente para enviarlo mediante la interfaz UART al módulo LoRa. Es importante destacar que se utilizan diferentes velocidades de comunicación (baudrates): 9600 baudios para la comunicación entre el Arduino y la PC, y 115200 baudios para la comunicación entre el Arduino y el módulo RAK3172S, asegurando así una transmisión eficiente y sin errores entre ambos dispositivos. Además, el código permite monitorear tanto el valor leído como la respuesta del módulo desde el monitor serial de la PC, facilitando la verificación del proceso de transmisión. El envío de datos se realiza de forma periódica, permitiendo así la comunicación continua entre el sensor y el receptor remoto.
+
+\begin{lstlisting}[style=cppstyle, label={lst:codigo_sensor}, caption={Código de Arduino para enviar datos del sensor a través de LoRa}]
 #define SENSOR_PIN A0       // Pin del sensor
 #define RAK Serial1         // Puerto conectado al RAK (TX1/RX1)
 #define BAUD_PC 9600        // Velocidad para PC
@@ -121,79 +159,133 @@ void loop() {
 }
 \end{lstlisting}
 
-% TODO: codigo y fotos
-
 \section{Sistema IoT de alerta de fuga de gas}
 
-En esta sección se implementa un sistema IoT para la detección de fugas de gas. El sistema está compuesto por un módulo detector y un módulo de alerta. A continuación, se muestra la implementación del módulo detector.
+En esta sección se describe la implementación de un sistema IoT orientado a la detección y alerta temprana de fugas de gas en ambientes controlados, como laboratorios o instalaciones subterráneas. El objetivo principal de la experiencia es diseñar, construir y validar un sistema capaz de monitorear en tiempo real la presencia de gas y la temperatura, generando alertas visuales, sonoras y actuando sobre mecanismos físicos (como una esclusa de aire) en caso de detectar condiciones peligrosas. Además, se busca demostrar la transmisión inalámbrica de alertas mediante tecnología LoRa, permitiendo la comunicación entre el módulo detector y el módulo de alerta, incluso en entornos donde la conectividad WiFi es limitada.
+
+El sistema está compuesto por dos módulos principales: el módulo detector y el módulo de alerta. El módulo detector integra sensores de gas (MQ-3) y temperatura (LM35), LEDs indicadores, buzzer, servomotor y el módulo LoRa RAK3172S, todo controlado por un Arduino MEGA. El módulo de alerta, por su parte, recibe los mensajes enviados por LoRa y los muestra en un terminal, permitiendo la supervisión remota del estado del sistema.
+
+La Figura~\ref{fig:fuga_gas_impl} muestra el montaje físico del módulo detector, donde se aprecian los sensores, actuadores y el cableado necesario para su funcionamiento. El diagrama de flujo de la lógica de detección y respuesta se presenta en la Figura~\ref{fig:bloques_fuga}, mientras que la arquitectura general del sistema se ilustra en el diagrama de bloques de la Figura~\ref{fig:flujo_fuga}. Estas representaciones gráficas permiten comprender la secuencia de acciones y la interacción entre los diferentes componentes del sistema.
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[width=0.85\textwidth]{./img/fuga_gas_impl.jpg}
-    \caption{Implementación del módulo detector de fugas de gas}
-    \label{fig:fuga_gas_impl}
+  \centering
+  \includegraphics[width=0.85\textwidth,angle=270]{./img/fuga_gas_impl.jpg}
+  \caption{Implementación del módulo detector de fugas de gas}
+  \label{fig:fuga_gas_impl}
 \end{figure}
 
-% TODO: Implementación de ambos sistemas y demostrar el funcionamiento de ambos.
-% TODO: Mensajes enviados, en sus respectivas frecuencias.
-% TODO: Los sistemas deben estar conectados a laptops diferentes, a fin de demostrar la comunicación inalámbrica.
-% TODO: Diagrama de bloques y diagrama de flujo (en clase).
-% TODO: Tomar fotos y grabar videos del funcionamiento para su informe.
-  
+El código de Arduino utilizado para el módulo detector se muestra en el Listado~\ref{lst:codigo_sensor}. Este programa realiza la lectura periódica de los sensores, evalúa las condiciones de alerta y ejecuta las acciones correspondientes: encendido intermitente de LEDs y buzzer, activación del servomotor para abrir la esclusa de aire en caso de fuga de gas, y envío de mensajes de alerta a través del módulo LoRa. El código también se encarga de convertir los mensajes a formato hexadecimal para cumplir con el protocolo de transmisión del RAK3172S.
+
 \begin{figure}[H]
-    \centering
-    \begin{minted}[fontsize=\small]{text}
-    flowchart TD
-    START([Inicio])
-    TEMP[Leer temperatura]
-    GAS[Leer concentración de gas]
-    TEMP_ALT{¿Temp > 50°C?}
-    GAS_ALT{¿Gas > 80 ppm?}
-    ALARM_TEMP[Activar LED rojo y buzzer (500ms ON / 1s OFF)]
-    ALARM_GAS[Activar LED azul, buzzer (1.5s ON / 1s OFF), y servo 0°→180°]
-    ENVIAR[Enviar mensaje por LoRa]
-    ESPERAR[Esperar y repetir]
-
-    START --> TEMP --> GAS --> TEMP_ALT
-    TEMP_ALT -- Sí --> ALARM_TEMP --> ENVIAR --> ESPERAR
-    TEMP_ALT -- No --> GAS_ALT
-    GAS_ALT -- Sí --> ALARM_GAS --> ENVIAR --> ESPERAR
-    GAS_ALT -- No --> ESPERAR
-    \end{minted}
-    \caption{Diagrama de flujo del sistema de detección y respuesta}
-    \label{fig:bloques_fuga}
-  \end{figure}
-  
-  \begin{figure}[H]
-    \centering
-    \begin{minted}[fontsize=\small]{text}
-      flowchart TD
-      subgraph Módulo Detector
-      MQ2[Sensor de gas MQ2]
-      LM35[Sensor de temperatura LM35]
-      ARDUINO[Arduino MEGA 2560]
-      LED_R[LED Rojo]
-      LED_A[LED Azul]
-      BUZZER[Buzzer]
-      SERVO[Servo Motor]
-      RAK_TX[RAK3272S - Transmisor]
-      
-      MQ2 --> ARDUINO
-      LM35 --> ARDUINO
-      ARDUINO --> LED_R
-      ARDUINO --> LED_A
-      ARDUINO --> BUZZER
-      ARDUINO --> SERVO
-      ARDUINO --> RAK_TX
-      end
-      
-      subgraph Módulo Alerta
-      RAK_RX[RAK3272S - Receptor]
-      PC[Terminal Serial en PC]
-      RAK_RX --> PC
-      end
-      
-    \end{minted}
-    \caption{Diagrama de bloques del sistema de alerta de fuga de gas}
-    \label{fig:flujo_fuga}
+  \centering
+  \includegraphics[width=0.5\textwidth]{./img/flujo.png}
+  \caption{Diagrama de flujo del sistema de detección y respuesta}
+  \label{fig:bloques_fuga}
 \end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.85\textwidth]{./img/bloques.png}
+  \caption{Diagrama de bloques del sistema de alerta de fuga de gas}
+  \label{fig:flujo_fuga}
+\end{figure}
+
+\begin{lstlisting}[style=cppstyle, label={lst:codigo_sensor}, caption={Código de Arduino para el sistema de alerta de fuga de gas}]
+#include <Servo.h>
+
+#define TEMP_PIN A0 // Sensor de temperatura (LM35)
+#define GAS_PIN A1 // Sensor de gas (MQ-2 calibrado para LPG)
+#define LED_ROJO 8 // LED para alta temperatura
+#define LED_AZUL 9 // LED para fuga de gas
+#define BUZZER 10 // Buzzer
+#define SERVO_PIN 6 // Servomotor para esclusa
+#define RAK Serial1 // Puerto Serial conectado al RAK3172
+#define BAUD_RAK 115200
+
+Servo esclusa;
+int ultimoAngulo = 0;
+
+void setup() {
+  pinMode(LED_ROJO, OUTPUT);
+  pinMode(LED_AZUL, OUTPUT);
+  pinMode(BUZZER, OUTPUT);
+
+  esclusa.attach(SERVO_PIN);
+  esclusa.write(0); // Posición inicial
+
+  Serial.begin(9600); // Monitor serial
+  RAK.begin(BAUD_RAK); // Comunicación con RAK LoRa
+  delay(1000);
+  Serial.println("Sistema de monitoreo iniciado");
+}
+
+void loop() {
+  float tempC = analogRead(TEMP_PIN) * (5.0 / 1023.0) * 100.0;
+  int gasPPM = analogRead(GAS_PIN); // Lectura cruda MQ-2
+
+  bool alertaTemp = tempC > 50.0;
+  bool alertaGas = gasPPM > 80;
+
+  if (alertaTemp) {
+  alertaAltaTemperatura((int)tempC);
+  }
+
+  if (alertaGas) {
+  alertaFugaGas(gasPPM);
+  }
+
+  // Si ya no hay fuga, asegurarse que la esclusa esté cerrada
+  if (!alertaGas && ultimoAngulo != 0) {
+  esclusa.write(0);
+  ultimoAngulo = 0;
+  }
+
+  delay(1000);
+}
+
+void alertaAltaTemperatura(int temp) {
+  digitalWrite(LED_ROJO, HIGH);
+  digitalWrite(BUZZER, HIGH);
+  delay(500);
+  digitalWrite(LED_ROJO, LOW);
+  digitalWrite(BUZZER, LOW);
+  delay(1000);
+
+  String payload = "TEMP:" + String(temp);
+  enviarPorLoRa(payload);
+}
+
+void alertaFugaGas(int ppm) {
+  digitalWrite(LED_AZUL, HIGH);
+  digitalWrite(BUZZER, HIGH);
+  delay(1500);
+  digitalWrite(LED_AZUL, LOW);
+  digitalWrite(BUZZER, LOW);
+  delay(1000);
+
+  if (ultimoAngulo != 180) {
+  esclusa.write(180); // Abrir esclusa
+  ultimoAngulo = 180;
+  }
+
+  String payload = "GAS:" + String(ppm);
+  enviarPorLoRa(payload);
+}
+
+void enviarPorLoRa(String mensaje) {
+  String hexPayload = "";
+  for (int i = 0; i < mensaje.length(); i++) {
+  if ((byte)mensaje[i] < 16) hexPayload += "0";
+    hexPayload += String((byte)mensaje[i], HEX);
+  }
+  hexPayload.toUpperCase();
+
+  String comando = "AT+PSEND=" + hexPayload + "\r\n";
+  RAK.print(comando);
+
+  Serial.print("Mensaje enviado: ");
+  Serial.println(mensaje);
+}
+\end{lstlisting}
+
+El funcionamiento completo del sistema, incluyendo la interacción entre ambos módulos y la demostración de la comunicación inalámbrica, puede visualizarse en la carpeta de evidencias disponible en: \url{https://drive.google.com/drive/folders/1yJmaN1nd0s9NweFlrMLRn9Ju_nncdmho?usp=sharing}. 
