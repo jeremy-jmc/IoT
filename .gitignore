@@ -10,3 +10,5 @@ main.pdf
 *.fls
 *.fdb_latexmk
 *.zip
+venv/
+__pycache__/
