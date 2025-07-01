@@ -36,7 +36,7 @@ class BluetoothManager:
         try:
             subprocess.run(["sudo", "rfcomm", "release", "0"], capture_output=True)
             subprocess.run(["sudo", "rfcomm", "bind", "0", self.device_address, "1"], capture_output=True, check=True)
-            time.sleep(2)  # Esperar que se cree el dispositivo
+            time.sleep(2)  # Esperar qu1e se cree el dispositivo
             return True
         except subprocess.CalledProcessError as e:
             print(f"Error al enlazar rfcomm: {e}")
