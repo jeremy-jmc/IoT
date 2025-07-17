@@ -35,7 +35,7 @@ class HeartRateApp:
         self.max_deviation = 0  # Desviación máxima
         self.posture_stability = 0  # Estabilidad de postura (varianza inversa)
         self.poor_posture_time = 0  # Tiempo con mala postura (en segundos)
-        self.posture_threshold = 15  # Umbral para considerar mala postura (grados)
+        self.posture_threshold = 5  # Umbral para considerar mala postura (grados)
         
         # Bluetooth manager
         self.bt_manager = BluetoothManager()
@@ -456,30 +456,17 @@ class HeartRateApp:
             if len(parts) >= 2:
                 try:
                     ax_value = float(parts[1])
-                    self.current_ax = ax_value
-                    
-                    # Actualizar label principal
-                    self.posture_label.config(text=f"AX: {ax_value:.1f}°")
-                    
-                    # Agregar al historial
-                    current_time = time.time()
-                    self.ax_history.append(ax_value)
-                    self.ax_time_history.append(current_time)
-                    
-                    # Calcular métricas de postura
-                    self._calculate_posture_metrics()
-                    
-                    # Actualizar labels de métricas
-                    self._update_posture_metrics_labels()
-                    
-                    # Actualizar gráfico
-                    self.update_plot()
-                    
-                    self.posture_status = "Monitoreando"
-                    self.posture_device_status_label.config(text=f"Estado: {self.posture_status}")
-                    
+                    self._update_posture_display(ax_value)
                 except ValueError:
                     print(f"Error parseando valor AX: {parts[1]}")
+    
+        # Nueva lógica para manejar valores numéricos directos
+        elif self._is_numeric(data):
+            try:
+                ax_value = float(data)
+                self._update_posture_display(ax_value)
+            except ValueError:
+                print(f"Error parseando valor numérico: {data}")
                 
         elif data.startswith("POSTURE_STATUS:"):
             status = data.split(":", 1)[1]
@@ -501,6 +488,41 @@ class HeartRateApp:
         elif data.startswith("ERROR:"):
             self.posture_status = data
             self.posture_device_status_label.config(text=f"Estado: {self.posture_status}")
+    
+    def _is_numeric(self, value):
+        """Verificar si un string es numérico"""
+        try:
+            float(value)
+            return True
+        except ValueError:
+            return False
+    
+    def _update_posture_display(self, ax_value):
+        """Actualizar la visualización de postura con un nuevo valor AX"""
+        # Multiplicar por 10 el valor recibido del PostureMonitor
+        ax_value = ax_value * 100
+        
+        self.current_ax = ax_value
+        
+        # Actualizar label principal
+        self.posture_label.config(text=f"AX: {ax_value:.1f}°")
+        
+        # Agregar al historial
+        current_time = time.time()
+        self.ax_history.append(ax_value)
+        self.ax_time_history.append(current_time)
+        
+        # Calcular métricas de postura
+        self._calculate_posture_metrics()
+        
+        # Actualizar labels de métricas
+        self._update_posture_metrics_labels()
+        
+        # Actualizar gráfico
+        self.update_plot()
+        
+        self.posture_status = "Monitoreando"
+        self.posture_device_status_label.config(text=f"Estado: {self.posture_status}")
     
     def _calculate_posture_metrics(self):
         """Calcular métricas de postura basadas en el historial de AX"""
