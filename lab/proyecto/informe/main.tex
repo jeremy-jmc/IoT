@@ -372,6 +372,8 @@ El ESP32 será el microcontrolador encargado de procesar los datos de los sensor
 
 \section{Resultados}
 
+En esta sección se presentan los resultados obtenidos tras la implementación y prueba de los dispositivos wearables desarrollados. Las imágenes que se incluyen a continuación evidencian el funcionamiento de cada uno de los sistemas durante las pruebas y su integración con la interfaz de monitoreo.
+
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.3\textwidth]{./img/CorrectorPosturaJuan.jpeg}
@@ -379,6 +381,7 @@ El ESP32 será el microcontrolador encargado de procesar los datos de los sensor
   \label{fig:corrector_postura_demo}
 \end{figure}
 
+La Figura~\ref{fig:corrector_postura_demo} muestra la prueba en condiciones reales del wearable de corrección postural, el cual utiliza un sensor MPU6050 para detectar desviaciones en la inclinación de la espalda. Durante las pruebas, el dispositivo fue capaz de registrar cambios de posición y activar una alerta sonora mediante el buzzer incluido cuando se detectaban malas posturas sostenidas. Se utilizó cinta adhesiva para adherir el wearable a la espalda del usuario, y como trabajo futuro se contempla el diseño de una carcasa más ergonómica usando impresión 3D, lo que mejoraría la comodidad y estética del dispositivo.
 
 \begin{figure}[H]
   \centering
@@ -387,13 +390,20 @@ El ESP32 será el microcontrolador encargado de procesar los datos de los sensor
   \label{fig:wearable_pulso_demo}
 \end{figure}
 
+Por su parte, la Figura~\ref{fig:wearable_pulso_demo} muestra el dispositivo de monitoreo de signos vitales, el cual emplea el sensor MAX30102 para medir la frecuencia cardíaca (BPM). Este wearable demostró ser funcional en la adquisición continua de datos biométricos, los cuales son enviados al microcontrolador ESP32 para su procesamiento y posterior visualización. Una de las desventajas de la implementación es la calidad del sensor el cual toma un tiempo en proporcionar lecturas estables y confiables. Sin embargo, en esta iteración consideramos que logramos una integración correcta entre lo que recolecta el sensor y la visualización de los datos en la aplicación móvil.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.5\textwidth]{./img/UIActiva.png}
   \caption{Interfaz de usuario activa mostrando los datos en tiempo real de los wearables.}
-  \label{fig:wearable_pulso_demo}
+  \label{fig:ui_demo}
 \end{figure}
+
+Finalmente, la Figura~\ref{fig:ui_demo} ilustra la interfaz gráfica de la aplicación desarrollada, la cual permite visualizar en tiempo real los datos recolectados por ambos dispositivos. Esta interfaz fue diseñada para ofrecer retroalimentación instantánea al usuario, facilitando la interpretación de sus indicadores de salud y postura. Durante las pruebas, la sincronización vía Bluetooth fue estable, permitiendo una transmisión fluida de los datos hacia la aplicación mientras se mantenía abierta y en primer plano.
+
+En la interfaz se presentan métricas clave como la frecuencia cardíaca actual (marcada en rojo, en este caso 37 BPM) y la inclinación postural (con un valor de inclinación axial de aproximadamente 5.4°). Se incluyen también gráficas en tiempo real: una curva de evolución del ritmo cardíaco, otra que representa la desviación postural en grados, y una tercera que analiza la tendencia de malas posturas según el tiempo acumulado. Además, se muestran estadísticas como el porcentaje de tiempo en mala postura, y botones interactivos que permiten conectar o calibrar cada sensor. Todo ello contribuye a una experiencia visual clara e informativa para el monitoreo en tiempo real.
+
+En conjunto, los resultados reflejan que los dispositivos cumplen con su propósito funcional, tanto en la adquisición de datos como en la retroalimentación al usuario. Se valida así la viabilidad de este tipo de soluciones IoT para fomentar estilos de vida más saludables mediante la conciencia corporal y el monitoreo de signos vitales.
 
 \section{Descripci\'on del mercado}
 
