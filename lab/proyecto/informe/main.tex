@@ -108,8 +108,22 @@
 
 %%
 %% end of the preamble, start of the body of the document source.
-\begin{document}
+\usepackage{listings}
+\lstset{
+  inputencoding=utf8,
+  extendedchars=true,
+  language=C,
+  basicstyle=\ttfamily\footnotesize,
+  breaklines=true,
+  captionpos=b,
+  numbers=left,
+  numberstyle=\tiny,
+  showstringspaces=false,
+  frame=single,
+  tabsize=2
+}
 
+\begin{document}
 %%
 %% The "title" command has an optional parameter,
 %% allowing the author to define a "short title" to be used in page headers.
@@ -345,6 +359,109 @@ El ESP32 será el microcontrolador encargado de procesar los datos de los sensor
 \section{Implementaci\'on}
 
 % TODO: descripcion de la implementacion del dispositivo Postural: contextualizacion, aprendizajes (lo que tuvimos que hacer e.g. soldar, el puerto malo de carga, el amperaje de la bateria), dificultades, limitaciones
+\subsection{Dispositivo wearable de corrección postural}
+El dispositivo wearable de corrección postural se basa en el uso del módulo MPU6050, que combina un acelerómetro y un giroscopio para medir la inclinación de la espalda. Este sensor permite detectar la posición del usuario y enviar alertas cuando se adopta una postura incorrecta. El dispositivo está diseñado para ser portátil y cómodo, permitiendo al usuario llevarlo durante sus actividades diarias.
+
+Para su implementacion se realizo el siguiente codigo en Arduino:
+\begin{lstlisting}[language=C, caption={Código de Arduino para el dispositivo wearable de corrección postural}, label={lst:codigo_postural}]
+#include <Wire.h>
+#include <MPU6050.h>
+#include <BluetoothSerial.h>
+
+MPU6050 mpu;
+BluetoothSerial SerialBT;
+const int  FILTER_SIZE   = 10;
+float      ax_buffer[FILTER_SIZE] = {0};
+int        buffer_index  = 0;
+
+float ax;
+float ax_offset          = 0;
+
+const float umbralAX     = 0.15;   // Sensibilidad de inclinacion
+unsigned long tiempo_fuera_de_rango = 0;
+bool  postura_incorrecta = false;
+
+// ---------- Calibracion ----------
+void calibrarReferencia() {
+  Serial.println("Calibrando... manten postura correcta");
+  long sum_ax = 0;
+
+  for (int i = 0; i < 1000; i++) {
+    int16_t ax_raw, ay_raw, az_raw;
+    mpu.getAcceleration(&ax_raw, &ay_raw, &az_raw);
+    sum_ax += ax_raw;
+    delay(5);
+  }
+
+  ax_offset = (sum_ax / 1000.0) / 16384.0;
+  Serial.print("AX calibrado en: "); Serial.println(ax_offset, 3);
+  Serial.println("Referencia establecida.");
+}
+
+// ---------- SETUP ----------
+void setup() {
+  Serial.begin(115200);
+  Wire.begin(21, 22);          // SDA, SCL  (pines por defecto en muchos ESP32)
+
+  Serial.println("Iniciando sensor...");
+  mpu.initialize();
+  if (mpu.testConnection()) {
+    Serial.println("MPU6050 conectado correctamente.");
+  } else {
+    Serial.println("Error al conectar el MPU6050.");
+    while (1);
+  }
+
+  if (!SerialBT.begin("PostureMonitor")) {
+    Serial.println("Error al iniciar Bluetooth Serial");
+    while (1);
+  }
+  Serial.println("Bluetooth listo. Busca el dispositivo 'PostureMonitor'.");
+
+  delay(1000);
+  calibrarReferencia();
+}
+
+// ---------- LOOP ----------
+void loop() {
+  int16_t ax_raw, ay_raw, az_raw;
+  mpu.getAcceleration(&ax_raw, &ay_raw, &az_raw);
+
+  float ax_new = ax_raw / 16384.0 - ax_offset;
+
+  ax_buffer[buffer_index] = ax_new;
+  buffer_index = (buffer_index + 1) % FILTER_SIZE;
+
+  ax = 0;
+  for (int i = 0; i < FILTER_SIZE; i++) {
+    ax += ax_buffer[i];
+  }
+  ax /= FILTER_SIZE;
+
+  Serial.print("AX filtrado: "); Serial.println(ax, 3);
+  SerialBT.println(ax, 3);
+
+  if (abs(ax) > umbralAX) {
+    if (tiempo_fuera_de_rango == 0) {
+      tiempo_fuera_de_rango = millis();
+    } else if (millis() - tiempo_fuera_de_rango >= 3000) {
+      postura_incorrecta = true;
+    }
+  } else {
+    tiempo_fuera_de_rango = 0;
+    postura_incorrecta    = false;
+  }
+
+  if (postura_incorrecta) {
+    Serial.println("Postura incorrecta (>3 s).");
+    SerialBT.println("ALERTA_POSTURA");
+  }
+
+  delay(500);
+}
+\end{lstlisting}
+
+El código implementa un sistema de monitoreo de postura utilizando el sensor MPU6050. Este sensor mide la aceleración en los ejes X, Y y Z, y el código filtra estos datos para detectar inclinaciones de la espalda. Si la inclinación supera un umbral definido, se activa una alerta que se envía a través de Bluetooth. El sistema también incluye una calibración inicial para establecer una referencia de inclinación correcta. Cuando se supera el umbral ademas se activa un Buzzer para alertar al usuario de la mala postura las conexiones fueron realizadas correctamente segun lo mostrado en la figura \ref{fig:corrector_postura}.
 
 \begin{figure}[H]
   \centering
@@ -353,7 +470,178 @@ El ESP32 será el microcontrolador encargado de procesar los datos de los sensor
   \label{fig:corrector_postura}
 \end{figure}
 
+\subsection{Dispositivo wearable de pulso cardíaco}
+El dispositivo wearable de pulso cardíaco utiliza el sensor MAX30102 para medir la saturación de oxígeno en sangre y la frecuencia cardíaca. Este sensor óptico emite luz a través de la piel y mide la cantidad de luz reflejada, lo que permite calcular los niveles de oxigenación y el pulso del usuario. El dispositivo está diseñado para ser portátil y fácil de usar, permitiendo al usuario monitorear su salud en tiempo real.
 
+Para su implementacion se realizo el siguiente codigo en Arduino:
+\begin{lstlisting}[language=C, caption={Código de Arduino para el dispositivo wearable de pulso cardíaco}, label={lst:codigo_pulso}]
+#include <Wire.h>
+#include "MAX30105.h"
+#include "heartRate.h"
+#include "BluetoothSerial.h"
+
+MAX30105 particleSensor;
+BluetoothSerial SerialBT;
+
+// Variables para envio de datos por Bluetooth
+unsigned long lastBluetoothSend = 0;
+const unsigned long BLUETOOTH_INTERVAL = 1000; // Enviar datos cada segundo
+float lastValidBPM = 0; // Ultima lectura valida de BPM
+
+// Variables para manejo de errores I2C
+const int IR_THRESHOLD = 2000; // Umbral para detectar dedo en el sensor (igual que base.ino)
+unsigned long lastI2CError = 0;
+unsigned long lastSensorCheck = 0;
+const unsigned long SENSOR_CHECK_INTERVAL = 300; // Verificar sensor cada 30 segundos (menos frecuente)
+bool sensorOK = true;
+
+void setup() {
+  Serial.begin(115200);
+  delay(1000);
+  Serial.println("Paso 1: Serial iniciado");
+
+  Wire.begin(21, 22);
+  Serial.println("Paso 2: I2C iniciado");
+
+  SerialBT.begin("HeartRate_Wearable");
+  Serial.println("Paso 3: Bluetooth iniciado");
+
+  Serial.println("Paso 4: Iniciando sensor...");
+  if (!particleSensor.begin(Wire, I2C_SPEED_STANDARD)) {
+    Serial.println("Paso 5: Sensor no encontrado");
+    return;
+  }
+
+  Serial.println("Paso 6: Sensor encontrado");
+  particleSensor.setup();
+  particleSensor.setPulseAmplitudeRed(0x0A);
+  particleSensor.setPulseAmplitudeIR(0x0A);
+  Serial.println("Paso 7: Sensor configurado");
+}
+
+
+void loop() {
+  long irValue = particleSensor.getIR();
+
+  if (irValue < IR_THRESHOLD) { // Usar el mismo threshold que base.ino (20000)
+    //Serial.println("Coloca el dedo en el sensor...");
+    //Serial.println(irValue);
+    
+    // Enviar estado por Bluetooth cada cierto tiempo
+    if (millis() - lastBluetoothSend > BLUETOOTH_INTERVAL) {
+      SerialBT.println("STATUS:NO_FINGER");
+      lastBluetoothSend = millis();
+    }
+    
+    delay(1000);
+    return;
+  }
+
+  if (particleSensor.available()) {
+    uint32_t ir = particleSensor.getIR();
+
+    bool beatDetected = checkForBeat(ir);
+
+    if (beatDetected) {
+      static uint32_t lastBeat = 0;
+      uint32_t now = millis();
+      uint32_t delta = now - lastBeat;
+      lastBeat = now;
+
+      float bpm = 60000.0 / (float)delta;
+      // bpm > 30 && 
+      if (bpm < 200) {
+        Serial.print("Latido detectado! BPM: ");
+        Serial.println(bpm);
+        
+        // Guardar ultima lectura valida para Bluetooth
+        lastValidBPM = bpm;
+      }
+    }
+
+    particleSensor.nextSample(); // Siguiente muestra
+  }
+
+  // Enviar datos por Bluetooth periodicamente
+  if (millis() - lastBluetoothSend > BLUETOOTH_INTERVAL) {
+    if (irValue > IR_THRESHOLD) { // Solo si hay dedo en el sensor
+      if (lastValidBPM > 0) {
+        // Formato: BPM:valor_instantaneo:valor_promedio
+        String data = "BPM:" + String((int)lastValidBPM) + ":" + String((int)lastValidBPM);
+        SerialBT.println(data);
+        
+        Serial.println("Enviado por Bluetooth: " + data);
+      } else {
+        SerialBT.println("STATUS:MEASURING");
+      }
+    }
+    lastBluetoothSend = millis();
+  }
+
+  // Verificar comandos recibidos por Bluetooth
+  if (SerialBT.available()) {
+    String receivedData = SerialBT.readString();
+    receivedData.trim();
+    
+    if (receivedData == "PING") {
+      SerialBT.println("PONG");
+    } else if (receivedData == "STATUS") {
+      if (irValue > IR_THRESHOLD) {
+        SerialBT.println("STATUS:MEASURING");
+      } else {
+        SerialBT.println("STATUS:NO_FINGER");
+      }
+    } else if (receivedData == "RESET_SENSOR") {
+      sensorOK = reinitializeSensor();
+    }
+  }
+
+  // Verificar estado del sensor periodicamente (solo si hay problemas persistentes)
+  if (millis() - lastSensorCheck > SENSOR_CHECK_INTERVAL) {
+    if (!checkSensorConnection()) {
+      Serial.println("Sensor desconectado, intentando reconectar...");
+      sensorOK = reinitializeSensor();
+    } else {
+      sensorOK = true;
+    }
+    lastSensorCheck = millis();
+  }
+}
+
+// Funcion para verificar si el sensor esta respondiendo
+bool checkSensorConnection() {
+  Wire.beginTransmission(0x57); // Direccion I2C del MAX30102
+  byte error = Wire.endTransmission();
+  return (error == 0);
+}
+
+// Funcion para reinicializar el sensor
+bool reinitializeSensor() {
+  Serial.println("Intentando reinicializar sensor...");
+  SerialBT.println("STATUS:SENSOR_REINIT");
+  
+  delay(100); // Pequena pausa
+  
+  if (!particleSensor.begin(Wire, I2C_SPEED_STANDARD)) {
+    Serial.println("Error: No se pudo reinicializar el sensor");
+    SerialBT.println("ERROR: Sensor reinit failed");
+    return false;
+  }
+  
+  particleSensor.setup();
+  particleSensor.setPulseAmplitudeRed(0x0A);
+  particleSensor.setPulseAmplitudeIR(0x0A);
+  
+  Serial.println("Sensor reinicializado correctamente");
+  SerialBT.println("STATUS:SENSOR_OK");
+  lastI2CError = millis();
+  
+  return true;
+}
+\end{lstlisting}
+
+El c\'odigo realiza un monitoreo de pulso card\'iaco utilizando el sensor MAX30102. Este sensor mide la luz reflejada por la piel para calcular la frecuencia card\'iaca y la saturaci\'on de ox\'igeno. El c\'odigo incluye una verificaci\'on del dedo en el sensor, env\'ia datos por Bluetooth y maneja errores de conexi\'on I2C. Si no se detecta un dedo, env\'ia un estado "NO_FINGER" por Bluetooth. Si se detecta un latido, calcula el BPM y lo env\'ia. Adem\'as, implementa una funci\'on para reinicializar el sensor en caso de problemas. Las conexiones fueron realizadas correctamente seg\'un lo mostrado en la figura \ref{fig:wearable_pulso}.
+ 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.5\textwidth]{./img/PulsoCardiaco.jpeg}
@@ -361,8 +649,18 @@ El ESP32 será el microcontrolador encargado de procesar los datos de los sensor
   \label{fig:wearable_pulso}
 \end{figure}
 
+\subsection{Aplicación de escritorio para visualización de datos}
 
 % TODO: explicar cada plot de la UI, el sistema de comunicacion q se usa, dificultades de conexion, etc.
+
+La plicacion de escritorio se desarrollo utilizando Python y las librerias de Tkinter y Matplotlib. La aplicaci\'on permite visualizar en tiempo real los datos obtenidos de los dispositivos wearables, mostrando la inclinaci\'on de la espalda y los niveles de oxigenaci\'on y pulso. La comunicaci\'on entre el dispositivo wearable y la aplicaci\'on se realiza a trav\'es de Bluetooth, utilizando el protocolo Serial gracias a la libreria de Pyserial.
+
+La UI muestra los datos de BPM, inclinacion, y 3 graficas mostradas en la imagen \ref{fig:ui_app}:
+\begin{itemize}
+  \item Gr\'afica de BPM: Muestra la frecuencia cardiaca en tiempo real.
+  \item Gr\'afica de inclinaci\'on: Representa la inclinaci\'n de la espalda medida por el MPU6050.
+  \item Gr\'afica de analisis de mala postura: Muestra el tiempo que el usuario ha estado en una mala postura, basado en la inclinaci\'on de la espalda.
+\end{itemize}
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.8\textwidth]{./img/UI.jpeg}
