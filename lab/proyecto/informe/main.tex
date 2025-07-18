@@ -229,11 +229,11 @@ En Perú, un estudio realizado por el Ministerio de Salud en 2019 reveló que m�
 
 Además, el sedentarismo no solo afecta la postura, sino también la salud cardiovascular. La falta de actividad física regular incrementa el riesgo de enfermedades del corazón, hipertensión y otras condiciones relacionadas con el sistema circulatorio. De acuerdo con la Organización Panamericana de la Salud (OPS), las enfermedades cardiovasculares son la principal causa de muerte en Latinoamérica, y se estima que un alto porcentaje de la población presenta factores de riesgo, como la hipertensión y el colesterol elevado, exacerbados por la falta de ejercicio físico. En Perú, el 29\% de la población adulta padece de hipertensión, una cifra alarmante que refleja la necesidad urgente de adoptar hábitos de vida más saludables, entre ellos, el aumento de la actividad física.
 
-Ante esta problemática, surge la necesidad de desarrollar soluciones tecnológicas que fomenten un cambio en el estilo de vida y ayuden a las personas a controlar su salud de manera más efectiva. El proyecto que se presenta busca ofrecer herramientas accesibles, como un collar inteligente que evalúa la postura y un dispositivo de medición de oxigenación y pulso, para monitorear en tiempo real la salud de los usuarios. Estos dispositivos, conectados a una aplicación móvil, permitirían detectar problemas de postura y salud cardiovascular de manera temprana, fomentando hábitos más saludables y la prevención de enfermedades relacionadas con el sedentarismo.
+Ante esta problemática, surge la necesidad de desarrollar soluciones tecnológicas que fomenten un cambio en el estilo de vida y ayuden a las personas a controlar su salud de manera más efectiva. El proyecto que se presenta busca ofrecer herramientas accesibles, como un collar inteligente que evalúa la postura y un dispositivo de medición de oxigenación y pulso, para monitorear en tiempo real la salud de los usuarios. Estos dispositivos, conectados a una aplicación de escritorio, permitirían detectar problemas de postura y salud cardiovascular de manera temprana, fomentando hábitos más saludables y la prevención de enfermedades relacionadas con el sedentarismo.
 
 \section{Marco Te\'orico}
 
-El Internet de las Cosas (IoT) se refiere a la interconexión de objetos cotidianos mediante Internet, de modo que puedan comunicarse y compartir datos de forma autónoma. En el ámbito de la salud, surge el concepto de Internet de las Cosas Médicas (IoMT), que engloba dispositivos médicos portátiles conectados en red para recolectar y transmitir datos fisiológicos (como presión arterial, frecuencia cardíaca u oxígeno en sangre). Por ejemplo, los wearables médicos (a veces llamados WIoMT) son tecnologías vestibles conectadas que registran variables de salud en tiempo real. Estas redes IoT sanitarias facilitan el monitoreo continuo de los pacientes e integran sensores con servicios en la nube o aplicaciones móviles para el análisis y almacenamiento de la información \cite{Thapa2023}.
+El Internet de las Cosas (IoT) se refiere a la interconexión de objetos cotidianos mediante Internet, de modo que puedan comunicarse y compartir datos de forma autónoma. En el ámbito de la salud, surge el concepto de Internet de las Cosas Médicas (IoMT), que engloba dispositivos médicos portátiles conectados en red para recolectar y transmitir datos fisiológicos (como presión arterial, frecuencia cardíaca u oxígeno en sangre). Por ejemplo, los wearables médicos (a veces llamados WIoMT) son tecnologías vestibles conectadas que registran variables de salud en tiempo real. Estas redes IoT sanitarias facilitan el monitoreo continuo de los pacientes e integran sensores con servicios en la nube o aplicaciones de escritorio para el análisis y almacenamiento de la información \cite{Thapa2023}.
 
 \subsection{Dispositivos Wearables en salud}
 Los dispositivos vestibles (wearables) son tecnologías electrónicas que el usuario porta en el cuerpo (p. ej., relojes, bandas o parches) y miden parámetros biométricos \cite{Simpson2019}. En los últimos años han cobrado gran relevancia en el cuidado de la salud: se han convertido en parte fundamental de la industria médica, recopilando datos personales de salud y proporcionando asistencia en tiempo real \cite{Simpson2019}. Típicamente, los wearables de salud incorporan sensores ópticos e inerciales que permiten evaluar la actividad física y los signos vitales del usuario (pasos, frecuencia cardiaca, saturación de oxígeno, etc.)
@@ -243,7 +243,7 @@ En conjunto, los wearables de salud suelen ofrecer las siguientes funciones clav
 \begin{itemize}
 \item Monitoreo continuo de parámetros fisiológicos: p. ej. pasos, ritmo cardiaco y saturación de oxígeno
 \item Retroalimentación en tiempo real: detectan desviaciones (posturales o de signos vitales) y avisan al usuario para corregirlas \cite{Figueira2024}.
-\item Conectividad IoT: envían los datos recogidos a la nube o a una aplicación móvil para su análisis posterior
+\item Conectividad IoT: envían los datos recogidos a la nube o a una aplicación desktop para su análisis posterior
 \end{itemize}
 
 \subsection{Monitoreo postural y biofeedback}
@@ -323,7 +323,7 @@ Los resultados evidenciaron que el sistema era efectivo para identificar la tran
 \textbf{Cantidad:} 1
 
 \subsection{Microcontrolador a usar}
-El ESP32 será el microcontrolador encargado de procesar los datos de los sensores y comunicarse con la aplicación móvil a través de Bluetooth o Wi-Fi.
+El ESP32 será el microcontrolador encargado de procesar los datos de los sensores y comunicarse con la aplicación desktop a través de Bluetooth o Wi-Fi.
 
 \subsection{Diagrama de bloques del sistema propuesto}
 \begin{figure}
@@ -343,7 +343,7 @@ El ESP32 será el microcontrolador encargado de procesar los datos de los sensor
         \item Diseñar el circuito electrónico para medir la inclinación de la espalda utilizando el módulo MPU6050.
         \item Integrar el pulsioxímetro MAX30102 para medir el nivel de oxigenación en sangre y la frecuencia cardíaca del usuario.
         \item Desarrollar el firmware para el microcontrolador ESP32, encargado de procesar los datos de los sensores y enviarlos de manera inalámbrica.
-        \item Construir una aplicación móvil que permita visualizar en tiempo real los datos obtenidos por los dispositivos wearables.
+        \item Construir una aplicación desktop que permita visualizar en tiempo real los datos obtenidos por los dispositivos wearables.
         \item Implementar una interfaz de usuario en la aplicación para la visualización de datos de inclinación, oxigenación y pulso.
         \item Garantizar la autonomía del dispositivo wearable mediante el uso de una batería recargable de litio, gestionada por un módulo TP4056.
         \item Incorporar una alerta sonora utilizando el buzzer para notificar al usuario sobre cambios importantes en los parámetros monitoreados.
@@ -653,7 +653,7 @@ El c\'odigo realiza un monitoreo de pulso card\'iaco utilizando el sensor MAX301
 
 % TODO: explicar cada plot de la UI, el sistema de comunicacion q se usa, dificultades de conexion, etc.
 
-La plicacion de escritorio se desarrollo utilizando Python y las librerias de Tkinter y Matplotlib. La aplicaci\'on permite visualizar en tiempo real los datos obtenidos de los dispositivos wearables, mostrando la inclinaci\'on de la espalda y los niveles de oxigenaci\'on y pulso. La comunicaci\'on entre el dispositivo wearable y la aplicaci\'on se realiza a trav\'es de Bluetooth, utilizando el protocolo Serial gracias a la libreria de Pyserial.
+La aplicación de escritorio se desarrollo utilizando Python y las librerias de Tkinter y Matplotlib. La aplicaci\'on permite visualizar en tiempo real los datos obtenidos de los dispositivos wearables, mostrando la inclinaci\'on de la espalda y los niveles de oxigenaci\'on y pulso. La comunicaci\'on entre el dispositivo wearable y la aplicaci\'on se realiza a trav\'es de Bluetooth, utilizando el protocolo Serial gracias a la libreria de Pyserial.
 
 La UI muestra los datos de BPM, inclinacion, y 3 graficas mostradas en la imagen \ref{fig:ui_app}:
 \begin{itemize}
@@ -688,7 +688,7 @@ La Figura~\ref{fig:corrector_postura_demo} muestra la prueba en condiciones real
   \label{fig:wearable_pulso_demo}
 \end{figure}
 
-Por su parte, la Figura~\ref{fig:wearable_pulso_demo} muestra el dispositivo de monitoreo de signos vitales, el cual emplea el sensor MAX30102 para medir la frecuencia cardíaca (BPM). Este wearable demostró ser funcional en la adquisición continua de datos biométricos, los cuales son enviados al microcontrolador ESP32 para su procesamiento y posterior visualización. Una de las desventajas de la implementación es la calidad del sensor el cual toma un tiempo en proporcionar lecturas estables y confiables. Sin embargo, en esta iteración consideramos que logramos una integración correcta entre lo que recolecta el sensor y la visualización de los datos en la aplicación móvil.
+Por su parte, la Figura~\ref{fig:wearable_pulso_demo} muestra el dispositivo de monitoreo de signos vitales, el cual emplea el sensor MAX30102 para medir la frecuencia cardíaca (BPM). Este wearable demostró ser funcional en la adquisición continua de datos biométricos, los cuales son enviados al microcontrolador ESP32 para su procesamiento y posterior visualización. Una de las desventajas de la implementación es la calidad del sensor el cual toma un tiempo en proporcionar lecturas estables y confiables. Sin embargo, en esta iteración consideramos que logramos una integración correcta entre lo que recolecta el sensor y la visualización de los datos en la aplicación desktop.
 
 \begin{figure}[H]
   \centering
@@ -705,6 +705,11 @@ En conjunto, los resultados reflejan que los dispositivos cumplen con su propós
 
 \section{Descripci\'on del mercado}
 
+Analizaremos el mercado de una manera \textit{top-down}. El mercado global de dispositivos correctores de postura se estima entre USD 1.2 y 1.7 mil millones en 2024, incluyendo dispositivos ópticos, físicos y electrónicos, según fuentes como Cognitive Market Research, Grand View Research y Global Market Insights Inc. América Latina representa aproximadamente un 5\% de este mercado, lo que equivale a un TAM LATAM de entre USD 60 y 83 millones. Si se considera únicamente el segmento de wearables electrónicos posturales (USD 1.2 mil millones a nivel global), el 5\% correspondiente a LATAM da como resultado un TAM específico de USD 60 millones.
+
+Para estimar el SAM, se enfoca el producto en programadores de LATAM. Se estima una población entre 500\,000 y 1\,000\,000 de desarrolladores. Con un precio promedio de USD 100 por unidad y una tasa de adopción del 10\% al 20\%, el mercado direccionable alcanza entre USD 6 y 12 millones anuales. Cálculo de referencia: 500\,000 desarrolladores $\times$ 10\% $\times$ USD 100 = USD 5 millones. En un escenario más optimista (1 millón de desarrolladores, 20\% de adopción), se podría llegar a USD 20 millones, aunque de forma conservadora se estima el SAM entre 6 y 12 millones.
+
+Finalmente, el SOM depende de la penetración alcanzada en los primeros años. Si se logra captar el 10\% del SAM, se estima un SOM de entre USD 0.6 y 1.2 millones anuales, lo que implica vender entre 6\,000 y 12\,000 unidades por año.
 
 \bibliographystyle{ACM-Reference-Format}
 \bibliography{bibitem}
