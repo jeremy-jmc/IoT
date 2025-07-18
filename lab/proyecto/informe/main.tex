@@ -219,125 +219,62 @@ Ante esta problemática, surge la necesidad de desarrollar soluciones tecnológi
 
 \section{Marco Te\'orico}
 
-\subsection{Internet de las Cosas (IoT)}
-En términos generales, el Internet de las Cosas se entiende como la interconexión de objetos físicos provistos de sensores, capacidad de procesamiento y conectividad de red, los cuales pueden intercambiar datos sin intervención humana directa. Esta noción suele representarse mediante una arquitectura de tres capas: \textit{percepción}, \textit{red} y \textit{aplicación}. Cada capa cumple un rol específico: la primera captura señales del entorno; la segunda las transporta, y la tercera las procesa y presenta al usuario. \cite{kitrum2023}
+El Internet de las Cosas (IoT) se refiere a la interconexión de objetos cotidianos mediante Internet, de modo que puedan comunicarse y compartir datos de forma autónoma. En el ámbito de la salud, surge el concepto de Internet de las Cosas Médicas (IoMT), que engloba dispositivos médicos portátiles conectados en red para recolectar y transmitir datos fisiológicos (como presión arterial, frecuencia cardíaca u oxígeno en sangre). Por ejemplo, los wearables médicos (a veces llamados WIoMT) son tecnologías vestibles conectadas que registran variables de salud en tiempo real. Estas redes IoT sanitarias facilitan el monitoreo continuo de los pacientes e integran sensores con servicios en la nube o aplicaciones móviles para el análisis y almacenamiento de la información \cite{Thapa2023}.
 
-\subsection{Aplicaciones de los wearables en salud}
-Los dispositivos vestibles amplían el paradigma IoT hacia el cuerpo humano. En salud preventiva, permiten monitorear variables fisiológicas y biomecánicas de forma continua, facilitando la detección temprana de riesgo postural, fatiga o hipoxemia. Estudios recientes demuestran que los sensores inerciales integrados en prendas o cinturones alcanzan precisiones superiores al 90\% en la clasificación de posturas de la columna, mientras que los pulsioxímetros ópticos añaden contexto sobre la condición cardiorrespiratoria del usuario.
+\subsection{Dispositivos Wearables en salud}
+Los dispositivos vestibles (wearables) son tecnologías electrónicas que el usuario porta en el cuerpo (p. ej., relojes, bandas o parches) y miden parámetros biométricos \cite{Simpson2019}. En los últimos años han cobrado gran relevancia en el cuidado de la salud: se han convertido en parte fundamental de la industria médica, recopilando datos personales de salud y proporcionando asistencia en tiempo real \cite{Simpson2019}. Típicamente, los wearables de salud incorporan sensores ópticos e inerciales que permiten evaluar la actividad física y los signos vitales del usuario (pasos, frecuencia cardiaca, saturación de oxígeno, etc.)
+\cite{Simpson2019} \cite{Torp2023}. Además, su integración con apps móviles y redes IoT posibilita generar alertas instantáneas cuando se detectan parámetros fuera de rango, incentivando al usuario a corregir su comportamiento (por ejemplo, sentarse en una postura adecuada o realizar más actividad física).
 
-\subsection{Microcontrolador ESP32 DEVKIT V1}
-El núcleo del dispositivo es el ESP32, un SoC de doble procesador Xtensa LX6 a 240 MHz que incorpora 520 kB de SRAM, Wi-Fi 802.11 b/g/n (hasta 150 Mb/s) y Bluetooth clásico/BLE. Entre sus ventajas destaca el modo \emph{deep-sleep} —menor a 10 µA—, esencial para prolongar la autonomía en aplicaciones portátiles. Adicionalmente, la plataforma dispone de aceleradores criptográficos (AES, SHA-2, RSA) y de funciones de arranque seguro y cifrado de memoria flash, lo que fortalece la protección de firmware y de datos biométricos.
+En conjunto, los wearables de salud suelen ofrecer las siguientes funciones clave:
+\begin{itemize}
+\item Monitoreo continuo de parámetros fisiológicos: p. ej. pasos, ritmo cardiaco y saturación de oxígeno
+\item Retroalimentación en tiempo real: detectan desviaciones (posturales o de signos vitales) y avisan al usuario para corregirlas \cite{Figueira2024}.
+\item Conectividad IoT: envían los datos recogidos a la nube o a una aplicación móvil para su análisis posterior
+\end{itemize}
 
-\subsection{Sensores de adquisición de datos}
+\subsection{Monitoreo postural y biofeedback}
+La postura corporal es la forma en que mantenemos el cuerpo al sentarnos, pararnos o desplazarnos. Adoptar posturas prolongadamente encorvadas o adelantadas (por ejemplo, la llamada “cabeza hacia adelante”) está asociado con el desarrollo de trastornos musculoesqueléticos como dolor lumbar y cervical \cite{Simpson2019}. Estudios muestran que una alineación incorrecta de la columna puede derivar en desgaste de discos intervertebrales, compresión nerviosa y dolor crónico \cite{Simpson2019}. Para prevenirlo, se han diseñado sistemas wearables capaces de detectar la postura en tiempo real y ofrecer biofeedback inmediato: por ejemplo, alertas vibratorias o sonoras cuando se identifica una mala alineación \cite{Figueira2024}. Estas tecnologías envían retroalimentación al usuario para inducir la corrección postural, con el objetivo de instaurar hábitos ergonómicos saludables a largo plazo.
 
-\subsubsection{Sensor inercial MPU6050}
-El MPU6050 unifica en un solo encapsulado un acelerómetro y un giroscopio de tres ejes con convertidores A/D de 16 bits. Gracias a su bus I²C y a la posibilidad de fusionar datos mediante filtros complementarios o de Kalman, el módulo permite estimar la orientación (pitch, roll, yaw) con la precisión necesaria para detectar desviaciones posturales en tiempo real.
+\subsection{Monitoreo de signos vitales (pulso y oxigenación)}
+Además de la postura, muchos wearables miden signos vitales clave para el estado cardiovascular y respiratorio. La frecuencia cardíaca se obtiene mediante sensores ópticos o fotopletismográficos integrados, lo que permite detectar irregularidades del pulso al instante. Por su parte, la oximetría de pulso es un método rápido y no invasivo para determinar la saturación de oxígeno en sangre \cite{Torp2023}. En este método se utilizan diodos emisores de luz roja e infrarroja para calcular el porcentaje de hemoglobina oxigenada. Monitorear el pulso y la $SpO_2$ continuamente ayuda a identificar problemas incipientes (como hipoxemia o arritmias) y así actuar preventivamente. En conjunto, estas mediciones vitales permiten evaluar el estado de salud en tiempo real y apoyar la toma de decisiones (p. ej., alertar sobre la necesidad de descansar o cambiar de postura).
 
-\subsubsection{Fotopletismografía y Pulsioxímetro MAX30102}
-La fotopletismografía (PPG) aprovecha la absorción diferencial de luz en el tejido para inferir cambios en el volumen sanguíneo. El MAX30102 integra LEDs rojo (660 nm) e infrarrojo (880 nm) junto con un fotodiodo y electrónica de rechazo de luz ambiente. Mediante la relación entre las señales AC y DC en ambos canales se calcula la saturación de oxígeno (SpO${_2}$), mientras que la periodicidad de la señal pulsátil revela la frecuencia cardíaca.
+\subsection{Estilo de vida sedentario y prevención}
 
-\subsection{Gestión energética y protección}
-A fin de garantizar autonomía y seguridad, el sistema emplea una batería plana de 3,7 V / 450 mAh junto con el cargador TP4056, el cual implementa carga CC/CV a 1 A y un circuito DW01A que protege frente a sobrecarga, sobredescarga y cortocircuitos. Este conjunto extiende la vida útil de la batería y mitiga riesgos térmicos o eléctricos propios de plataformas portátiles. 
+El sedentarismo –definido como la conducta habitual de realizar actividades de muy bajo gasto energético ($\leq$1.5 MET, p. ej., estar sentado viendo televisión)– se ha identificado como un factor de riesgo creciente para enfermedades crónicas. Se ha observado que cada hora adicional de sedentarismo (por encima de unas 7 h/d) incrementa significativamente la mortalidad total \cite{salman2019,mandili2022,canabrava2019}. Esta inactividad prolongada se asocia con un mayor riesgo de obesidad, diabetes, cardiopatías y problemas musculoesqueléticos \cite{mandili2022,sukatemin2025,widyaswara2024,priasmoro2023}. Por ello, dispositivos que promuevan la activación (recordatorios de movimiento, corrección postural, medición de signos vitales) contribuyen a mitigar estos riesgos \cite{franssen2022,hodgson2022,eijnde2022,howell2025}. En resumen, los \textit{wearables} que proporcionan información inmediata sobre la postura y parámetros de salud ayudan a los usuarios a tomar conciencia de sus hábitos sedentarios y fomentan la adopción de estilos de vida más saludables, previniendo así enfermedades asociadas al sedentarismo \cite{eijnde2022,franssen2022,hodgson2022}.
+
 
 \section{Estado del Arte}
 
 \subsection{A Skin-Integrated Device for Neck Posture Monitoring and Correction}
-\textbf{Referencia:} Luo, Hu, et al. (2023) \cite{luo2023skin}\\
-
-\textbf{¿Qué propusieron?} \\
-Este artículo presenta el desarrollo de un dispositivo de corrección de la postura del cuello basado en piel electrónica (e-skin). El objetivo es monitorear la postura del cuello en tiempo real y corregirla mediante retroalimentación táctil, con el fin de prevenir trastornos musculoesqueléticos como la espondilosis cervical, común entre las personas que pasan mucho tiempo en posturas estáticas.
-
-\textbf{¿Cómo lo hicieron?} \\
-El dispositivo está compuesto por sensores de flexión y actuadores de vibración, integrados en una estructura flexible que se adhiere a la piel del cuello. Utilizaron tecnologías de electrónica flexible para crear un sistema conformable que detecta la inclinación del cuello y proporciona retroalimentación háptica. Este dispositivo fue probado en varios escenarios de uso cotidiano, evaluando su efectividad en la corrección postural durante actividades sedentarias y dinámicas.
-
-\textbf{Resultados:} \\
-Los resultados mostraron que el dispositivo pudo monitorear con precisión la postura del cuello y proporcionar retroalimentación efectiva para corregirla. Los usuarios experimentaron una mejora significativa en la alineación postural del cuello, con una reducción notable en el dolor cervical reportado después de usar el dispositivo de manera continua. El sistema demostró ser eficiente en el contexto de la vida cotidiana, con una adherencia robusta y confiable al cuello.
+Luo et al.\ \cite{luo2023skin} desarrollaron un dispositivo de corrección postural basado en piel electrónica (e-skin), diseñado para monitorear en tiempo real la postura del cuello y corregirla mediante retroalimentación táctil. El objetivo principal fue prevenir trastornos musculoesqueléticos como la espondilosis cervical, frecuentes entre personas que mantienen posturas estáticas prolongadas. El dispositivo, compuesto por sensores de flexión y actuadores de vibración integrados en una estructura flexible adherida a la piel, utiliza tecnología de electrónica flexible para detectar la inclinación del cuello y proveer retroalimentación háptica. Las pruebas realizadas en diversos escenarios cotidianos evidenciaron que el sistema monitorea con precisión la postura y ofrece una retroalimentación efectiva, logrando mejorar la alineación postural y reduciendo el dolor cervical tras un uso continuo. Además, se destacó su robustez y confiabilidad en la vida diaria.
 
 \subsection{PosePilot: An Edge-AI Solution for Posture Correction in Physical Exercises}
-\textbf{Referencia:} Gadhvi, Rushiraj, et al. (2025) \cite{gadhvi2025posepilot}\\
-
-\textbf{¿Qué propusieron?} \\
-PosePilot es una solución basada en inteligencia artificial (IA) en el borde, diseñada para corregir la postura durante ejercicios físicos, con énfasis en la corrección postural durante la práctica de yoga. El sistema utiliza modelos de aprendizaje profundo para ofrecer retroalimentación en tiempo real sobre la postura del usuario, ayudando a mejorar su rendimiento y prevenir lesiones.
-
-\textbf{¿Cómo lo hicieron?} \\
-Utilizaron redes neuronales profundas, específicamente LSTM y BiLSTM con atención multi-cabeza, para procesar los datos de movimiento recogidos de sensores de postura. Los modelos entrenados fueron implementados en dispositivos de borde, permitiendo la corrección postural sin necesidad de conexión a la nube. La solución fue probada en ejercicios de yoga, con un enfoque en la alineación de la postura y la sincronización de los movimientos.
-
-\textbf{Resultados:} \\
-El sistema demostró ser altamente preciso en la corrección postural en tiempo real, logrando una mejora en la postura de los usuarios en aproximadamente un 20\% tras la implementación de las recomendaciones del sistema. Los participantes también reportaron una experiencia más satisfactoria y segura al practicar ejercicios físicos, destacando la efectividad de la retroalimentación instantánea proporcionada por la inteligencia artificial.
+Gadhvi et al.\ \cite{gadhvi2025posepilot} presentaron PosePilot, una solución de inteligencia artificial en el borde enfocada en la corrección postural durante ejercicios físicos, especialmente yoga. El sistema emplea redes neuronales profundas, como LSTM y BiLSTM con atención multi-cabeza, para procesar datos de movimiento obtenidos de sensores de postura y ofrecer retroalimentación en tiempo real. Los modelos entrenados se implementaron en dispositivos de borde, eliminando la dependencia de la nube. Las pruebas, realizadas en sesiones de yoga, demostraron una mejora del 20\% en la postura de los usuarios tras seguir las recomendaciones del sistema. Los participantes reportaron una experiencia más segura y satisfactoria, resaltando la utilidad de la retroalimentación instantánea proporcionada por la inteligencia artificial.
 
 \subsection{A Smart Chair for Health Monitoring in Daily Life}
-\textbf{Referencia:} Nguyen Thi Minh Huong, et al. (2024) \cite{nguyen2024smart}\\
-
-\textbf{¿Qué propusieron?} \\
-Este estudio presenta una silla inteligente equipada con sensores de presión y un módulo PPG para monitorear la postura y los signos vitales de los usuarios en tiempo real, especialmente para personas con estilos de vida sedentarios. El sistema no solo clasifica las posturas del cuerpo, sino que también monitorea la frecuencia cardíaca, brindando retroalimentación instantánea sobre la salud del usuario.
-
-\textbf{¿Cómo lo hicieron?} \\
-La silla incorpora diez sensores de presión distribuidos en el cojín, junto con un módulo PPG colocado en el brazo del usuario. Utilizaron técnicas de aprendizaje automático para procesar los datos de estos sensores y clasificar las posturas en tiempo real. Los datos obtenidos se mostraban en una aplicación móvil, permitiendo al usuario monitorear su postura y salud de manera continua.
-
-\textbf{Resultados:} \\
-El sistema alcanzó una precisión de clasificación de posturas de un 99\% y fue efectivo para reducir el tiempo sedentario. Además, el sistema mostró ser útil en la prevención de problemas musculoesqueléticos y cardiovasculares al proporcionar retroalimentación inmediata sobre la postura y los signos vitales. Los usuarios reportaron mejoras en su bienestar general y una mayor conciencia de sus hábitos posturales.
+Nguyen Thi Minh Huong et al.\ \cite{nguyen2024smart} desarrollaron una silla inteligente equipada con sensores de presión y un módulo PPG para el monitoreo en tiempo real de la postura y los signos vitales, orientada especialmente a personas con estilos de vida sedentarios. El sistema clasifica las posturas corporales y monitoriza la frecuencia cardíaca, brindando retroalimentación inmediata a través de una aplicación móvil. Diez sensores de presión distribuidos en el cojín y el módulo PPG ubicado en el brazo del usuario generan los datos procesados mediante técnicas de aprendizaje automático. El sistema alcanzó una precisión del 99\% en la clasificación postural y resultó efectivo en la reducción del tiempo sedentario, ayudando a prevenir problemas musculoesqueléticos y cardiovasculares. Los usuarios manifestaron mejoras en su bienestar y una mayor conciencia de sus hábitos posturales.
 
 \subsection{A Rapid Review on the Effectiveness and Use of Wearable Biofeedback Motion Capture Systems in Ergonomics to Mitigate Adverse Postures and Movements of the Upper Body}
-\textbf{Referencia:} Lind, Carl M. (2024) \cite{lind2024rapid}\\
-
-\textbf{¿Qué propusieron?} \\
-Este artículo revisa la efectividad de los sistemas de captura de movimiento con retroalimentación biofísica utilizados para mitigar posturas y movimientos adversos en la parte superior del cuerpo en contextos laborales. Los sistemas de retroalimentación biofísica son una herramienta clave en la ergonomía para prevenir lesiones musculoesqueléticas asociadas con el trabajo sedentario.
-
-\textbf{¿Cómo lo hicieron?} \\
-La revisión abarcó una variedad de estudios que utilizan sistemas wearables equipados con sensores de movimiento, como acelerómetros y giroscopios, que brindan retroalimentación en tiempo real sobre las posturas del cuerpo. Se evaluaron diferentes tipos de sistemas de retroalimentación, incluyendo vibraciones, alertas sonoras y visuales, y su efectividad para mejorar la postura en trabajadores de oficina y otros entornos laborales.
-
-\textbf{Resultados:} \\
-Se concluyó que los sistemas de retroalimentación biofísica son efectivos para reducir el riesgo de lesiones musculoesqueléticas, pero su efectividad varía según el tipo de retroalimentación utilizada y la duración del uso del dispositivo. Los resultados fueron más pronunciados en el corto plazo, aunque se señaló que los beneficios a largo plazo necesitan más investigación y validación. La retroalimentación táctil fue particularmente eficaz para mejorar la conciencia postural.
+Lind \cite{lind2024rapid} realizó una revisión sobre la efectividad de los sistemas de captura de movimiento con retroalimentación biofísica para mitigar posturas y movimientos adversos en la parte superior del cuerpo, principalmente en entornos laborales. Se analizaron diversos estudios que empleaban sistemas wearables con sensores de movimiento como acelerómetros y giroscopios, los cuales brindan retroalimentación en tiempo real mediante vibraciones, alertas sonoras y visuales. La revisión concluyó que estos sistemas son efectivos para reducir el riesgo de lesiones musculoesqueléticas, aunque su eficacia depende del tipo de retroalimentación y la duración del uso. Los beneficios fueron más notorios en el corto plazo, mientras que la efectividad a largo plazo requiere mayor investigación. Se destacó que la retroalimentación táctil es especialmente eficaz para aumentar la conciencia postural.
 
 \subsection{Wearable Technology Assesses Surgeons' Posture During Surgery}
-\textbf{Referencia:} Zulbaran-Rojas, Alejandro, et al. (2023) \cite{zulbaran2023wearable}\\
-
-\textbf{¿Qué propusieron?} \\
-Este estudio evaluó el uso de tecnología vestible para monitorear y evaluar la postura de los cirujanos durante procedimientos quirúrgicos. Dado el alto riesgo de trastornos musculoesqueléticos en cirujanos debido a las posturas estáticas prolongadas, este enfoque buscaba proporcionar datos objetivos para mejorar la ergonomía en el quirófano.
-
-\textbf{¿Cómo lo hicieron?} \\
-Equiparon a los cirujanos con sensores portátiles que registraban la postura y los movimientos durante las cirugías. Los sensores enviaban datos en tiempo real a un sistema de monitoreo que permitía la evaluación continua de la postura de los cirujanos. Este sistema fue probado en diferentes tipos de cirugía, incluyendo neurocirugía y cirugía general.
-
-\textbf{Resultados:} \\
-Los resultados mostraron que la tecnología vestible podía proporcionar una retroalimentación precisa sobre las posturas de los cirujanos, identificando posiciones de riesgo para la salud. Además, el monitoreo permitió a los cirujanos ajustar su postura durante los procedimientos, lo que podría ayudar a reducir el riesgo de lesiones musculoesqueléticas a largo plazo.
+Zulbaran-Rojas et al.\ \cite{zulbaran2023wearable} evaluaron el uso de tecnología vestible para monitorear la postura de los cirujanos durante procedimientos quirúrgicos, dada la alta prevalencia de trastornos musculoesqueléticos por posturas estáticas prolongadas en esta profesión. Los cirujanos fueron equipados con sensores portátiles que registraron sus posturas y movimientos en tiempo real, enviando los datos a un sistema de monitoreo continuo durante diferentes tipos de cirugía, como neurocirugía y cirugía general. Los resultados evidenciaron que la tecnología vestible proporciona retroalimentación precisa y permite identificar posiciones de riesgo, facilitando que los cirujanos ajusten su postura durante las intervenciones y potencialmente reduzcan el riesgo de lesiones a largo plazo.
 
 \subsection{Influence of the Wearable Posture Correction Sensor on Head and Neck Posture: Sitting and Standing Workstations}
-\textbf{Referencia:} Ailneni, Ravi Charan, et al. (2019) \cite{ailneni2019influence}\\
-
-\textbf{¿Qué propusieron?} \\
-Este artículo evaluó cómo un sensor de corrección postural portátil influye en la postura de la cabeza y el cuello, tanto en estaciones de trabajo sentadas como de pie. El sensor proporciona retroalimentación en tiempo real cuando detecta una postura incorrecta, con el objetivo de mejorar la alineación de la cabeza y el cuello.
-
-\textbf{¿Cómo lo hicieron?} \\
-Los participantes usaron el sensor mientras realizaban tareas de trabajo en posiciones sentadas y de pie. Se registraron los ángulos de flexión y extensión del cuello, y el sistema proporcionó retroalimentación mediante una alerta vibratoria cuando se detectó una mala postura. Los participantes fueron evaluados antes y después del uso del sensor.
-
-\textbf{Resultados:} \\
-Los resultados mostraron una mejora significativa en la postura de la cabeza y el cuello cuando los participantes usaban el sensor, con una reducción del 20\% en los ángulos de flexión del cuello y un aumento en la conciencia postural. El sistema demostró ser útil para reducir el estrés en la columna cervical en entornos laborales.
+Ailneni et al.\ \cite{ailneni2019influence} estudiaron el impacto de un sensor portátil de corrección postural sobre la alineación de la cabeza y el cuello en estaciones de trabajo tanto sentadas como de pie. El sensor brinda retroalimentación inmediata mediante una alerta vibratoria al detectar una mala postura. Durante el estudio, los participantes utilizaron el sensor mientras ejecutaban tareas laborales, registrándose los ángulos de flexión y extensión del cuello antes y después del uso del dispositivo. Los resultados indicaron una mejora significativa, con una reducción del 20\% en los ángulos de flexión y un aumento en la conciencia postural, mostrando la utilidad del sistema para reducir el estrés en la columna cervical en contextos laborales.
 
 \subsection{Effects of Using Wearable Devices on Reducing Sedentary Time and Prolonged Sitting in Healthy Adults: A Network Meta-Analysis}
-\textbf{Referencia:} He, Zihao, et al. (2024) \cite{he2024effects}\\
+He et al.\ \cite{he2024effects} realizaron un meta-análisis para evaluar el impacto de los dispositivos portátiles en la reducción del tiempo sedentario y el tiempo prolongado sentado en adultos sanos. Se analizaron datos de 26 estudios controlados aleatorios con 3,500 participantes, comparando diferentes tipos de wearables como relojes inteligentes y pulseras. El análisis demostró que estos dispositivos son efectivos para reducir el tiempo sedentario y el tiempo de sentado prolongado, con reducciones promedio del 15-20\%. Los resultados sugieren que los wearables constituyen herramientas valiosas para promover la actividad física y mejorar los hábitos posturales, especialmente en adultos.
 
-\textbf{¿Qué propusieron?} \\
-Este meta-análisis evaluó los efectos de los dispositivos portátiles en la reducción del tiempo sedentario y el tiempo de sentado prolongado en adultos sanos. Se analizaron diferentes tipos de intervenciones con dispositivos wearables, como relojes inteligentes y pulseras, para medir su efectividad en la promoción de la actividad física.
 
-\textbf{¿Cómo lo hicieron?} \\
-Se recopilaron y analizaron datos de múltiples estudios controlados aleatorios que evaluaban el uso de dispositivos portátiles para reducir el tiempo sedentario. El análisis incluyó datos de 26 estudios y 3,500 participantes, con una evaluación de los efectos de diferentes tipos de dispositivos y su duración de uso.
+\subsection{Real-Time Forward Head Posture Detection and Correction System Utilizing an Inertial Measurement Unit Sensor}
 
-\textbf{Resultados:} \\
-El meta-análisis reveló que los dispositivos portátiles fueron efectivos para reducir el tiempo sedentario y el tiempo de sentado prolongado, con una reducción promedio del 15-20\% en ambos. Los resultados sugieren que los wearables son herramientas útiles para promover la actividad física y mejorar los hábitos posturales, especialmente en poblaciones adultas.
+Park et al.\ \cite{park2024real} propusieron un sistema en tiempo real para la detección y corrección de la postura de cabeza adelantada (FHP, por sus siglas en inglés), una alteración postural frecuentemente asociada con el dolor cervical y la mala alineación espinal. El sistema se basa en un solo sensor de Unidad de Medición Inercial (IMU) colocado en la columna cervical del usuario para medir cambios posturales que podrían indicar la aparición de la FHP. El objetivo principal fue proporcionar retroalimentación personalizada en tiempo real, alertando al usuario sobre la mala postura y guiándolo hacia una mejor alineación.
 
-\subsection{Real-Time Forward Head Posture Detection and Correction System Utilizing an Inertial Measurement Unit Sensor \cite{park2024real}}
+Para implementar el sistema, los investigadores recolectaron datos en tiempo real sobre la postura del cuello de los participantes, determinando el ángulo cráneo-vertebral (CVA), indicador clave de la FHP. Se estableció un valor base de CVA para cada individuo, y las desviaciones sostenidas por más de 10 segundos activaban alertas visuales inmediatas a través de una interfaz de usuario, promoviendo la corrección postural. Los experimentos se llevaron a cabo en un entorno controlado similar a una oficina, involucrando a diez participantes masculinos, con el fin de evaluar la capacidad del sistema para detectar y corregir la FHP.
 
-\textbf{¿Qué hicieron?}\\
+Los resultados evidenciaron que el sistema era efectivo para identificar la transición hacia la FHP, con un retraso inferior a 0.5 segundos. El sistema alertó exitosamente a los usuarios para que corrigieran su postura, lo que se reflejó en un aumento significativo del CVA promedio, con incrementos de aproximadamente 3 a 5° tras la intervención. Además, la personalización del sistema según las condiciones físicas individuales permitió una mejora notable en la postura durante los periodos de retroalimentación en tiempo real. En conjunto, el sistema demostró gran potencial para su aplicación en contextos donde los usuarios permanecen sedentarios por largos periodos, como oficinas o entornos educativos.
 
-El estudio propuso un sistema en tiempo real para detectar y corregir la postura de cabeza adelantada (FHP, por sus siglas en inglés), un defecto postural comúnmente asociado con el dolor de cuello y una mala alineación espinal. El sistema utiliza un solo sensor de Unidad de Medición Inercial (IMU) que se coloca en el cuerpo del usuario para medir los cambios en la postura que podrían indicar el inicio de la FHP. El objetivo principal era proporcionar retroalimentación personalizada en tiempo real al usuario, alertándolo sobre la mala postura y guiándolo hacia una mejor alineación.
-
-\textbf{¿Cómo lo hicieron?}\\
-
-Los investigadores colocaron el sensor IMU en la columna cervical de los participantes y recolectaron datos en tiempo real sobre su postura del cuello. Usaron estos datos para determinar el Ángulo Cráneo-Vertebral (CVA), que es un indicador clave de la FHP. Se estableció un CVA base para cada participante y las desviaciones de esta base activaban alertas si el participante mantenía una mala postura durante más de 10 segundos. El sistema proporcionaba retroalimentación visual inmediata a través de una interfaz de usuario para fomentar la corrección de la postura. Se realizaron experimentos en un entorno controlado similar a una oficina con diez participantes masculinos, y se evaluó la capacidad del sistema para detectar y corregir la FHP.
-
-\textbf{¿Cuáles fueron los resultados?}\\
-
-Los resultados mostraron que el sistema fue efectivo para detectar la transición a la FHP, con un retraso de menos de 0.5 segundos. El sistema alertó con éxito a los participantes para que mantuvieran la postura correcta, lo que llevó a un aumento en su ángulo cráneo-vertebral (CVA) promedio. El sistema fue personalizado para cada participante, teniendo en cuenta sus condiciones físicas individuales. Cuando se proporcionó retroalimentación en tiempo real, los participantes mejoraron significativamente su postura, con un aumento promedio en su CVA de aproximadamente 3 a 5°. El sistema demostró un gran potencial para su aplicación en entornos donde los usuarios permanecen sedentarios por largos períodos, como el trabajo de oficina o el estudio.
 
 
 \section{Metodología}
