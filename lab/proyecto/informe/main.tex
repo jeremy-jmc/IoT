@@ -341,6 +341,63 @@ El ESP32 será el microcontrolador encargado de procesar los datos de los sensor
     Para una segunda iteración del proyecto, se plantea como objetivo la implementación de una funcionalidad adicional que permita a la aplicación almacenar y acceder a los datos históricos incluso cuando esté en segundo plano. Esto permitirá a los usuarios visualizar el historial de datos registrados en sesiones anteriores y realizar un análisis más detallado de su progreso a lo largo del tiempo.
 \end{itemize} 
 
+
+\section{Implementaci\'on}
+
+% TODO: descripcion de la implementacion del dispositivo Postural: contextualizacion, aprendizajes (lo que tuvimos que hacer e.g. soldar, el puerto malo de carga, el amperaje de la bateria), dificultades, limitaciones
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\textwidth]{./img/CorrectorPostura.jpeg}
+  \caption{Implementación del dispositivo wearable para medir la inclinación de la espalda.}
+  \label{fig:corrector_postura}
+\end{figure}
+
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\textwidth]{./img/PulsoCardiaco.jpeg}
+  \caption{Implementación del dispositivo wearable para medir el pulso cardíaco}
+  \label{fig:wearable_pulso}
+\end{figure}
+
+
+% TODO: explicar cada plot de la UI, el sistema de comunicacion q se usa, dificultades de conexion, etc.
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\textwidth]{./img/UI.jpeg}
+  \caption{Interfaz de usuario de la aplicación de escritorio para monitoreo de indicadores de los wearables}
+  \label{fig:ui_app}
+\end{figure}
+
+\section{Resultados}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.3\textwidth]{./img/CorrectorPosturaJuan.jpeg}
+  \caption{Prueba real del wearable de corrección postural.}
+  \label{fig:corrector_postura_demo}
+\end{figure}
+
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\textwidth]{./img/PulsoCardiacoJuan.png}
+  \caption{Prueba real del wearable de pulso cardíaco.}
+  \label{fig:wearable_pulso_demo}
+\end{figure}
+
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\textwidth]{./img/UIActiva.png}
+  \caption{Interfaz de usuario activa mostrando los datos en tiempo real de los wearables.}
+  \label{fig:wearable_pulso_demo}
+\end{figure}
+
+\section{Descripci\'on del mercado}
+
+
 \bibliographystyle{ACM-Reference-Format}
 \bibliography{bibitem}
 \end{document}
