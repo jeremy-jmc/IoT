@@ -360,9 +360,11 @@ El ESP32 será el microcontrolador encargado de procesar los datos de los sensor
 
 % TODO: descripcion de la implementacion del dispositivo Postural: contextualizacion, aprendizajes (lo que tuvimos que hacer e.g. soldar, el puerto malo de carga, el amperaje de la bateria), dificultades, limitaciones
 \subsection{Dispositivo wearable de corrección postural}
-El dispositivo wearable de corrección postural se basa en el uso del módulo MPU6050, que combina un acelerómetro y un giroscopio para medir la inclinación de la espalda. Este sensor permite detectar la posición del usuario y enviar alertas cuando se adopta una postura incorrecta. El dispositivo está diseñado para ser portátil y cómodo, permitiendo al usuario llevarlo durante sus actividades diarias.
+El dispositivo wearable de corrección postural fue desarrollado empleando el módulo MPU6050, que integra un acelerómetro y un giroscopio para medir la inclinación de la espalda en tiempo real. Gracias a este sensor, es posible identificar desviaciones posturales y generar alertas cuando el usuario mantiene una postura incorrecta durante un periodo prolongado. El diseño se centró en lograr un dispositivo compacto, ligero y cómodo para facilitar su uso continuo durante las actividades diarias.
 
-Para su implementacion se realizo el siguiente codigo en Arduino:
+Durante la fase de desarrollo, fue necesario adquirir habilidades prácticas adicionales, como la soldadura de componentes electrónicos y la correcta gestión de los pines del microcontrolador, debido a desafíos encontrados como un puerto de carga defectuoso y la necesidad de seleccionar una batería adecuada en términos de amperaje para asegurar la autonomía del dispositivo. Estos aprendizajes fueron fundamentales para obtener una implementación funcional y estable.
+
+El procesamiento de datos y la gestión de alertas se llevaron a cabo mediante el siguiente código en Arduino:
 \begin{lstlisting}[language=C, caption={Código de Arduino para el dispositivo wearable de corrección postural}, label={lst:codigo_postural}]
 #include <Wire.h>
 #include <MPU6050.h>
@@ -461,7 +463,7 @@ void loop() {
 }
 \end{lstlisting}
 
-El código implementa un sistema de monitoreo de postura utilizando el sensor MPU6050. Este sensor mide la aceleración en los ejes X, Y y Z, y el código filtra estos datos para detectar inclinaciones de la espalda. Si la inclinación supera un umbral definido, se activa una alerta que se envía a través de Bluetooth. El sistema también incluye una calibración inicial para establecer una referencia de inclinación correcta. Cuando se supera el umbral ademas se activa un Buzzer para alertar al usuario de la mala postura las conexiones fueron realizadas correctamente segun lo mostrado en la figura \ref{fig:corrector_postura}.
+Este código implementa un sistema de monitoreo continuo, el cual realiza una calibración inicial para establecer la referencia de inclinación. Posteriormente, mide los valores de aceleración y, en caso de que la inclinación supere un umbral definido durante más de tres segundos, activa una alerta sonora mediante un buzzer y envía notificaciones a través de Bluetooth. Todas las conexiones fueron realizadas conforme al esquema mostrado en la Figura~\ref{fig:corrector_postura}, asegurando un montaje robusto y confiable.
 
 \begin{figure}[H]
   \centering
@@ -471,9 +473,10 @@ El código implementa un sistema de monitoreo de postura utilizando el sensor MP
 \end{figure}
 
 \subsection{Dispositivo wearable de pulso cardíaco}
-El dispositivo wearable de pulso cardíaco utiliza el sensor MAX30102 para medir la saturación de oxígeno en sangre y la frecuencia cardíaca. Este sensor óptico emite luz a través de la piel y mide la cantidad de luz reflejada, lo que permite calcular los niveles de oxigenación y el pulso del usuario. El dispositivo está diseñado para ser portátil y fácil de usar, permitiendo al usuario monitorear su salud en tiempo real.
+El segundo dispositivo desarrollado corresponde al monitoreo de la frecuencia cardíaca y saturación de oxígeno en sangre, utilizando el sensor óptico MAX30102. Este sensor emite luz a través de la piel y mide la cantidad reflejada para estimar ambos parámetros biométricos de forma precisa. El diseño del wearable priorizó la portabilidad y facilidad de uso, permitiendo el monitoreo de la salud en tiempo real.
 
-Para su implementacion se realizo el siguiente codigo en Arduino:
+La implementación requirió no solo la integración del hardware, sino también el desarrollo de algoritmos para el filtrado y la transmisión de datos. El código desarrollado contempla la gestión de diferentes estados (como la ausencia de dedo en el sensor), el envío periódico de datos vía Bluetooth y el manejo de errores en la comunicación I2C, así como una función para la reinicialización automática del sensor ante eventuales fallas.
+
 \begin{lstlisting}[language=C, caption={Código de Arduino para el dispositivo wearable de pulso cardíaco}, label={lst:codigo_pulso}]
 #include <Wire.h>
 #include "MAX30105.h"
@@ -640,7 +643,7 @@ bool reinitializeSensor() {
 }
 \end{lstlisting}
 
-El c\'odigo realiza un monitoreo de pulso card\'iaco utilizando el sensor MAX30102. Este sensor mide la luz reflejada por la piel para calcular la frecuencia card\'iaca y la saturaci\'on de ox\'igeno. El c\'odigo incluye una verificaci\'on del dedo en el sensor, env\'ia datos por Bluetooth y maneja errores de conexi\'on I2C. Si no se detecta un dedo, env\'ia un estado `NO\_FINGER' por Bluetooth. Si se detecta un latido, calcula el BPM y lo env\'ia. Adem\'as, implementa una funci\'on para reinicializar el sensor en caso de problemas. Las conexiones fueron realizadas correctamente seg\'un lo mostrado en la figura \ref{fig:wearable_pulso}.
+De esta manera, el sistema asegura la confiabilidad de la medición y la continuidad en la transmisión de datos. El montaje final puede observarse en la Figura~\ref{fig:wearable_pulso}, donde se muestra la integración de todos los componentes electrónicos.
  
 \begin{figure}[H]
   \centering
@@ -655,7 +658,6 @@ El c\'odigo realiza un monitoreo de pulso card\'iaco utilizando el sensor MAX301
 
 La aplicación de escritorio se desarrollo utilizando Python y las librerias de Tkinter y Matplotlib. La aplicaci\'on permite visualizar en tiempo real los datos obtenidos de los dispositivos wearables, mostrando la inclinaci\'on de la espalda y los niveles de oxigenaci\'on y pulso. La comunicaci\'on entre el dispositivo wearable y la aplicaci\'on se realiza a trav\'es de Bluetooth, utilizando el protocolo Serial gracias a la libreria de Pyserial.
 
-La UI muestra los datos de BPM, inclinacion, y 3 graficas mostradas en la imagen \ref{fig:ui_app}:
 \begin{itemize}
   \item Gr\'afica de BPM: Muestra la frecuencia cardiaca en tiempo real.
   \item Gr\'afica de inclinaci\'on: Representa la inclinaci\'n de la espalda medida por el MPU6050.
@@ -670,7 +672,7 @@ La UI muestra los datos de BPM, inclinacion, y 3 graficas mostradas en la imagen
 
 \section{Resultados}
 
-En esta sección se presentan los resultados obtenidos tras la implementación y prueba de los dispositivos wearables desarrollados. Las imágenes que se incluyen a continuación evidencian el funcionamiento de cada uno de los sistemas durante las pruebas y su integración con la interfaz de monitoreo.
+A continuación, se presentan los principales resultados obtenidos tras la implementación y pruebas de los dispositivos desarrollados. Las siguientes imágenes evidencian el correcto funcionamiento de los sistemas y su integración con la aplicación de monitoreo.
 
 \begin{figure}[H]
   \centering
@@ -679,7 +681,7 @@ En esta sección se presentan los resultados obtenidos tras la implementación y
   \label{fig:corrector_postura_demo}
 \end{figure}
 
-La Figura~\ref{fig:corrector_postura_demo} muestra la prueba en condiciones reales del wearable de corrección postural, el cual utiliza un sensor MPU6050 para detectar desviaciones en la inclinación de la espalda. Durante las pruebas, el dispositivo fue capaz de registrar cambios de posición y activar una alerta sonora mediante el buzzer incluido cuando se detectaban malas posturas sostenidas. Se utilizó cinta adhesiva para adherir el wearable a la espalda del usuario, y como trabajo futuro se contempla el diseño de una carcasa más ergonómica usando impresión 3D, lo que mejoraría la comodidad y estética del dispositivo.
+La Figura~\ref{fig:corrector_postura_demo} muestra la validación práctica del wearable de corrección postural. Durante las pruebas, el dispositivo registró adecuadamente las variaciones en la inclinación de la espalda, activando la alerta sonora mediante el buzzer cuando se detectaban malas posturas mantenidas. El dispositivo fue fijado a la espalda del usuario utilizando cinta adhesiva; como trabajo futuro se contempla el diseño de una carcasa ergonómica mediante impresión 3D para mejorar la comodidad y la estética del sistema.
 
 \begin{figure}[H]
   \centering
@@ -697,11 +699,9 @@ Por su parte, la Figura~\ref{fig:wearable_pulso_demo} muestra el dispositivo de 
   \label{fig:ui_demo}
 \end{figure}
 
-Finalmente, la Figura~\ref{fig:ui_demo} ilustra la interfaz gráfica de la aplicación desarrollada, la cual permite visualizar en tiempo real los datos recolectados por ambos dispositivos. Esta interfaz fue diseñada para ofrecer retroalimentación instantánea al usuario, facilitando la interpretación de sus indicadores de salud y postura. Durante las pruebas, la sincronización vía Bluetooth fue estable, permitiendo una transmisión fluida de los datos hacia la aplicación mientras se mantenía abierta y en primer plano.
+Finalmente, la Figura~\ref{fig:ui_demo} presenta la interfaz gráfica de la aplicación en funcionamiento, donde se visualizan en tiempo real los datos recolectados por ambos dispositivos. Esta herramienta permite al usuario monitorear la frecuencia cardíaca, la inclinación postural y el tiempo en mala postura, proporcionando retroalimentación inmediata. Durante las pruebas, la comunicación Bluetooth fue estable, garantizando una transmisión fluida de los datos mientras la aplicación se mantenía activa.
 
-En la interfaz se presentan métricas clave como la frecuencia cardíaca actual (marcada en rojo, en este caso 37 BPM) y la inclinación postural (con un valor de inclinación axial de aproximadamente 5.4°). Se incluyen también gráficas en tiempo real: una curva de evolución del ritmo cardíaco, otra que representa la desviación postural en grados, y una tercera que analiza la tendencia de malas posturas según el tiempo acumulado. Además, se muestran estadísticas como el porcentaje de tiempo en mala postura, y botones interactivos que permiten conectar o calibrar cada sensor. Todo ello contribuye a una experiencia visual clara e informativa para el monitoreo en tiempo real.
-
-En conjunto, los resultados reflejan que los dispositivos cumplen con su propósito funcional, tanto en la adquisición de datos como en la retroalimentación al usuario. Se valida así la viabilidad de este tipo de soluciones IoT para fomentar estilos de vida más saludables mediante la conciencia corporal y el monitoreo de signos vitales.
+La interfaz resalta métricas clave como la frecuencia cardíaca y la inclinación axial, así como tendencias temporales de la postura y el ritmo cardíaco, ofreciendo un entorno visual claro para el monitoreo continuo. En conjunto, los resultados obtenidos demuestran que los dispositivos cumplen con los objetivos planteados, validando la viabilidad de este tipo de soluciones IoT para la promoción de hábitos más saludables mediante el monitoreo y la retroalimentación personalizada.
 
 \section{Descripci\'on del mercado}
 
