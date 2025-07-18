@@ -640,7 +640,7 @@ bool reinitializeSensor() {
 }
 \end{lstlisting}
 
-El c\'odigo realiza un monitoreo de pulso card\'iaco utilizando el sensor MAX30102. Este sensor mide la luz reflejada por la piel para calcular la frecuencia card\'iaca y la saturaci\'on de ox\'igeno. El c\'odigo incluye una verificaci\'on del dedo en el sensor, env\'ia datos por Bluetooth y maneja errores de conexi\'on I2C. Si no se detecta un dedo, env\'ia un estado "NO_FINGER" por Bluetooth. Si se detecta un latido, calcula el BPM y lo env\'ia. Adem\'as, implementa una funci\'on para reinicializar el sensor en caso de problemas. Las conexiones fueron realizadas correctamente seg\'un lo mostrado en la figura \ref{fig:wearable_pulso}.
+El c\'odigo realiza un monitoreo de pulso card\'iaco utilizando el sensor MAX30102. Este sensor mide la luz reflejada por la piel para calcular la frecuencia card\'iaca y la saturaci\'on de ox\'igeno. El c\'odigo incluye una verificaci\'on del dedo en el sensor, env\'ia datos por Bluetooth y maneja errores de conexi\'on I2C. Si no se detecta un dedo, env\'ia un estado `NO\_FINGER' por Bluetooth. Si se detecta un latido, calcula el BPM y lo env\'ia. Adem\'as, implementa una funci\'on para reinicializar el sensor en caso de problemas. Las conexiones fueron realizadas correctamente seg\'un lo mostrado en la figura \ref{fig:wearable_pulso}.
  
 \begin{figure}[H]
   \centering
